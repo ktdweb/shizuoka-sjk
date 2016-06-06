@@ -16,8 +16,8 @@ export default class Admin extends React.Component {
   render() {
     return (
       <div id="Admin">
-        <h1>Admin</h1>
         {this.props.header}
+        {this.props.nav}
         {this.props.main}
       </div>
     );
