@@ -2,7 +2,7 @@ import React from 'react'
 import { browserHistory } from 'react-router'
 import { Router, Route } from 'react-router'
 
-const root = { documentRoot: '/src/sample' };
+const root = { documentRoot: '/admin' };
 
 // components
 import Count        from './components/Count'
@@ -13,56 +13,63 @@ import NoMatch      from './layouts/NoMatch'
 // layouts/admin
 import Admin        from './layouts/admin/Admin'
 import AdminHeader  from './layouts/admin/Header'
-
-// layouts/front
-import Front        from './layouts/front/Front'
-import FrontHeader  from './layouts/front/Header'
+import AdminNav     from './layouts/admin/Nav'
 
 // pages/admin
-import AdminHome    from './pages/admin/Home'
+import AdminHome        from './pages/admin/Home'
+import AdminVehicles    from './pages/admin/Vehicles'
+import AdminParts       from './pages/admin/Parts'
+import AdminContainers  from './pages/admin/Containers'
+import AdminMountings   from './pages/admin/Mountings'
 
-// pages/front
-import FrontHome    from './pages/front/Home'
-import FrontSample  from './pages/front/Sample'
 
 const routes = (
   <Router history={browserHistory}>
-    <Route
-      global={root}
-      component={Front}
-      >
-      <Route path={root.documentRoot + '/'}
-        global={root}
-        components={{
-          header: FrontHeader,
-          main: FrontHome
-        }} />
-
-      <Route path={root.documentRoot + '/sample'}
-        global={root}
-        components={{
-          header: FrontHeader,
-          main: FrontSample
-        }} />
-    </Route>
 
     <Route
       global={root}
       component={Admin}
       >
-      <Route path={root.documentRoot + '/admin/'}
+      <Route path={root.documentRoot + '/'}
         global={root}
         components={{
           header: AdminHeader,
+          nav: AdminNav,
           main: AdminHome
         }} />
 
-      <Route path={root.documentRoot + '/admin/count'}
+      <Route path={root.documentRoot + '/vehicles'}
         global={root}
         components={{
           header: AdminHeader,
-          main: Count
+          nav: AdminNav,
+          main: AdminVehicles
         }} />
+
+      <Route path={root.documentRoot + '/parts'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: AdminParts
+        }} />
+
+      <Route path={root.documentRoot + '/containers'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: AdminContainers
+        }} />
+
+      <Route path={root.documentRoot + '/mountings'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: AdminMountings
+        }} />
+
     </Route>
 
     <Route path="*" components={NoMatch} global={root} />

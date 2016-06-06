@@ -12,18 +12,7 @@ export default class Header extends React.Component {
 
     return (
       <header id="Header">
-        <p>Header</p>
-
-        <ul>
-          <li><Link to={root + '/'}
-            >front home</Link></li>
-          <li><Link to={root + '/sample'}
-            >front sample</Link></li>
-          <li><Link to={root + '/admin/'}
-            >admin home</Link></li>
-          <li><Link to={root + '/admin/count'}
-            >admin count</Link></li>
-        </ul>
+        <p>shizuoka-sjk.com</p>
       </header>
     );
   }
