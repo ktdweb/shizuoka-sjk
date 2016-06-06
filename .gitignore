@@ -15,8 +15,6 @@ logs
 reports
 
 js/*
-dist/*
-css/*
 docs/*
 
 spec/js/*
