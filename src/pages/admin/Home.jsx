@@ -10,9 +10,14 @@ export default class Home extends React.Component {
 
   render() {
     return (
+
       <article id="Home">
-        <DocumentTitle title="Admin Home" />
-        <h1>Admin Home</h1>
+        <section>
+          <DocumentTitle title="Admin Home" />
+          <h1>ダッシュボード</h1>
+
+          <p>左側メニューより選んで下さい</p>
+        </section>
       </article>
     );
   }
