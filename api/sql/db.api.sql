@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `containers` (
   `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `icon_date` VARCHAR(12) NULL,
-  `ref_no` VARCHAR(10) NULL,
+  `ref_id` VARCHAR(10) NULL,
   `name` VARCHAR(255) NOT NULL,
   `price` INT(11) NULL,
   `size_id` INT(1) NOT NULL,
@@ -53,7 +53,7 @@ INSERT INTO `containers` (
   `soldout_flag`,
   `recommend_flag`,
   `icon_date`,
-  `ref_no`,
+  `ref_id`,
   `name`,
   `price`,
   `size_id`,
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `mountings` (
   `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `icon_date` VARCHAR(12) NULL,
-  `ref_no` VARCHAR(10) NULL,
+  `ref_id` VARCHAR(10) NULL,
   `name` VARCHAR(255) NOT NULL,
   `price` INT(11) NULL,
   `size_id` INT(1) NOT NULL,
@@ -107,7 +107,7 @@ INSERT INTO `mountings` (
   `soldout_flag`,
   `recommend_flag`,
   `icon_date`,
-  `ref_no`,
+  `ref_id`,
   `name`,
   `price`,
   `size_id`,
@@ -163,7 +163,7 @@ DROP TABLE `images`;
 CREATE TABLE IF NOT EXISTS `images` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `category_id` INT(2) NOT NULL,
-  `product_id` VARCHAR(7) NULL,
+  `ref_id` VARCHAR(7) NULL,
   `path` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
@@ -173,7 +173,7 @@ ENGINE = InnoDB
 TRUNCATE `images`;
 INSERT INTO `images` (
     `category_id`,
-    `product_id`,
+    `ref_id`,
     `path`
 ) VALUES
 ('1',110001,'042/001'),
