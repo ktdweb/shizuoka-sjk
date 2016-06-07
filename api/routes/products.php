@@ -10,13 +10,13 @@ namespace Routes;
 /**
  * users
  */
-$app->group('/containers', function () {
+$app->group('/products', function () {
 
     /**
      * GET
      */
     $this->get(
-        '/{name:.*}',
+        '/{name:.*}/{id:.*}',
         function (
             $request,
             $response,
@@ -24,11 +24,11 @@ $app->group('/containers', function () {
         ) {
             $db = $this->get('db.get');
 
-            // containers
-            $sql = 'select * from `containers`';
+            // mountings
+            $sql = 'select * from ' . $args['name'];
 
-            if ($args['name']) {
-                $sql .= ' WHERE `product_id` = ?;';
+            if ($args['id']) {
+                $sql .= ' WHERE `ref_id` = ?;';
                 $body = $db->execute($sql, $args['name']);
             } else {
                 $body = $db->execute($sql);
@@ -41,7 +41,7 @@ $app->group('/containers', function () {
             }
             $ids = substr($ids, 0, -2);
             $sql = 'select * from `images` ';
-            $sql .= 'where `product_id` in (' . $ids . ');';
+            $sql .= 'where `ref_id` in (' . $ids . ');';
             $images = $db->execute($sql);
 
             // sort
