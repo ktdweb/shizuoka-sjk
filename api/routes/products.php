@@ -37,7 +37,7 @@ $app->group('/products', function () {
             // images
             $ids = null;
             foreach ($body as $val) {
-                $ids .= $val->product_id . ', ';
+                $ids .= $val->ref_id . ', ';
             }
             $ids = substr($ids, 0, -2);
             $sql = 'select * from `images` ';
