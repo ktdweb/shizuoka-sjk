@@ -23,6 +23,8 @@ $app->group('/containers', function () {
             $args
         ) {
             $db = $this->get('db.get');
+
+            // containers
             $sql = 'select * from `containers`';
 
             if ($args['name']) {
@@ -32,8 +34,30 @@ $app->group('/containers', function () {
                 $body = $db->execute($sql);
             }
 
+            // images
+            $ids = null;
+            foreach ($body as $val) {
+                $ids .= $val->product_id . ', ';
+            }
+            $ids = substr($ids, 0, -2);
+            $sql = 'select * from `images` ';
+            $sql .= 'where `product_id` in (' . $ids . ');';
+            $images = $db->execute($sql);
+
+            // sort
+            foreach ($images as $val) {
+                $paths[$val->product_id][] = $val->path;
+            }
+
+            // merge
+            foreach ($body as $val) {
+                $id = $val->product_id;
+                $res[$id] = (array)$val;
+                $res[$id]['images'] = $paths[$id];
+            }
+
             return $response->withJson(
-                $body,
+                $res,
                 200,
                 $this->get('settings')['withJsonEnc']
             );
