@@ -37,7 +37,7 @@ $app->group('/products', function () {
             // images
             $ids = null;
             foreach ($body as $val) {
-                $ids .= $val->product_id . ', ';
+                $ids .= $val->ref_id . ', ';
             }
             $ids = substr($ids, 0, -2);
             $sql = 'select * from `images` ';
@@ -46,12 +46,12 @@ $app->group('/products', function () {
 
             // sort
             foreach ($images as $val) {
-                $paths[$val->product_id][] = $val->path;
+                $paths[$val->ref_id][] = $val->path;
             }
 
             // merge
             foreach ($body as $val) {
-                $id = $val->product_id;
+                $id = $val->ref_id;
                 $res[$id] = (array)$val;
                 $res[$id]['images'] = $paths[$id];
             }
