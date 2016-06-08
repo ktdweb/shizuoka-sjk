@@ -17,6 +17,93 @@ DBSetOption profile=api_test
 SHOW databases;
 SHOW tables;
 
+-- vehicles テーブル確認 /*{{{*/
+SELECT * FROM `vehicles`;
+/*}}}*/
+
+-- vehicles テーブル作成 /*{{{*/
+DESC `vehicles`;
+DROP TABLE `vehicles`;
+CREATE TABLE IF NOT EXISTS `vehicles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `product_id` VARCHAR(7) NOT NULL,
+  `new_flag` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `icon_date` DATE NULL,
+  `ref_id` VARCHAR(16) NULL,
+  `category_id` INT(2) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `price` INT(11) NULL,
+  `maker_id` INT(2) NOT NULL,
+  `product_name` VARCHAR(20) NULL,
+  `size_id` INT(1) NOT NULL,
+  `mfg_date` VARCHAR(12) NULL,
+  `model` VARCHAR(20) NULL,
+  `mfg_no` VARCHAR(40) NULL,
+  `mot_date` VARCHAR(20) NULL,
+  `mileage` INT(8) NULL,
+  `wheel` VARCHAR(45) NULL,
+  `engine` VARCHAR(45) NULL,
+  `ps` VARCHAR(12) NULL,
+  `mission` VARCHAR(45) NULL,
+  `capacity` INT(6) NULL,
+  `break` VARCHAR(45) NULL,
+  `cc` INT(6) NULL,
+  `limitter` VARCHAR(45) NULL,
+  `ac_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `ps_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `body` VARCHAR(45) NULL,
+  `dimension` VARCHAR(255) NULL,
+  `recycle` INT(8) NULL,
+  `description` TEXT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- vehicles レコード挿入 /*{{{*/
+TRUNCATE `vehicles`;
+INSERT INTO `vehicles` (
+  `product_id`,
+  `new_flag`,
+  `deal_flag`,
+  `soldout_flag`,
+  `recommend_flag`,
+  `icon_date`,
+  `ref_id`,
+  `category_id`,
+  `name`,
+  `price`,
+  `maker_id`,
+  `product_name`,
+  `size_id`,
+  `mfg_date`,
+  `model`,
+  `mfg_no`,
+  `mot_date`,
+  `mileage`,
+  `wheel`,
+  `engine`,
+  `ps`,
+  `mission`,
+  `capacity`,
+  `break`,
+  `cc`,
+  `limitter`,
+  `ac_flag`,
+  `ps_flag`,
+  `body`,
+  `dimension`,
+  `recycle`,
+  `description`
+) VALUES
+(110001,1,0,0,1,NULL,'280330B',1,'平成4年式　中型　日野　セルフローダー　ハイジャッキ',NULL,2,'',2,'1992-09','U-FD2HKAA','FD2HKA-12361',NULL,210000,'セルフローダー','H07C',NULL,'F6速',2300,'エアー',6720,'なし',1,1,'','L4980　W2120',6710,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有'),
+(110002,1,0,1,1,NULL,'280220A',1,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140ps','F5速',2000,'バキューム',4770,'ないｓ',1,1,'','L3110　W1610　H380',8440,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ');
+;
+/*}}}*/
+
+
 -- containers テーブル確認 /*{{{*/
 SELECT * FROM `containers`;
 /*}}}*/
@@ -125,6 +212,31 @@ INSERT INTO `mountings` (
 /*}}}*/
 
 
+-- vehicle_categories 確認 /*{{{*/
+SELECT * FROM `vehicle_categories`;
+/*}}}*/
+
+-- vehicle_categories レコード挿入 /*{{{*/
+DESC `vehicle_categories`;
+DROP TABLE `vehicle_categories`;
+CREATE TABLE IF NOT EXISTS `vehicle_categories` (
+  `id` INT(2) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- vehicle_categories レコード挿入 /*{{{*/
+TRUNCATE `vehicle_categories`;
+INSERT INTO `vehicle_categories` (
+  `id`,
+  `name`
+) VALUES 
+(1, '平ボデークレーン')
+;
+/*}}}*/
+
+
 -- makers 確認 /*{{{*/
 SELECT * FROM `makers`;
 /*}}}*/
@@ -182,7 +294,7 @@ INSERT INTO `sizes` (
 
 -- images 確認 /*{{{*/
 SELECT * FROM `images`;
-select * from `images` where `product_id` in (130001, 130002, 130003, 130004, 130005);
+select * from `images` where `ref_id` in ('280330B', '280220A');
 /*}}}*/
 
 -- images テーブル作成 /*{{{*/
