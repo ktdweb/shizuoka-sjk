@@ -29,7 +29,7 @@ $app->group('/products', function () {
 
             if ($args['id']) {
                 $sql .= ' WHERE `ref_id` = ?;';
-                $body = $db->execute($sql, $args['name']);
+                $body = $db->execute($sql, $args['id']);
             } else {
                 $body = $db->execute($sql);
             }
