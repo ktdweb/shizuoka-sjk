@@ -29,7 +29,7 @@ $app->group('/products', function () {
 
             if ($args['id']) {
                 $sql .= ' WHERE `ref_id` = ?;';
-                $body = $db->execute($sql, $args['name']);
+                $body = $db->execute($sql, $args['id']);
             } else {
                 $body = $db->execute($sql);
             }
@@ -37,7 +37,7 @@ $app->group('/products', function () {
             // images
             $ids = null;
             foreach ($body as $val) {
-                $ids .= $val->ref_id . ', ';
+                $ids .= "'" . $val->ref_id . "', ";
             }
             $ids = substr($ids, 0, -2);
             $sql = 'select * from `images` ';

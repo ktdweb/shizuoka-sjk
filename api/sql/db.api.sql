@@ -17,7 +17,181 @@ DBSetOption profile=api_test
 SHOW databases;
 SHOW tables;
 
--- containers テーブル確認 /*{{{*/
+-- vehicles 確認 /*{{{*/
+SELECT * FROM `vehicles`;
+/*}}}*/
+
+-- vehicles テーブル作成 /*{{{*/
+DESC `vehicles`;
+DROP TABLE `vehicles`;
+CREATE TABLE IF NOT EXISTS `vehicles` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `product_id` VARCHAR(7) NOT NULL,
+  `new_flag` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `icon_date` DATE NULL,
+  `ref_id` VARCHAR(16) NULL,
+  `category_id` INT(2) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `price` INT(11) NULL,
+  `maker_id` INT(2) NOT NULL,
+  `product_name` VARCHAR(20) NULL,
+  `size_id` INT(1) NOT NULL,
+  `mfg_date` VARCHAR(12) NULL,
+  `model` VARCHAR(20) NULL,
+  `mfg_no` VARCHAR(40) NULL,
+  `mot_date` VARCHAR(20) NULL,
+  `mileage` INT(8) NULL,
+  `wheel` VARCHAR(45) NULL,
+  `engine` VARCHAR(45) NULL,
+  `ps` VARCHAR(12) NULL,
+  `mission` VARCHAR(45) NULL,
+  `capacity` INT(6) NULL,
+  `break` VARCHAR(45) NULL,
+  `cc` INT(6) NULL,
+  `limitter` VARCHAR(45) NULL,
+  `ac_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `ps_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `body` VARCHAR(45) NULL,
+  `dimension` VARCHAR(255) NULL,
+  `recycle` INT(8) NULL,
+  `description` TEXT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- vehicles レコード挿入 /*{{{*/
+TRUNCATE `vehicles`;
+INSERT INTO `vehicles` (
+  `product_id`,
+  `new_flag`,
+  `deal_flag`,
+  `soldout_flag`,
+  `recommend_flag`,
+  `icon_date`,
+  `ref_id`,
+  `category_id`,
+  `name`,
+  `price`,
+  `maker_id`,
+  `product_name`,
+  `size_id`,
+  `mfg_date`,
+  `model`,
+  `mfg_no`,
+  `mot_date`,
+  `mileage`,
+  `wheel`,
+  `engine`,
+  `ps`,
+  `mission`,
+  `capacity`,
+  `break`,
+  `cc`,
+  `limitter`,
+  `ac_flag`,
+  `ps_flag`,
+  `body`,
+  `dimension`,
+  `recycle`,
+  `description`
+) VALUES
+(110001,1,0,0,1,NULL,'280330B',1,'平成4年式　中型　日野　セルフローダー　ハイジャッキ',NULL,2,'',2,'1992-09','U-FD2HKAA','FD2HKA-12361',NULL,210000,'セルフローダー','H07C',NULL,'F6速',2300,'エアー',6720,'なし',1,1,'','L4980　W2120',6710,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有'),
+(110002,1,0,1,1,NULL,'280220A',1,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140ps','F5速',2000,'バキューム',4770,'ないｓ',1,1,'','L3110　W1610　H380',8440,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ');
+;
+/*}}}*/
+
+
+-- parts 確認 /*{{{*/
+SELECT * FROM `parts`;
+/*}}}*/
+
+-- parts テーブル作成 /*{{{*/
+DESC `parts`;
+DROP TABLE `parts`;
+CREATE TABLE IF NOT EXISTS `parts` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `product_id` VARCHAR(7) NOT NULL,
+  `new_flag` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+  `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `icon_date` DATE NULL,
+  `ref_id` VARCHAR(16) NULL,
+  `category_id` INT(2) NOT NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `price` INT(11) NULL,
+  `maker_id` INT(2) NOT NULL,
+  `product_name` VARCHAR(20) NULL,
+  `size_id` INT(1) NOT NULL,
+  `mfg_date` VARCHAR(12) NULL,
+  `model` VARCHAR(20) NULL,
+  `mfg_no` VARCHAR(40) NULL,
+  `mot_date` VARCHAR(20) NULL,
+  `mileage` INT(8) NULL,
+  `wheel` VARCHAR(45) NULL,
+  `engine` VARCHAR(45) NULL,
+  `ps` VARCHAR(12) NULL,
+  `mission` VARCHAR(45) NULL,
+  `capacity` INT(6) NULL,
+  `break` VARCHAR(45) NULL,
+  `cc` INT(6) NULL,
+  `limitter` VARCHAR(45) NULL,
+  `ac_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `ps_flag` TINYINT(1) NOT NULL DEFAULT 0,
+  `body` VARCHAR(45) NULL,
+  `dimension` VARCHAR(255) NULL,
+  `recycle` INT(8) NULL,
+  `description` TEXT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- parts レコード挿入 /*{{{*/
+TRUNCATE `parts`;
+INSERT INTO `parts` (
+  `product_id`,
+  `new_flag`,
+  `deal_flag`,
+  `soldout_flag`,
+  `recommend_flag`,
+  `icon_date`,
+  `ref_id`,
+  `category_id`,
+  `name`,
+  `price`,
+  `maker_id`,
+  `product_name`,
+  `size_id`,
+  `mfg_date`,
+  `model`,
+  `mfg_no`,
+  `mot_date`,
+  `mileage`,
+  `wheel`,
+  `engine`,
+  `ps`,
+  `mission`,
+  `capacity`,
+  `break`,
+  `cc`,
+  `limitter`,
+  `ac_flag`,
+  `ps_flag`,
+  `body`,
+  `dimension`,
+  `recycle`,
+  `description`
+) VALUES
+(110001,1,0,0,1,NULL,'280330B',1,'平成4年式　中型　日野　セルフローダー　ハイジャッキ',NULL,2,'',2,'1992-09','U-FD2HKAA','FD2HKA-12361',NULL,210000,'セルフローダー','H07C',NULL,'F6速',2300,'エアー',6720,'なし',1,1,'','L4980　W2120',6710,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有'),
+(110002,1,0,1,1,NULL,'280220A',1,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140ps','F5速',2000,'バキューム',4770,'ないｓ',1,1,'','L3110　W1610　H380',8440,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ');
+;
+/*}}}*/
+
+
+-- containers 確認 /*{{{*/
 SELECT * FROM `containers`;
 /*}}}*/
 
@@ -71,7 +245,7 @@ INSERT INTO `containers` (
 /*}}}*/
 
 
--- mountings テーブル確認 /*{{{*/
+-- mountings 確認 /*{{{*/
 SELECT * FROM `mountings`;
 /*}}}*/
 
@@ -121,6 +295,138 @@ INSERT INTO `mountings` (
 (130003,0,0,0,0,'',2004,'2004番　4tロング　アルミウイング',NULL,2,'アルミウイング','木','長さ7220　幅2230　高さ2430','門高2330　門幅2100　各部ヘコミ有　日本フルハーフ製　　ばた板800　セイコーラック1対　ラッシング1段'),
 (130004,0,0,0,0,'',1003,'1003番　2t標準　平ボデー',NULL,1,'平ボデー','木','長さ3120　幅1610　高さ380','新車外し　縦ネタなし　三菱キャンターから取外し'),
 (130005,0,0,0,0,'',1005,'1005番　2t標準　平ボデー',NULL,1,'平ボデー','木','長さ3120　幅1610　高さ390','新車外し　縦ネタなし　パブコ製　BA15 1274 0104')
+;
+/*}}}*/
+
+
+-- vehicles_categories 確認 /*{{{*/
+SELECT * FROM `vehicles_categories`;
+/*}}}*/
+
+-- vehicles_categories テーブル作成 /*{{{*/
+DESC `vehicles_categories`;
+DROP TABLE `vehicles_categories`;
+CREATE TABLE IF NOT EXISTS `vehicles_categories` (
+  `id` INT(2) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- vehicles_categories レコード挿入 /*{{{*/
+TRUNCATE `vehicles_categories`;
+INSERT INTO `vehicles_categories` (
+  `name`
+) VALUES 
+('ウイングバン'),
+('トラクタ'),
+('平ボデー/クレーン'),
+('保冷 /冷凍車'),
+('ダンプ/ミキサー'),
+('その他/特装車')
+;
+/*}}}*/
+
+
+-- parts_categories 確認 /*{{{*/
+SELECT * FROM `parts_categories`;
+/*}}}*/
+
+-- parts_categories テーブル作成 /*{{{*/
+DESC `parts_categories`;
+DROP TABLE `parts_categories`;
+CREATE TABLE IF NOT EXISTS `parts_categories` (
+  `id` INT(2) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- parts_categories レコード挿入 /*{{{*/
+TRUNCATE `parts_categories`;
+INSERT INTO `parts_categories` (
+  `name`
+) VALUES 
+('エンジン関連'),
+('ミッション関連'),
+('デフ関連'),
+('走行関連'),
+('キャビン本体'),
+('キャビン関連'),
+('電装関連'),
+('その他架装物関連')
+;
+/*}}}*/
+
+
+-- parts_sub_categories 確認 /*{{{*/
+SELECT * FROM `parts_sub_categories`;
+/*}}}*/
+
+-- parts_sub_categories テーブル作成 /*{{{*/
+DESC `parts_sub_categories`;
+DROP TABLE `parts_sub_categories`;
+CREATE TABLE IF NOT EXISTS `parts_sub_categories` (
+  `id` INT(3) NOT NULL AUTO_INCREMENT,
+  `parts_category_id` INT(2) NOT NULL,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- parts_sub_categories レコード挿入 /*{{{*/
+TRUNCATE `parts_sub_categories`;
+INSERT INTO `parts_sub_categories` (
+  `parts_category_id`,
+  `name`
+) VALUES 
+(1,'エンジンay'),
+(1,'マフラー'),
+(1,'ラジエター'),
+(1,'インタークーラー'),
+(2,'マニュアルミッション'),
+(2,'セミオートマミッション'),
+(2,'オートマチックミッション'),
+(3,'Rデフ'),
+(3,'RFデフ'),
+(3,'RRデフ'),
+(3,'Rホーシング'),
+(3,'RFホーシング'),
+(3,'RRホーシング'),
+(3,'プロペラシャフト'),
+(3,'その他'),
+(4,'フロントアクスル'),
+(4,'スプリング'),
+(4,'ギヤボックス'),
+(4,'デッドアクスル　'),
+(4,'ブラケット類'),
+(4,'その他'),
+(5,'ドア'),
+(5,'フロントバンパー'),
+(5,'ヘッドライト'),
+(5,'フロントパネル'),
+(5,'シート'),
+(5,'フロントグリル'),
+(5,'コーナーパネル'),
+(5,'コーナーランプ'),
+(5,'ミラー'),
+(5,'ステップ'),
+(5,'フェンダー'),
+(5,'その他'),
+(6,'セルモーター'),
+(6,'オルタネーター'),
+(6,'A/Cコンプレッサー'),
+(6,'A/Cコンデンサ'),
+(6,'メーター関連'),
+(6,'モーター関連'),
+(6,'ラジオ'),
+(6,'コンピューター関連'),
+(6,'その他'),
+(7,'燃料タンク'),
+(7,'工具箱'),
+(7,'リアバンパー'),
+(7,'コボレーンモーター'),
+(7,'その他')
 ;
 /*}}}*/
 
@@ -182,7 +488,7 @@ INSERT INTO `sizes` (
 
 -- images 確認 /*{{{*/
 SELECT * FROM `images`;
-select * from `images` where `product_id` in (130001, 130002, 130003, 130004, 130005);
+select * from `images` where `ref_id` in ('280330B', '280220A');
 /*}}}*/
 
 -- images テーブル作成 /*{{{*/
