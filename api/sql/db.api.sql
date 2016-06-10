@@ -99,7 +99,7 @@ INSERT INTO `vehicles` (
   `description`
 ) VALUES
 (110001,1,0,0,1,NULL,'280330B',1,'平成4年式　中型　日野　セルフローダー　ハイジャッキ',NULL,2,'',2,'1992-09','U-FD2HKAA','FD2HKA-12361',NULL,210000,'セルフローダー','H07C',NULL,'F6速',2300,'エアー',6720,'なし',1,1,'','L4980　W2120',6710,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有'),
-(110002,1,0,1,1,NULL,'280220A',1,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140ps','F5速',2000,'バキューム',4770,'ないｓ',1,1,'','L3110　W1610　H380',8440,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ');
+(110002,1,0,1,1,NULL,'280220A',2,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140ps','F5速',2000,'バキューム',4770,'ないｓ',1,1,'','L3110　W1610　H380',8440,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ');
 ;
 /*}}}*/
 
@@ -2687,5 +2687,128 @@ INSERT INTO `images` (
 ('4','1005','003/010'),
 ('4','1005','003/011'),
 ('4','1005','003/012')
+;
+/*}}}*/
+
+
+-- products_all 確認 /*{{{*/
+SELECT * FROM `products_all`;
+/*}}}*/
+
+-- products_all VIEW作成 /*{{{*/
+DROP VIEW IF EXISTS `products_all`;
+CREATE VIEW
+    `products_all` AS
+
+    SELECT
+        'vehicles' AS `page`,
+        `vehicles`.`id`,
+        `vehicles`.`new_flag`,
+        `vehicles`.`deal_flag`,
+        `vehicles`.`soldout_flag`,
+        `vehicles`.`recommend_flag`,
+        `vehicles`.`icon_date`,
+        `vehicles`.`ref_id`,
+        `vehicles`.`name`,
+        `vehicles`.`price`,
+        `vehicles_categories`.`name` AS `category_id`,
+        `vehicles`.`product_name`,
+        '' AS `shape`,
+        `vehicles`.`mileage`,
+        `vehicles`.`model`,
+        `sizes`.`name` AS `size_id`,
+        '' AS `floor`
+    FROM
+        `vehicles`
+    LEFT JOIN
+        `vehicles_categories`
+    ON
+        `vehicles`.`category_id` = `vehicles_categories`.`id`
+    LEFT JOIN
+        `sizes`
+    ON
+        `vehicles`.`size_id` = `sizes`.`id`
+
+UNION ALL
+    SELECT
+        'parts' AS `page`,
+        `parts`.`id`,
+        `parts`.`new_flag`,
+        `parts`.`deal_flag`,
+        `parts`.`soldout_flag`,
+        `parts`.`recommend_flag`,
+        `parts`.`icon_date`,
+        `parts`.`ref_id`,
+        `parts`.`name`,
+        `parts`.`price`,
+        `parts_categories`.`name` AS `category_id`,
+        `parts`.`product_name`,
+        '' AS `shape`,
+        '' AS `mileage`,
+        `parts`.`model`,
+        `sizes`.`name` AS `size_id`,
+        '' AS `floor`
+    FROM
+        `parts`
+    LEFT JOIN
+        `parts_categories`
+    ON
+        `parts`.`category_id` = `parts_categories`.`id`
+    LEFT JOIN
+        `sizes`
+    ON
+        `parts`.`size_id` = `sizes`.`id`
+
+UNION ALL
+    SELECT
+        'containers' AS `page`,
+        `containers`.`id`,
+        `containers`.`new_flag`,
+        `containers`.`deal_flag`,
+        `containers`.`soldout_flag`,
+        `containers`.`recommend_flag`,
+        `containers`.`icon_date`,
+        `containers`.`ref_id`,
+        `containers`.`name`,
+        `containers`.`price`,
+        '' AS `category_id`,
+        '' AS `product_name`,
+        `containers`.`shape`,
+        '' AS `mileage`,
+        '' AS `model`,
+        `sizes`.`name` AS `size_id`,
+        `containers`.`floor`
+    FROM
+        `containers`
+    LEFT JOIN
+        `sizes`
+    ON
+        `containers`.`size_id` = `sizes`.`id`
+
+UNION ALL
+    SELECT
+        'mountings' AS `page`,
+        `mountings`.`id`,
+        `mountings`.`new_flag`,
+        `mountings`.`deal_flag`,
+        `mountings`.`soldout_flag`,
+        `mountings`.`recommend_flag`,
+        `mountings`.`icon_date`,
+        `mountings`.`ref_id`,
+        `mountings`.`name`,
+        `mountings`.`price`,
+        '' AS `category_id`,
+        '' AS `product_name`,
+        `mountings`.`shape`,
+        '' AS `mileage`,
+        '' AS `model`,
+        `sizes`.`name` AS `size_id`,
+        `mountings`.`floor`
+    FROM
+        `mountings`
+    LEFT JOIN
+        `sizes`
+    ON
+        `mountings`.`size_id` = `sizes`.`id`
 ;
 /*}}}*/
