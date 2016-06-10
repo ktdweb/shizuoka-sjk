@@ -43,6 +43,37 @@ $app->group('/products', function () {
         }
     );
 
+    /**
+     * GET /top/
+     * トップページ用
+     */
+    $this->get(
+        '/top/',
+        function (
+            $request,
+            $response,
+            $args
+        ) {
+            $db = $this->get('db.get');
+            $body = array();
+
+            // page
+            $sql = 'SELECT * FROM `products_all`';
+            $sql .= ' WHERE `recommend_flag` = 1';
+            $sql .= ' ORDER BY `id`;';
+            $body = $db->execute($sql);
+
+            // images
+            $mergeImgs = $this->get('common.mergeImgArr');
+            $res = $mergeImgs->mergeForAll($body);
+
+            return $response->withJson(
+                $res,
+                200,
+                $this->get('settings')['withJsonEnc']
+            );
+        }
+    );
 
     /**
      * GET /detail/
