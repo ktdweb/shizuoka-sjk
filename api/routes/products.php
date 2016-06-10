@@ -40,28 +40,8 @@ $app->group('/products', function () {
             $body[] = $db->execute($sql);
 
             // images
-            if (!empty($body)) {
-                $ids = null;
-                foreach ($body as $val) {
-                    $ids .= "'" . $val->ref_id . "', ";
-                }
-                $ids = substr($ids, 0, -2);
-                $sql = 'select * from `images` ';
-                $sql .= 'where `ref_id` in (' . $ids . ');';
-                $images = $db->execute($sql);
-
-                // sort
-                foreach ($images as $val) {
-                    $paths[$val->ref_id][] = $val->path;
-                }
-
-                // merge
-                foreach ($body as $val) {
-                    $id = $val->ref_id;
-                    $res[$id] = (array)$val;
-                    $res[$id]['images'] = $paths[$id];
-                }
-            }
+            $mergeImgs = $this->get('common.mergeImgArr');
+            $res = $mergeImgs->merge($body);
 
             return $response->withJson(
                 $res,
@@ -116,28 +96,8 @@ $app->group('/products', function () {
             $body = $db->execute($sql, $param);
 
             // images
-            if (!empty($body)) {
-                $ids = null;
-                foreach ($body as $val) {
-                    $ids .= "'" . $val->ref_id . "', ";
-                }
-                $ids = substr($ids, 0, -2);
-                $sql = 'select * from `images` ';
-                $sql .= 'where `ref_id` in (' . $ids . ');';
-                $images = $db->execute($sql);
-
-                // sort
-                foreach ($images as $val) {
-                    $paths[$val->ref_id][] = $val->path;
-                }
-
-                // merge
-                foreach ($body as $val) {
-                    $id = $val->ref_id;
-                    $res[$id] = (array)$val;
-                    $res[$id]['images'] = $paths[$id];
-                }
-            }
+            $mergeImgs = $this->get('common.mergeImgArr');
+            $res = $mergeImgs->merge($body);
 
             return $response->withJson(
                 $res,
