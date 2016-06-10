@@ -1,8 +1,8 @@
- /*
-  * mysqlを起動すること
-  * mysql.server start
-  * <Leader> se で実行
-  */
+/*
+ * mysqlを起動すること
+ * mysql.server start
+ * <Leader> se で実行
+ */
 
 -- profile for local database;
 -- profile名、DB名を変更すること ユーザ情報は変更する必要なし
@@ -16,6 +16,11 @@ DBSetOption profile=api_test
 
 SHOW databases;
 SHOW tables;
+
+
+/*
+ * PRODUCT TABLE
+ */
 
 -- vehicles 確認 /*{{{*/
 SELECT * FROM `vehicles`;
@@ -530,6 +535,10 @@ INSERT INTO `mountings` (
 /*}}}*/
 
 
+/*
+ * BELONGSTO - CATEGORY
+ */
+
 -- vehicles_categories 確認 /*{{{*/
 SELECT * FROM `vehicles_categories`;
 /*}}}*/
@@ -664,6 +673,10 @@ INSERT INTO `parts_sub_categories` (
 ;
 /*}}}*/
 
+
+/*
+ * BELONGSTO - OTHER
+ */
 
 -- makers 確認 /*{{{*/
 SELECT * FROM `makers`;
@@ -2706,6 +2719,10 @@ INSERT INTO `images` (
 ;
 /*}}}*/
 
+
+/*
+ * VIEW
+ */
 
 -- products_all 確認 /*{{{*/
 SELECT * FROM `products_all`;
