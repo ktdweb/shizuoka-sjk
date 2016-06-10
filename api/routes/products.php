@@ -16,44 +16,127 @@ $app->group('/products', function () {
      * GET
      */
     $this->get(
-        '/{name:.*}/{id:.*}',
+        '/',
         function (
             $request,
             $response,
             $args
         ) {
+            $res = null;
             $db = $this->get('db.get');
+            $body = array();
 
-            // mountings
-            $sql = 'select * from ' . $args['name'];
+            // page
+            $sql = 'SELECT * FROM `products_all`;';
+            $body[] = $db->execute($sql);
 
-            if ($args['id']) {
-                $sql .= ' WHERE `ref_id` = ?;';
-                $body = $db->execute($sql, $args['id']);
-            } else {
-                $body = $db->execute($sql);
-            }
+            $sql = 'SELECT * FROM `parts`;';
+            $body[] = $db->execute($sql);
+
+            $sql = 'SELECT * FROM `containers`;';
+            $body[] = $db->execute($sql);
+
+            $sql = 'SELECT * FROM `mountings`;';
+            $body[] = $db->execute($sql);
 
             // images
-            $ids = null;
-            foreach ($body as $val) {
-                $ids .= "'" . $val->ref_id . "', ";
-            }
-            $ids = substr($ids, 0, -2);
-            $sql = 'select * from `images` ';
-            $sql .= 'where `ref_id` in (' . $ids . ');';
-            $images = $db->execute($sql);
+            if (!empty($body)) {
+                $ids = null;
+                foreach ($body as $val) {
+                    $ids .= "'" . $val->ref_id . "', ";
+                }
+                $ids = substr($ids, 0, -2);
+                $sql = 'select * from `images` ';
+                $sql .= 'where `ref_id` in (' . $ids . ');';
+                $images = $db->execute($sql);
 
-            // sort
-            foreach ($images as $val) {
-                $paths[$val->ref_id][] = $val->path;
+                // sort
+                foreach ($images as $val) {
+                    $paths[$val->ref_id][] = $val->path;
+                }
+
+                // merge
+                foreach ($body as $val) {
+                    $id = $val->ref_id;
+                    $res[$id] = (array)$val;
+                    $res[$id]['images'] = $paths[$id];
+                }
             }
 
-            // merge
-            foreach ($body as $val) {
-                $id = $val->ref_id;
-                $res[$id] = (array)$val;
-                $res[$id]['images'] = $paths[$id];
+            return $response->withJson(
+                $res,
+                200,
+                $this->get('settings')['withJsonEnc']
+            );
+        }
+    );
+
+
+    /**
+     * GET
+     */
+    $this->get(
+        '/{page:[a-z]+}[/{category:[0-9]+/?}{id:.*}]',
+        function (
+            $request,
+            $response,
+            $args
+        ) {
+            $res = null;
+            $exp = '/[^0-9a-zA-Z]/';
+            $db = $this->get('db.get');
+            $param = array();
+
+            // page
+            $sql = 'SELECT * FROM ';
+            if (!empty($args['page'])) {
+                $page = preg_replace($exp, '', $args['page']);
+                $sql .= '`' . $page . '`';
+            }
+
+            // cateogry
+            if (!empty($args['category'])) {
+                $cat = preg_replace($exp, '', $args['category']);
+                $where[] = '`category_id` = ?';
+                $param[] = $cat;
+            }
+
+            // args
+            if (!empty($args['id'])) {
+                $id = preg_replace($exp, '', $args['id']);
+                $where[] = '`ref_id` = ?';
+                $param[] = $id;
+            }
+
+            // sql
+            if (!empty($where)) {
+                $sql .= ' WHERE ' . implode(' AND ', $where);
+            }
+
+            $body = $db->execute($sql, $param);
+
+            // images
+            if (!empty($body)) {
+                $ids = null;
+                foreach ($body as $val) {
+                    $ids .= "'" . $val->ref_id . "', ";
+                }
+                $ids = substr($ids, 0, -2);
+                $sql = 'select * from `images` ';
+                $sql .= 'where `ref_id` in (' . $ids . ');';
+                $images = $db->execute($sql);
+
+                // sort
+                foreach ($images as $val) {
+                    $paths[$val->ref_id][] = $val->path;
+                }
+
+                // merge
+                foreach ($body as $val) {
+                    $id = $val->ref_id;
+                    $res[$id] = (array)$val;
+                    $res[$id]['images'] = $paths[$id];
+                }
             }
 
             return $response->withJson(
