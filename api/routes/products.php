@@ -27,18 +27,46 @@ $app->group('/products', function () {
             $body = array();
 
             // page
-            $sql = 'SELECT * FROM `products_all`;';
-            $body[] = $db->execute($sql);
+            $sql = 'SELECT * FROM `products_all`';
+            $sql .= 'ORDER BY `id`;';
+            $body = $db->execute($sql);
 
             // images
             $mergeImgs = $this->get('common.mergeImgArr');
             $res = $mergeImgs->mergeForAll($body);
 
-            $sql = 'SELECT * FROM `containers`;';
-            $body[] = $db->execute($sql);
+            return $response->withJson(
+                $res,
+                200,
+                $this->get('settings')['withJsonEnc']
+            );
+        }
+    );
 
-            $sql = 'SELECT * FROM `mountings`;';
-            $body[] = $db->execute($sql);
+
+    /**
+     * GET /detail/
+     * ひとつの商品を取得
+     */
+    $this->get(
+        '/detail/{ref_id:.*}',
+        function (
+            $request,
+            $response,
+            $args
+        ) {
+            $db = $this->get('db.get');
+            $body = array();
+
+            // get page
+            $sql = 'SELECT * FROM `products_all`';
+            $sql .= ' WHERE `ref_id` = ?;';
+            $item = $db->execute($sql, $args['ref_id'])[0];
+
+            // get detail
+            $sql = 'SELECT * FROM `' . $item->page . '`';
+            $sql .= ' WHERE `ref_id` = ?;';
+            $body = $db->execute($sql, $args['ref_id']);
 
             // images
             $mergeImgs = $this->get('common.mergeImgArr');
@@ -62,7 +90,7 @@ $app->group('/products', function () {
      * どれも最後のtrailerのスラッシュがなくても良い
      */
     $this->get(
-        '/{page:[a-z]+}[/{category:[0-9]+/?}{id:.*}]',
+        '/{page:[a-z]+}[/{category:[0-9]*/*}{id:.*}]',
         function (
             $request,
             $response,
