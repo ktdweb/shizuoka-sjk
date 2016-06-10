@@ -13,7 +13,8 @@ namespace Routes;
 $app->group('/products', function () {
 
     /**
-     * GET
+     * GET /products/
+     * 商品全体用
      */
     $this->get(
         '/',
@@ -51,9 +52,14 @@ $app->group('/products', function () {
         }
     );
 
-
     /**
-     * GET
+     * GET /products/vehicles/1/280330B
+     * 各ページ用
+     *
+     * /products/vehicles/ - ページの商品全体
+     * /products/vehicles/1/ - category_idの1のみ
+     * /products/vehicles/1/280330B/ - ref_idを指定
+     * どれも最後のtrailerのスラッシュがなくても良い
      */
     $this->get(
         '/{page:[a-z]+}[/{category:[0-9]+/?}{id:.*}]',
@@ -62,7 +68,6 @@ $app->group('/products', function () {
             $response,
             $args
         ) {
-            $res = null;
             $exp = '/[^0-9a-zA-Z]/';
             $db = $this->get('db.get');
             $param = array();
