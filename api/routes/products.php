@@ -23,7 +23,6 @@ $app->group('/products', function () {
             $response,
             $args
         ) {
-            $res = null;
             $db = $this->get('db.get');
             $body = array();
 
@@ -31,8 +30,9 @@ $app->group('/products', function () {
             $sql = 'SELECT * FROM `products_all`;';
             $body[] = $db->execute($sql);
 
-            $sql = 'SELECT * FROM `parts`;';
-            $body[] = $db->execute($sql);
+            // images
+            $mergeImgs = $this->get('common.mergeImgArr');
+            $res = $mergeImgs->mergeForAll($body);
 
             $sql = 'SELECT * FROM `containers`;';
             $body[] = $db->execute($sql);
