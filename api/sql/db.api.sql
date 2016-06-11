@@ -536,203 +536,8 @@ INSERT INTO `mountings` (
 
 
 /*
- * BELONGSTO - CATEGORY
+ * images
  */
-
--- vehicles_categories 確認 /*{{{*/
-SELECT * FROM `vehicles_categories`;
-/*}}}*/
-
--- vehicles_categories テーブル作成 /*{{{*/
-DESC `vehicles_categories`;
-DROP TABLE `vehicles_categories`;
-CREATE TABLE IF NOT EXISTS `vehicles_categories` (
-  `id` INT(2) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(30) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-/*}}}*/
-
--- vehicles_categories レコード挿入 /*{{{*/
-TRUNCATE `vehicles_categories`;
-INSERT INTO `vehicles_categories` (
-  `name`
-) VALUES 
-('ウイングバン'),
-('トラクタ'),
-('平ボデー/クレーン'),
-('保冷 /冷凍車'),
-('ダンプ/ミキサー'),
-('その他/特装車')
-;
-/*}}}*/
-
-
--- parts_categories 確認 /*{{{*/
-SELECT * FROM `parts_categories`;
-/*}}}*/
-
--- parts_categories テーブル作成 /*{{{*/
-DESC `parts_categories`;
-DROP TABLE `parts_categories`;
-CREATE TABLE IF NOT EXISTS `parts_categories` (
-  `id` INT(2) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(30) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-/*}}}*/
-
--- parts_categories レコード挿入 /*{{{*/
-TRUNCATE `parts_categories`;
-INSERT INTO `parts_categories` (
-  `name`
-) VALUES 
-('エンジン関連'),
-('ミッション関連'),
-('デフ関連'),
-('走行関連'),
-('キャビン本体'),
-('キャビン関連'),
-('電装関連'),
-('その他架装物関連')
-;
-/*}}}*/
-
-
--- parts_sub_categories 確認 /*{{{*/
-SELECT `id`,`parts_category_id` AS `pro`,`name` FROM `parts_sub_categories`;
-/*}}}*/
-
--- parts_sub_categories テーブル作成 /*{{{*/
-DESC `parts_sub_categories`;
-DROP TABLE `parts_sub_categories`;
-CREATE TABLE IF NOT EXISTS `parts_sub_categories` (
-  `id` INT(3) NOT NULL AUTO_INCREMENT,
-  `parts_category_id` INT(2) NOT NULL,
-  `name` VARCHAR(30) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-/*}}}*/
-
--- parts_sub_categories レコード挿入 /*{{{*/
-TRUNCATE `parts_sub_categories`;
-INSERT INTO `parts_sub_categories` (
-  `parts_category_id`,
-  `name`
-) VALUES 
-(1,'エンジンay'),
-(1,'マフラー'),
-(1,'ラジエター'),
-(1,'インタークーラー'),
-(1,'その他'),
-(2,'マニュアルミッション'),
-(2,'セミオートマミッション'),
-(2,'オートマチックミッション'),
-(2,'その他'),
-(3,'Rデフ'),
-(3,'RFデフ'),
-(3,'RRデフ'),
-(3,'Rホーシング'),
-(3,'RFホーシング'),
-(3,'RRホーシング'),
-(3,'プロペラシャフト'),
-(3,'その他'),
-(4,'フロントアクスル'),
-(4,'スプリング'),
-(4,'ギヤボックス'),
-(4,'デッドアクスル'),
-(4,'キャビンay'),
-(4,'ブラケット類'),
-(4,'その他'),
-(6,'ドア'),
-(6,'フロントバンパー'),
-(6,'ヘッドライト'),
-(6,'フロントパネル'),
-(6,'シート'),
-(6,'フロントグリル'),
-(6,'コーナーパネル'),
-(6,'コーナーランプ'),
-(6,'ミラー'),
-(6,'ステップ'),
-(6,'フェンダー'),
-(6,'その他'),
-(7,'セルモーター'),
-(7,'オルタネーター'),
-(7,'A/Cコンプレッサー'),
-(7,'A/Cコンデンサ'),
-(7,'メーター関連'),
-(7,'モーター関連'),
-(7,'ラジオ'),
-(7,'コンピューター関連'),
-(7,'その他'),
-(8,'燃料タンク'),
-(8,'工具箱'),
-(8,'リアバンパー'),
-(8,'コボレーンモーター'),
-(8,'その他')
-;
-/*}}}*/
-
-
-/*
- * BELONGSTO - OTHER
- */
-
--- makers 確認 /*{{{*/
-SELECT * FROM `makers`;
-/*}}}*/
-
--- makers レコード挿入 /*{{{*/
-DESC `makers`;
-DROP TABLE `makers`;
-CREATE TABLE IF NOT EXISTS `makers` (
-  `id` INT(1) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(4) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-/*}}}*/
-
--- makers レコード挿入 /*{{{*/
-TRUNCATE `makers`;
-INSERT INTO `makers` (
-  `id`,
-  `name`
-) VALUES 
-(1, 'いすゞ'),
-(2, '日野'),
-(3, '三菱'),
-(4, '日産UD'),
-(5, 'マツダ')
-;
-/*}}}*/
-
-
--- sizes 確認 /*{{{*/
-SELECT * FROM `sizes`;
-/*}}}*/
-
--- sizes レコード作成 /*{{{*/
-DESC `sizes`;
-DROP TABLE `sizes`;
-CREATE TABLE IF NOT EXISTS `sizes` (
-  `id` INT(1) NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(4) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB
-/*}}}*/
-
--- sizes レコード挿入 /*{{{*/
-TRUNCATE `sizes`;
-INSERT INTO `sizes` (
-  `id`,
-  `name`
-) VALUES 
-(1, '小'),
-(2, '中'),
-(3, '大')
-;
-/*}}}*/
-
 
 -- images 確認 /*{{{*/
 SELECT * FROM `images`;
@@ -2716,6 +2521,205 @@ INSERT INTO `images` (
 ('4','1005','003/010'),
 ('4','1005','003/011'),
 ('4','1005','003/012')
+;
+/*}}}*/
+
+
+/*
+ * BELONGSTO - CATEGORY
+ */
+
+-- vehicles_categories 確認 /*{{{*/
+SELECT * FROM `vehicles_categories`;
+/*}}}*/
+
+-- vehicles_categories テーブル作成 /*{{{*/
+DESC `vehicles_categories`;
+DROP TABLE `vehicles_categories`;
+CREATE TABLE IF NOT EXISTS `vehicles_categories` (
+  `id` INT(2) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- vehicles_categories レコード挿入 /*{{{*/
+TRUNCATE `vehicles_categories`;
+INSERT INTO `vehicles_categories` (
+  `name`
+) VALUES 
+('ウイングバン'),
+('トラクタ'),
+('平ボデー/クレーン'),
+('保冷 /冷凍車'),
+('ダンプ/ミキサー'),
+('その他/特装車')
+;
+/*}}}*/
+
+
+-- parts_categories 確認 /*{{{*/
+SELECT * FROM `parts_categories`;
+/*}}}*/
+
+-- parts_categories テーブル作成 /*{{{*/
+DESC `parts_categories`;
+DROP TABLE `parts_categories`;
+CREATE TABLE IF NOT EXISTS `parts_categories` (
+  `id` INT(2) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- parts_categories レコード挿入 /*{{{*/
+TRUNCATE `parts_categories`;
+INSERT INTO `parts_categories` (
+  `name`
+) VALUES 
+('エンジン関連'),
+('ミッション関連'),
+('デフ関連'),
+('走行関連'),
+('キャビン本体'),
+('キャビン関連'),
+('電装関連'),
+('その他架装物関連')
+;
+/*}}}*/
+
+
+-- parts_sub_categories 確認 /*{{{*/
+SELECT `id`,`parts_category_id` AS `pro`,`name` FROM `parts_sub_categories`;
+/*}}}*/
+
+-- parts_sub_categories テーブル作成 /*{{{*/
+DESC `parts_sub_categories`;
+DROP TABLE `parts_sub_categories`;
+CREATE TABLE IF NOT EXISTS `parts_sub_categories` (
+  `id` INT(3) NOT NULL AUTO_INCREMENT,
+  `parts_category_id` INT(2) NOT NULL,
+  `name` VARCHAR(30) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- parts_sub_categories レコード挿入 /*{{{*/
+TRUNCATE `parts_sub_categories`;
+INSERT INTO `parts_sub_categories` (
+  `parts_category_id`,
+  `name`
+) VALUES 
+(1,'エンジンay'),
+(1,'マフラー'),
+(1,'ラジエター'),
+(1,'インタークーラー'),
+(1,'その他'),
+(2,'マニュアルミッション'),
+(2,'セミオートマミッション'),
+(2,'オートマチックミッション'),
+(2,'その他'),
+(3,'Rデフ'),
+(3,'RFデフ'),
+(3,'RRデフ'),
+(3,'Rホーシング'),
+(3,'RFホーシング'),
+(3,'RRホーシング'),
+(3,'プロペラシャフト'),
+(3,'その他'),
+(4,'フロントアクスル'),
+(4,'スプリング'),
+(4,'ギヤボックス'),
+(4,'デッドアクスル'),
+(4,'キャビンay'),
+(4,'ブラケット類'),
+(4,'その他'),
+(6,'ドア'),
+(6,'フロントバンパー'),
+(6,'ヘッドライト'),
+(6,'フロントパネル'),
+(6,'シート'),
+(6,'フロントグリル'),
+(6,'コーナーパネル'),
+(6,'コーナーランプ'),
+(6,'ミラー'),
+(6,'ステップ'),
+(6,'フェンダー'),
+(6,'その他'),
+(7,'セルモーター'),
+(7,'オルタネーター'),
+(7,'A/Cコンプレッサー'),
+(7,'A/Cコンデンサ'),
+(7,'メーター関連'),
+(7,'モーター関連'),
+(7,'ラジオ'),
+(7,'コンピューター関連'),
+(7,'その他'),
+(8,'燃料タンク'),
+(8,'工具箱'),
+(8,'リアバンパー'),
+(8,'コボレーンモーター'),
+(8,'その他')
+;
+/*}}}*/
+
+
+/*
+ * BELONGSTO - OTHER
+ */
+
+-- makers 確認 /*{{{*/
+SELECT * FROM `makers`;
+/*}}}*/
+
+-- makers レコード挿入 /*{{{*/
+DESC `makers`;
+DROP TABLE `makers`;
+CREATE TABLE IF NOT EXISTS `makers` (
+  `id` INT(1) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(4) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- makers レコード挿入 /*{{{*/
+TRUNCATE `makers`;
+INSERT INTO `makers` (
+  `id`,
+  `name`
+) VALUES 
+(1, 'いすゞ'),
+(2, '日野'),
+(3, '三菱'),
+(4, '日産UD'),
+(5, 'マツダ')
+;
+/*}}}*/
+
+
+-- sizes 確認 /*{{{*/
+SELECT * FROM `sizes`;
+/*}}}*/
+
+-- sizes レコード作成 /*{{{*/
+DESC `sizes`;
+DROP TABLE `sizes`;
+CREATE TABLE IF NOT EXISTS `sizes` (
+  `id` INT(1) NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(4) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+/*}}}*/
+
+-- sizes レコード挿入 /*{{{*/
+TRUNCATE `sizes`;
+INSERT INTO `sizes` (
+  `id`,
+  `name`
+) VALUES 
+(1, '小'),
+(2, '中'),
+(3, '大')
 ;
 /*}}}*/
 
