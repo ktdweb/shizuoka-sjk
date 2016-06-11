@@ -2857,3 +2857,59 @@ UNION ALL
         `mountings`.`size_id` = `sizes`.`id`
 ;
 /*}}}*/
+
+
+-- references 確認 /*{{{*/
+SELECT * FROM `references`;
+/*}}}*/
+
+-- references VIEW作成 /*{{{*/
+DROP VIEW IF EXISTS `references`;
+CREATE VIEW
+    `references` AS
+
+  SELECT
+    'vehicles_categories' AS `table`,
+    `id`,
+    '' AS `parts_category_id`,
+    `name`
+  FROM
+    `vehicles_categories`
+
+UNION ALL
+  SELECT
+    'parts_categories' AS `table`,
+    `id`,
+    '' AS `parts_category_id`,
+    `name`
+  FROM
+    `parts_categories`
+
+UNION ALL
+  SELECT
+    'parts_sub_categories' AS `table`,
+    `id`,
+    `parts_category_id`,
+    `name`
+  FROM
+    `parts_sub_categories`
+
+UNION ALL
+  SELECT
+    'makers' AS `table`,
+    `id`,
+    '' AS `parts_category_id`,
+    `name`
+  FROM
+    `makers`
+
+UNION ALL
+  SELECT
+    'sizes' AS `table`,
+    `id`,
+    '' AS `parts_category_id`,
+    `name`
+  FROM
+    `sizes`
+;
+/*}}}*/
