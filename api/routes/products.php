@@ -58,7 +58,7 @@ $app->group('/products', function () {
             $body = array();
 
             // page
-            $sql = 'SELECT * FROM `products_all`';
+            $sql = 'SELECT * FROM `products_top`';
             $sql .= ' ORDER BY `modified` DESC;';
             $body = $db->execute($sql);
 

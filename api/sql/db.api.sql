@@ -2728,14 +2728,14 @@ INSERT INTO `sizes` (
  * VIEW
  */
 
--- products_all 確認 /*{{{*/
-SELECT * FROM `products_all`;
+-- products_top 確認 /*{{{*/
+SELECT * FROM `products_top`;
 /*}}}*/
 
--- products_all VIEW作成 /*{{{*/
-DROP VIEW IF EXISTS `products_all`;
+-- products_top VIEW作成 /*{{{*/
+DROP VIEW IF EXISTS `products_top`;
 CREATE VIEW
-    `products_all` AS
+    `products_top` AS
 
     SELECT
         'vehicles' AS `page`,
@@ -2887,6 +2887,152 @@ UNION ALL
         `recommend_flag` = 1
         AND
         `soldout_flag` != 1
+;
+/*}}}*/
+
+-- products_all 確認 /*{{{*/
+SELECT * FROM `products_all`;
+/*}}}*/
+
+-- products_all VIEW作成 /*{{{*/
+DROP VIEW IF EXISTS `products_all`;
+CREATE VIEW
+    `products_all` AS
+
+    SELECT
+        'vehicles' AS `page`,
+        `vehicles`.`id`,
+        `vehicles`.`new_flag`,
+        `vehicles`.`deal_flag`,
+        `vehicles`.`soldout_flag`,
+        `vehicles`.`recommend_flag`,
+        `vehicles`.`icon_date`,
+        `vehicles`.`ref_id`,
+        `vehicles`.`name`,
+        `vehicles`.`price`,
+        `vehicles_categories`.`name` AS `category_id`,
+        '' AS `sub_category_id`,
+        `vehicles`.`product_name`,
+        '' AS `shape`,
+        `vehicles`.`mileage`,
+        `vehicles`.`model`,
+        `sizes`.`name` AS `size_id`,
+        `vehicles`.`form`,
+        '' AS `floor`,
+        `vehicles`.`description`,
+        `vehicles`.`created`,
+        `vehicles`.`modified`
+    FROM
+        `vehicles`
+    LEFT JOIN
+        `vehicles_categories`
+    ON
+        `vehicles`.`category_id` = `vehicles_categories`.`id`
+    LEFT JOIN
+        `sizes`
+    ON
+        `vehicles`.`size_id` = `sizes`.`id`
+
+UNION ALL
+    SELECT
+        'parts' AS `page`,
+        `parts`.`id`,
+        `parts`.`new_flag`,
+        `parts`.`deal_flag`,
+        `parts`.`soldout_flag`,
+        `parts`.`recommend_flag`,
+        `parts`.`icon_date`,
+        `parts`.`ref_id`,
+        `parts`.`name`,
+        `parts`.`price`,
+        `parts_categories`.`name` AS `category_id`,
+        `parts_sub_categories`.`name` AS `sub_category_id`,
+        `parts`.`product_name`,
+        '' AS `shape`,
+        '' AS `mileage`,
+        `parts`.`model`,
+        `sizes`.`name` AS `size_id`,
+        '' AS `form`,
+        '' AS `floor`,
+        `parts`.`description`,
+        `parts`.`created`,
+        `parts`.`modified`
+    FROM
+        `parts`
+    LEFT JOIN
+        `parts_categories`
+    ON
+        `parts`.`category_id` = `parts_categories`.`id`
+    LEFT JOIN
+        `parts_sub_categories`
+    ON
+        `parts`.`sub_category_id` = `parts_sub_categories`.`id`
+    LEFT JOIN
+        `sizes`
+    ON
+        `parts`.`size_id` = `sizes`.`id`
+
+UNION ALL
+    SELECT
+        'containers' AS `page`,
+        `containers`.`id`,
+        `containers`.`new_flag`,
+        `containers`.`deal_flag`,
+        `containers`.`soldout_flag`,
+        `containers`.`recommend_flag`,
+        `containers`.`icon_date`,
+        `containers`.`ref_id`,
+        `containers`.`name`,
+        `containers`.`price`,
+        '' AS `category_id`,
+        '' AS `sub_category_id`,
+        '' AS `product_name`,
+        `containers`.`shape`,
+        '' AS `mileage`,
+        '' AS `model`,
+        `sizes`.`name` AS `size_id`,
+        '' AS `form`,
+        `containers`.`floor`,
+        `containers`.`description`,
+        `containers`.`created`,
+        `containers`.`modified`
+    FROM
+        `containers`
+    LEFT JOIN
+        `sizes`
+    ON
+        `containers`.`size_id` = `sizes`.`id`
+
+UNION ALL
+    SELECT
+        'mountings' AS `page`,
+        `mountings`.`id`,
+        `mountings`.`new_flag`,
+        `mountings`.`deal_flag`,
+        `mountings`.`soldout_flag`,
+        `mountings`.`recommend_flag`,
+        `mountings`.`icon_date`,
+        `mountings`.`ref_id`,
+        `mountings`.`name`,
+        `mountings`.`price`,
+        '' AS `category_id`,
+        '' AS `sub_category_id`,
+        '' AS `product_name`,
+        `mountings`.`shape`,
+        '' AS `mileage`,
+        '' AS `model`,
+        `sizes`.`name` AS `size_id`,
+        '' AS `form`,
+        `mountings`.`floor`,
+        `mountings`.`description`,
+        `mountings`.`created`,
+        `mountings`.`modified`
+    FROM
+        `mountings`
+    LEFT JOIN
+        `sizes`
+    ON
+        `mountings`.`size_id` = `sizes`.`id`
 ;
 /*}}}*/
 
