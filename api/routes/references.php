@@ -31,11 +31,7 @@ $app->group('/references', function () {
 
             $res = null;
             foreach ($body as $item) {
-                if ($item->parts_category_id) {
-                    $res[$item->table][$item->parts_category_id][$item->id] = $item->name;
-                } else {
-                    $res[$item->table][$item->id] = $item->name;
-                }
+                $res[$item->table][$item->id] = $item->name;
             }
 
             return $response->withJson(

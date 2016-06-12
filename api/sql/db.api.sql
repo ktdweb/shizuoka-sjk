@@ -2749,6 +2749,7 @@ CREATE VIEW
         `vehicles`.`name`,
         `vehicles`.`price`,
         `vehicles_categories`.`name` AS `category_id`,
+        '' AS `sub_category_id`,
         `vehicles`.`product_name`,
         '' AS `shape`,
         `vehicles`.`mileage`,
@@ -2787,6 +2788,7 @@ UNION ALL
         `parts`.`name`,
         `parts`.`price`,
         `parts_categories`.`name` AS `category_id`,
+        `parts_sub_categories`.`name` AS `sub_category_id`,
         `parts`.`product_name`,
         '' AS `shape`,
         '' AS `mileage`,
@@ -2803,6 +2805,10 @@ UNION ALL
         `parts_categories`
     ON
         `parts`.`category_id` = `parts_categories`.`id`
+    LEFT JOIN
+        `parts_sub_categories`
+    ON
+        `parts`.`sub_category_id` = `parts_sub_categories`.`id`
     LEFT JOIN
         `sizes`
     ON
@@ -2825,6 +2831,7 @@ UNION ALL
         `containers`.`name`,
         `containers`.`price`,
         '' AS `category_id`,
+        '' AS `sub_category_id`,
         '' AS `product_name`,
         `containers`.`shape`,
         '' AS `mileage`,
@@ -2859,6 +2866,7 @@ UNION ALL
         `mountings`.`name`,
         `mountings`.`price`,
         '' AS `category_id`,
+        '' AS `sub_category_id`,
         '' AS `product_name`,
         `mountings`.`shape`,
         '' AS `mileage`,
