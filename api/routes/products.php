@@ -59,8 +59,7 @@ $app->group('/products', function () {
 
             // page
             $sql = 'SELECT * FROM `products_all`';
-            $sql .= ' WHERE `recommend_flag` = 1';
-            $sql .= ' ORDER BY `id`;';
+            $sql .= ' ORDER BY `modified` DESC;';
             $body = $db->execute($sql);
 
             // images
