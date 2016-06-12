@@ -2769,6 +2769,10 @@ CREATE VIEW
         `sizes`
     ON
         `vehicles`.`size_id` = `sizes`.`id`
+    WHERE
+        `recommend_flag` = 1
+        AND
+        `soldout_flag` != 1
 
 UNION ALL
     SELECT
@@ -2803,6 +2807,10 @@ UNION ALL
         `sizes`
     ON
         `parts`.`size_id` = `sizes`.`id`
+    WHERE
+        `new_flag` = 1
+        AND
+        `soldout_flag` != 1
 
 UNION ALL
     SELECT
@@ -2833,6 +2841,10 @@ UNION ALL
         `sizes`
     ON
         `containers`.`size_id` = `sizes`.`id`
+    WHERE
+        `recommend_flag` = 1
+        AND
+        `soldout_flag` != 1
 
 UNION ALL
     SELECT
@@ -2863,6 +2875,10 @@ UNION ALL
         `sizes`
     ON
         `mountings`.`size_id` = `sizes`.`id`
+    WHERE
+        `recommend_flag` = 1
+        AND
+        `soldout_flag` != 1
 ;
 /*}}}*/
 
