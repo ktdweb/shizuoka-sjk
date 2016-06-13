@@ -18,6 +18,8 @@ use \Lib\Image\Thumbnail;
 
 use \Lib\Common\Validate;
 
+use \Lib\ShizuokaSjk\MergeImgArr;
+
 /**
  * DIC configuration
  */
@@ -192,7 +194,7 @@ $container['image.thumbnail'] = function ($c) {
 };
 
 /**
- * Common
+ * Validate
  *
  * [ e.g. ]
  * $addr = 'failure@dj.pdx.ne.jp';
@@ -201,4 +203,23 @@ $container['image.thumbnail'] = function ($c) {
  */
 $container['common.validate'] = function ($c) {
     return new Validate();
+};
+
+
+/**
+ * Common
+ */
+
+/**
+ * MergeImgArr
+ * mergeForAllは商品全体用
+ * mergeは各ページ用
+ *
+ * [ e.g. ]
+ * $mergeImgs = $this->get('common.mergeImgArr');
+ * $res = $mergeImgs->mergeForAll($body);
+ */
+$container['common.mergeImgArr'] = function ($c) {
+    $db = $c->get('db.get');
+    return new MergeImgArr($db);
 };
