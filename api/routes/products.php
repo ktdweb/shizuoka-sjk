@@ -122,7 +122,7 @@ $app->group('/products', function () {
             $args
         ) {
             $db = $this->get('db.get');
-            $keys = explode(" ", $args['key']);
+            $keys = explode(" ", urldecode($args['key']));
 
             $sql = 'SELECT * FROM `parts` WHERE ';
 
