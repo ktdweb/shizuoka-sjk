@@ -111,6 +111,44 @@ $app->group('/products', function () {
     );
 
     /**
+     * GET /products/search/parts/free/
+     * 部品検索用
+     */
+    $this->get(
+        '/search/parts/free/{key:.*}',
+        function (
+            $request,
+            $response,
+            $args
+        ) {
+            $db = $this->get('db.get');
+            $keys = explode(" ", $args['key']);
+
+            $sql = 'SELECT * FROM `parts` WHERE ';
+
+            foreach ($keys as $val) {
+                $term = "(`description` LIKE '%" . $val . "%'";
+                $term .= " OR `name` LIKE '%" . $val . "%')";
+                $where[] = $term;
+            }
+
+            $sql .= implode(" AND ", $where);
+
+            $body = $db->execute($sql);
+
+            // images
+            $mergeImgs = $this->get('common.mergeImgArr');
+            $res = $mergeImgs->merge($body);
+
+            return $response->withJson(
+                $res,
+                200,
+                $this->get('settings')['withJsonEnc']
+            );
+        }
+    );
+
+    /**
      * GET /products/search/parts/1/1/1/
      * 部品検索用
      */
@@ -162,61 +200,6 @@ $app->group('/products', function () {
             );
         }
     );
-
-
-    /**
-     * GET /products/search/parts/free/
-     * 部品検索用
-     */
-    $this->get(
-        '/search/parts/free/{key:.*)',
-        function (
-            $request,
-            $response,
-            $args
-        ) {
-            $db = $this->get('db.get');
-            $param = array();
-
-            // page
-            $sql = 'SELECT * FROM `parts` ';
-
-            // cat
-            if ($args['cat'] != 6) {
-                $where[] = '`category_id` = ?';
-                $param[] = $args['cat'];
-            }
-
-            // maker
-            if ($args['maker'] != 6) {
-                $where[] = '`maker_id` = ?';
-                $param[] = $args['maker'];
-            }
-
-            // size
-            if ($args['size'] != 4) {
-                $where[] = '`size_id` = ?';
-                $param[] = $args['size'];
-            }
-
-            if (!empty($where)) {
-                $sql .= ' WHERE ' . implode(' AND ', $where);
-            }
-
-            $body = $db->execute($sql, $param);
-
-            // images
-            $mergeImgs = $this->get('common.mergeImgArr');
-            $res = $mergeImgs->merge($body);
-
-            return $response->withJson(
-                $res,
-                200,
-                $this->get('settings')['withJsonEnc']
-            );
-        }
-    );
-
 
     /**
      * GET /products/vehicles/1/280330B
