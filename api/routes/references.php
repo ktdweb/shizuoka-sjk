@@ -8,7 +8,7 @@
 namespace Routes;
 
 /**
- * users
+ * references
  */
 $app->group('/references', function () {
 
@@ -32,6 +32,37 @@ $app->group('/references', function () {
             $res = null;
             foreach ($body as $item) {
                 $res[$item->table][$item->id] = $item->name;
+            }
+
+            return $response->withJson(
+                $res,
+                200,
+                $this->get('settings')['withJsonEnc']
+            );
+        }
+    );
+
+    /**
+     * GET /references/parts/subs/
+     */
+    $this->get(
+        '/parts/subs/{id:[0-9]+}',
+        function (
+            $request,
+            $response,
+            $args
+        ) {
+            $db = $this->get('db.get');
+            $body = array();
+
+            // page
+            $sql = 'SELECT `id`, `name` FROM `parts_sub_categories` ';
+            $sql .= 'WHERE `parts_category_id` = ?';
+            $body = $db->execute($sql, $args['id']);
+
+            $res = null;
+            foreach ($body as $item) {
+                $res[$item->id] = $item->name;
             }
 
             return $response->withJson(
