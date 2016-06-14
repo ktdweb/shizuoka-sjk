@@ -172,7 +172,7 @@ $app->group('/products', function () {
             }
 
             // sub
-            if ($args['sub'] < 50) {
+            if ($args['sub'] != 0) {
                 $where[] = '`sub_category_id` = ?';
                 $param[] = $args['cat'];
             }
