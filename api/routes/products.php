@@ -153,7 +153,7 @@ $app->group('/products', function () {
      * 部品検索用
      */
     $this->get(
-        '/search/parts/{cat:[0-9]+}/{maker:[0-9]+}/{size:[0-9]+}/',
+        '/search/parts/{cat:[0-9]+}/{sub:[0-9]+}/{maker:[0-9]+}/{size:[0-9]+}/',
         function (
             $request,
             $response,
@@ -168,6 +168,12 @@ $app->group('/products', function () {
             // cat
             if ($args['cat'] != 6) {
                 $where[] = '`category_id` = ?';
+                $param[] = $args['cat'];
+            }
+
+            // sub
+            if ($args['sub'] < 50) {
+                $where[] = '`sub_category_id` = ?';
                 $param[] = $args['cat'];
             }
 
