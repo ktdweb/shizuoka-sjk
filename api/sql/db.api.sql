@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
-  `icon_date` DATE NULL,
+  `icon_date` VARCHAR(30) NULL,
   `ref_id` VARCHAR(16) NULL,
   `category_id` INT(2) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
@@ -62,6 +62,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `body` VARCHAR(45) NULL,
   `dimension` VARCHAR(255) NULL,
   `recycle` INT(8) NULL,
+  `pdf` VARCHAR(30) NULL,
   `description` TEXT NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
@@ -103,12 +104,13 @@ INSERT INTO `vehicles` (
   `body`,
   `dimension`,
   `recycle`,
+  `pdf`,
   `description`,
   `created`,
   `modified`
 ) VALUES
-(110001,1,0,0,1,NULL,'280330B',1,'平成4年式　中型　日野　セルフローダー　ハイジャッキ',NULL,2,'',2,'1992-09','U-FD2HKAA','FD2HKA-12361',NULL,210000,'セルフローダー','H07C',NULL,'F6速',2300,'エアー',6720,'なし',1,1,'','L4980　W2120',6710,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有',NOW(),NOW()),
-(110002,1,0,1,1,NULL,'280220A',2,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140ps','F5速',2000,'バキューム',4770,'ないｓ',1,1,'','L3110　W1610　H380',8440,'床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ',NOW(),NOW());
+(110001,1,0,0,1,NULL,'280330B',1,'平成4年式　中型　日野　セルフローダー　ハイジャッキ',NULL,2,'',2,'1992-09','U-FD2HKAA','FD2HKA-12361',NULL,210000,'セルフローダー','H07C',NULL,'F6速',2300,'エアー',6720,'なし',1,1,'','L4980　W2120',6710,'042/shaken','床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有',NOW(),NOW()),
+(110002,1,0,1,1,NULL,'280220A',2,'平成16年式　小型　いすゞ　平ボデー',null,1,'',1,'2004-07','KR-NKR81EA','NKR81E-7041886','2016-11',52031,'平ボデー','4HL1','140','F5速',2000,'バキューム',4770,'なし',1,1,'','L3110　W1610　H380',8440,'041/shaken','床形状　鉄キャブ形状 標準スプリング　トーションバーボデー内寸　長さ3110　幅1610　高さ380積載量　2000kgミッション　5速車載工具　有 ',NOW(),NOW());
 ;
 /*}}}*/
 
@@ -127,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `parts` (
   `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
-  `icon_date` DATE NULL,
+  `icon_date` VARCHAR(30) NULL,
   `ref_id` VARCHAR(16) NULL,
   `category_id` INT(2) NOT NULL,
   `sub_category_id` INT(3) NULL,
@@ -192,7 +194,6 @@ INSERT INTO `parts` (
   `created`,
   `modified`
 ) VALUES
-
 ('010001',1,0,0,0,NULL,'280113X006',1,4,'インタークーラー',NULL,3,'',1,'2007','PA-FE82DEV','FE82DEV-523042','4M50','','','',NULL,NULL,'','','','','','センサー付　カプラ1ヶ　2P　フィン潰れ有',NOW(),NOW()),
 ('010002',1,0,0,0,NULL,'280113X005',1,3,'ラジエター',NULL,3,'',1,'2007','PA-FE82DEV','FE82DEV-523042','4M50','','','',NULL,NULL,'','','','','','アルミ製　ME417291　デンソー422133-1192　フィン潰れ有',NOW(),NOW()),
 ('010003',1,0,0,0,NULL,'280113J002',1,4,'インタークーラー',NULL,1,'',3,'2003','KL-CYY51V4J','CYY51V4J-3000015','6WF1','','','',NULL,NULL,'','','','','','1144310552　No313106　TRS製　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　フィン潰れ有　下側潰れ有　取付ねじ一ヶ所不良',NOW(),NOW()),
@@ -433,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `containers` (
   `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
-  `icon_date` VARCHAR(12) NULL,
+  `icon_date` VARCHAR(30) NULL,
   `ref_id` VARCHAR(16) NULL,
   `name` VARCHAR(255) NOT NULL,
   `price` INT(11) NULL,
@@ -491,7 +492,7 @@ CREATE TABLE IF NOT EXISTS `mountings` (
   `deal_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `soldout_flag` TINYINT(1) NOT NULL DEFAULT 0,
   `recommend_flag` TINYINT(1) NOT NULL DEFAULT 0,
-  `icon_date` VARCHAR(12) NULL,
+  `icon_date` VARCHAR(30) NULL,
   `ref_id` VARCHAR(16) NULL,
   `name` VARCHAR(255) NOT NULL,
   `price` INT(11) NULL,
@@ -2755,6 +2756,7 @@ CREATE VIEW
         `vehicles`.`mileage`,
         `vehicles`.`model`,
         `sizes`.`name` AS `size_id`,
+        `makers`.`name` AS `maker_id`,
         `vehicles`.`form`,
         '' AS `floor`,
         `vehicles`.`description`,
@@ -2770,6 +2772,10 @@ CREATE VIEW
         `sizes`
     ON
         `vehicles`.`size_id` = `sizes`.`id`
+    LEFT JOIN
+        `makers`
+    ON
+        `vehicles`.`maker_id` = `makers`.`id`
     WHERE
         `recommend_flag` = 1
         AND
@@ -2794,6 +2800,7 @@ UNION ALL
         '' AS `mileage`,
         `parts`.`model`,
         `sizes`.`name` AS `size_id`,
+        `makers`.`name` AS `maker_id`,
         '' AS `form`,
         '' AS `floor`,
         `parts`.`description`,
@@ -2813,6 +2820,10 @@ UNION ALL
         `sizes`
     ON
         `parts`.`size_id` = `sizes`.`id`
+    LEFT JOIN
+        `makers`
+    ON
+        `parts`.`maker_id` = `makers`.`id`
     WHERE
         `new_flag` = 1
         AND
@@ -2837,6 +2848,7 @@ UNION ALL
         '' AS `mileage`,
         '' AS `model`,
         `sizes`.`name` AS `size_id`,
+        '' AS `maker_id`,
         '' AS `form`,
         `containers`.`floor`,
         `containers`.`description`,
@@ -2872,6 +2884,7 @@ UNION ALL
         '' AS `mileage`,
         '' AS `model`,
         `sizes`.`name` AS `size_id`,
+        '' AS `maker_id`,
         '' AS `form`,
         `mountings`.`floor`,
         `mountings`.`description`,
@@ -2917,6 +2930,7 @@ CREATE VIEW
         `vehicles`.`mileage`,
         `vehicles`.`model`,
         `sizes`.`name` AS `size_id`,
+        `makers`.`name` AS `maker_id`,
         `vehicles`.`form`,
         '' AS `floor`,
         `vehicles`.`description`,
@@ -2932,6 +2946,10 @@ CREATE VIEW
         `sizes`
     ON
         `vehicles`.`size_id` = `sizes`.`id`
+    LEFT JOIN
+        `makers`
+    ON
+        `vehicles`.`maker_id` = `makers`.`id`
 
 UNION ALL
     SELECT
@@ -2952,6 +2970,7 @@ UNION ALL
         '' AS `mileage`,
         `parts`.`model`,
         `sizes`.`name` AS `size_id`,
+        `makers`.`name` AS `maker_id`,
         '' AS `form`,
         '' AS `floor`,
         `parts`.`description`,
@@ -2971,6 +2990,10 @@ UNION ALL
         `sizes`
     ON
         `parts`.`size_id` = `sizes`.`id`
+    LEFT JOIN
+        `makers`
+    ON
+        `parts`.`maker_id` = `makers`.`id`
 
 UNION ALL
     SELECT
@@ -2991,6 +3014,7 @@ UNION ALL
         '' AS `mileage`,
         '' AS `model`,
         `sizes`.`name` AS `size_id`,
+        '' AS `maker_id`,
         '' AS `form`,
         `containers`.`floor`,
         `containers`.`description`,
@@ -3022,6 +3046,7 @@ UNION ALL
         '' AS `mileage`,
         '' AS `model`,
         `sizes`.`name` AS `size_id`,
+        '' AS `maker_id`,
         '' AS `form`,
         `mountings`.`floor`,
         `mountings`.`description`,
