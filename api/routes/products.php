@@ -166,7 +166,7 @@ $app->group('/products', function () {
             $sql = 'SELECT * FROM `parts` ';
 
             // cat
-            if ($args['cat'] != 6) {
+            if ($args['cat'] <= 8) {
                 $where[] = '`category_id` = ?';
                 $param[] = $args['cat'];
             }
