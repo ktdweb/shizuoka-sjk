@@ -6518,6 +6518,13 @@ article[id] > h1 {
   font-size: 2rem;
   line-height: 3rem; }
 
+div#dandd {
+  border: 1px dotted black;
+  height: 60px;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  text-align: center; }
+
 /*
   # layouts/index.sass
   layoutsディレクトリ内で利用するファイルをリストアップ
@@ -7072,3 +7079,5 @@ article[id] > h1 {
   front/Home.jsxに関するクラスを定義
   prefixには`pf-Home`を付与
   */ }
+  #Front div#dandd {
+    border: 1px dotted black; }

@@ -18,6 +18,7 @@ import AdminNav     from './layouts/admin/Nav'
 // pages/admin
 import AdminHome        from './pages/admin/Home'
 import AdminVehicles    from './pages/admin/Vehicles'
+import AdminVehiclesAdd    from './pages/admin/Vehicles_add'
 import AdminParts       from './pages/admin/Parts'
 import AdminContainers  from './pages/admin/Containers'
 import AdminMountings   from './pages/admin/Mountings'
@@ -36,6 +37,14 @@ const routes = (
           header: AdminHeader,
           nav: AdminNav,
           main: AdminHome
+        }} />
+
+      <Route path={root.documentRoot + '/vehicles_add'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: AdminVehiclesAdd
         }} />
 
       <Route path={root.documentRoot + '/vehicles'}
