@@ -31,7 +31,7 @@ export default class Home extends React.Component {
                 <td>271130H014</td>
                 <td>エンジン</td>
                 <td>2016/06/29 14:23:00</td>
-                <td className="text-center"><a href="/admin/vehicles">詳細</a></td>
+                <td className="text-center"><a href="/admin/parts">詳細</a></td>
               </tr>
 
               <tr>

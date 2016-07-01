@@ -2,16 +2,99 @@ import React from 'react'
 import { Link } from 'react-router'
 import DocumentTitle from 'react-document-title'
 
-export default class VehiclesAdd extends React.Component {
+import VehiclesStore from '../../../stores/VehiclesStore'
+import VehiclesActions from '../../../actions/VehiclesActions'
+
+import ReferencesStore from '../../../stores/ReferencesStore'
+import ReferencesActions from '../../../actions/ReferencesActions'
+
+let refs = {
+  vehicles_categories: {},
+  makers: {},
+  sizes: {}
+};
+
+export default class Edit extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      id:              '',
+      product_id:      '',
+      new_flag:        '',
+      deal_flag:       '',
+      soldout_flag:    '',
+      recommend_flag:  '',
+      icon_date:       '',
+      ref_id:          '',
+      category_id:     '',
+      name:            '',
+      price:           '',
+      maker_id:        '',
+      product_name:    '',
+      size_id:         '',
+      mfg_date:        '',
+      model:           '',
+      mfg_no:          '',
+      mot_date:        '',
+      mileage:         '',
+      form:            '',
+      engine:          '',
+      ps:              '',
+      mission:         '',
+      capacity:        '',
+      break:           '',
+      cc:              '',
+      limitter:        '',
+      ac_flag:         '',
+      ps_flag:         '',
+      body:            '',
+      dimension:       '',
+      recycle:         '',
+      pdf:             '',
+      description:     '',
+      created:         '',
+      modified:        ''
+    };
+  }
+
+  componentWillMount() {
+    VehiclesActions.create(
+      this.props.params.id,
+      this.updateState.bind(this)
+    ); 
+
+    ReferencesActions.create(); 
   }
 
   render() {
-    return (
+    let vehicles_categories = Object.keys(refs.vehicles_categories).map((i) => {
+      return <BelongsTo
+        key={i}
+        id={i}
+        data={refs.vehicles_categories[i]}
+        />
+    });
 
-      <article id="VehiclesAdd">
+    let makers = Object.keys(refs.makers).map((i) => {
+      return <BelongsTo
+        key={i}
+        id={i}
+        data={refs.makers[i]}
+        />
+    });
+
+    let sizes = Object.keys(refs.sizes).map((i) => {
+      return <BelongsTo
+        key={i}
+        id={i}
+        data={refs.sizes[i]}
+        />
+    });
+
+    return (
+      <article id="Edit">
         <section>
           <DocumentTitle title="Admin Home" />
           <h1>中古車輌</h1>
@@ -26,6 +109,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.product_id}
                   />
               </dd>
             </dl>
@@ -36,21 +120,33 @@ export default class VehiclesAdd extends React.Component {
                 <label>新着</label>
                 <input
                   type="checkbox"
+                  name="new_flag"
+                  onChange={this.onChangeCheckBox.bind(this)}
+                  checked={this.state.new_flag}
                   />
 
                 <label>商談中</label>
                 <input
                   type="checkbox"
+                  name="deal_flag"
+                  onChange={this.onChangeCheckBox.bind(this)}
+                  checked={this.state.deal_flag}
                   />
 
                 <label>売約済</label>
                 <input
                   type="checkbox"
+                  name="soldout_flag"
+                  onChange={this.onChangeCheckBox.bind(this)}
+                  checked={this.state.soldout_flag}
                   />
 
                 <label>おすすめ</label>
                 <input
                   type="checkbox"
+                  name="recommend_flag"
+                  onChange={this.onChangeCheckBox.bind(this)}
+                  checked={this.state.recommend_flag}
                   />
               </dd>
             </dl>
@@ -60,6 +156,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.icon_date}
                   />
               </dd>
             </dl>
@@ -69,6 +166,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.ref_id}
                   />
               </dd>
             </dl>
@@ -77,10 +175,12 @@ export default class VehiclesAdd extends React.Component {
               <dt>カテゴリー</dt>
               <dd>
                 <select
-                  name="q3_id" ref="q3_id"
-                  required
+                  name="category_id"
+                  value={this.state.category_id}
+                  onChange={this.onChangeSelect.bind(this)}
                   >
                   <option value="">選択してください</option>
+                  {vehicles_categories}
                 </select>
               </dd>
             </dl>
@@ -89,8 +189,9 @@ export default class VehiclesAdd extends React.Component {
               <dt>タイトル</dt>
               <dd>
                 <input
-                  className="w-l"
+                  className="w-xl"
                   type="text"
+                  value={this.state.name}
                   />
               </dd>
             </dl>
@@ -100,6 +201,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.price}
                   />
               </dd>
             </dl>
@@ -107,18 +209,28 @@ export default class VehiclesAdd extends React.Component {
             <dl>
               <dt>メーカー</dt>
               <dd>
-                <input
-                  type="text"
-                  />
+                <select
+                  name="maker_id"
+                  value={this.state.maker_id}
+                  onChange={this.onChangeSelect.bind(this)}
+                  >
+                  <option value="">選択してください</option>
+                  {makers}
+                </select>
               </dd>
             </dl>
             
             <dl>
               <dt>大きさ</dt>
               <dd>
-                <input
-                  type="text"
-                  />
+                <select
+                  name="size_id"
+                  value={this.state.size_id}
+                  onChange={this.onChangeSelect.bind(this)}
+                  >
+                  <option value="">選択してください</option>
+                  {sizes}
+                </select>
               </dd>
             </dl>
 
@@ -127,6 +239,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.mfg_date}
                   />
               </dd>
             </dl>
@@ -136,6 +249,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.model}
                   />
               </dd>
             </dl>
@@ -145,6 +259,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.mfg_no}
                   />
               </dd>
             </dl>
@@ -154,6 +269,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.mot_date}
                   />
               </dd>
             </dl>
@@ -163,6 +279,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.mileage}
                   />
               </dd>
             </dl>
@@ -172,6 +289,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.form}
                   />
               </dd>
             </dl>
@@ -181,6 +299,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.engine}
                   />
               </dd>
             </dl>
@@ -190,6 +309,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.ps}
                   />
               </dd>
             </dl>
@@ -199,6 +319,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.mission}
                   />
               </dd>
             </dl>
@@ -208,6 +329,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.capacity}
                   />
               </dd>
             </dl>
@@ -217,6 +339,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.limmitter}
                   />
               </dd>
             </dl>
@@ -224,13 +347,11 @@ export default class VehiclesAdd extends React.Component {
             <dl>
               <dt>エアコン</dt>
               <dd>
-                <label>ある</label>
-                <input type="radio"
-                  value="1"
-                  />
-                <label>なし</label>
-                <input type="radio"
-                  value="2"
+                <input
+                  type="checkbox"
+                  name="ac_flag"
+                  onChange={this.onChangeCheckBox.bind(this)}
+                  checked={this.state.ac_flag}
                   />
               </dd>
             </dl>
@@ -238,13 +359,11 @@ export default class VehiclesAdd extends React.Component {
             <dl>
               <dt>パワステ</dt>
               <dd>
-                <label>ある</label>
-                <input type="radio"
-                  value="1"
-                  />
-                <label>なし</label>
-                <input type="radio"
-                  value="2"
+                <input
+                  type="checkbox"
+                  name="ps_flag"
+                  onChange={this.onChangeCheckBox.bind(this)}
+                  checked={this.state.ps_flag}
                   />
               </dd>
             </dl>
@@ -254,6 +373,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.body}
                   />
               </dd>
             </dl>
@@ -264,6 +384,7 @@ export default class VehiclesAdd extends React.Component {
                 <input
                   className="w-l"
                   type="text"
+                  value={this.state.dimension}
                   />
               </dd>
             </dl>
@@ -273,6 +394,7 @@ export default class VehiclesAdd extends React.Component {
               <dd>
                 <input
                   type="text"
+                  value={this.state.recycle}
                   />
               </dd>
             </dl>
@@ -281,8 +403,9 @@ export default class VehiclesAdd extends React.Component {
               <dt>備考</dt>
               <dd>
                 <textarea
-                  className="w-l"
+                  className="w-xl"
                   name="comment" ref="comment"
+                  value={this.state.description}
                   ></textarea>
               </dd>
             </dl>
@@ -292,6 +415,7 @@ export default class VehiclesAdd extends React.Component {
             </div>
 
             <button type="submit" className="w-xs"
+              onClick={this.onSubmit.bind(this)}
               value="Post"
               >追加</button>
 
@@ -300,5 +424,52 @@ export default class VehiclesAdd extends React.Component {
         </section>
       </article>
     );
+  }
+
+  onSubmit(e) {
+    e.preventDefault();
+
+    console.log(this.state.size_id);
+  }
+
+  onChangeCheckBox(e) {
+    this.setState({ [e.target.name]: e.target.checked });
+  }
+
+  onChangeSelect(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
+  updateState() {
+    let res = VehiclesStore.read();
+    refs = ReferencesStore.read(); 
+    this.setState(res);
+  }
+}
+
+class BelongsTo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    this.updateState(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this.updateState(props);
+  }
+
+  render() {
+    return(
+      <option value={this.state.id}>{this.state.data}</option>
+    );
+  }
+
+  updateState(props) {
+    if (props.data != null) {
+      this.setState(props);
+    }
   }
 }
