@@ -6,7 +6,7 @@ import { http } from '../components/Http'
 
 let pathname = window.location.pathname;
 let root = pathname.match(/^\/[a-z1-9_]+\//)[0];
-const URL = root + 'api/products/vehicles/';
+const URL = root + 'api/products/detail/';
 
 const CHANGE_EVENT = 'change';
 

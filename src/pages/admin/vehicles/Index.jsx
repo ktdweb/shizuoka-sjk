@@ -71,7 +71,7 @@ class Item extends React.Component {
       <tr>
         <td>{this.state.ref_id}</td>
         <td>
-          <a href={'vehicles/edit/' + this.state.id}>
+          <a href={'vehicles/edit/' + this.state.ref_id}>
             {this.state.name}
           </a>
         </td>

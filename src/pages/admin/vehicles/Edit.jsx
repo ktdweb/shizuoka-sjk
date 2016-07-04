@@ -8,6 +8,9 @@ import VehiclesActions from '../../../actions/VehiclesActions'
 import ReferencesStore from '../../../stores/ReferencesStore'
 import ReferencesActions from '../../../actions/ReferencesActions'
 
+import ImagesStore from '../../../stores/ImagesStore'
+import ImagesActions from '../../../actions/ImagesActions'
+
 let refs = {
   vehicles_categories: {},
   makers: {},
@@ -55,7 +58,8 @@ export default class Edit extends React.Component {
       pdf:             '',
       description:     '',
       created:         '',
-      modified:        ''
+      modified:        '',
+      images:          ''
     };
   }
 
@@ -68,10 +72,11 @@ export default class Edit extends React.Component {
 
   componentWillUnmount() {
     VehiclesStore.destroy(this.updateState.bind(this)); 
-    ReferencesStore.destroy(this.updateState.bind(this)); 
   }
 
   render() {
+    if (this.state.images == '') return false;
+
     let vehicles_categories = Object.keys(
       refs.vehicles_categories
     ).map((i) => {
@@ -98,13 +103,12 @@ export default class Edit extends React.Component {
         />
     });
 
-    console.log(this.state);
     let images = Object.keys(this.state.images).map((i) => {
-      return <Images
+      return <ProductImage
         key={i}
-        id={i}
-        ref={this.state.ref_id}
-        data={refs.sizes[i]}
+        num={i}
+        ref_id={this.state.ref_id}
+        data={this.state.images[i]}
         />
     });
 
@@ -464,12 +468,16 @@ export default class Edit extends React.Component {
               </dd>
             </dl>
 
-            {images}
+            <div> 
+              {images}
+            </div>
 
+            <footer className="submit">
             <button type="submit" className="w-xs"
               onClick={this.onSubmit.bind(this)}
               value="Post"
-              >追加</button>
+              >更新</button>
+            </footer>
 
             </form>
 
@@ -533,7 +541,7 @@ class BelongsTo extends React.Component {
   }
 }
 
-class Images extends React.Component {
+class ProductImage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -549,19 +557,102 @@ class Images extends React.Component {
 
   render() {
     return(
-      <div>
+      <div className="thumb">
+        <div id={'thumb' + this.state.num}>
         <img
-          src={"/data/vehicle/" + this.state.ref + '/' + this.state.id}
+          src={"/data/vehicle/" + this.state.data + '.jpg'}
           width="120"
           alt="t"
           />
+        </div>
+
+        <input
+          type="file"
+          name={this.state.num}
+          onChange={this.handleImage.bind(this)}
+          />
+        <div className="desc" id={'desc' + this.state.num}></div>
       </div>
     );
+  }
+
+  onClick(e) {
+    e.preventDefault();
   }
 
   updateState(props) {
     if (props.data != null) {
       this.setState(props);
     }
+  }
+
+  handleImage(e) {
+    let id = e.target.name;
+    let tgt = document.getElementById('thumb' + id);
+    let el = tgt.getElementsByTagName('img')[0];
+    let eld = document.getElementById('desc' + id);
+    let fr = new FileReader();
+    let file = e.target.files[0];
+
+    let img = new Image(); 
+    let src = window.URL.createObjectURL(file);
+    img.src = src;
+
+    let _this = this;
+    fr.onload = (function(file) {
+      img.onload = function() {
+        if (_this.validateImage(file, img, eld)) {
+          let base64 = _this.convertBase64(img);
+          _this.setState({ image: base64 });
+
+          initImage();
+
+          ImagesActions.update(
+            'vehicle',
+            _this.state.ref_id,
+            _this.state,
+            (function () {
+              img.width = 120;
+              tgt.appendChild(img);
+          }));
+          img.width = 120;
+          tgt.appendChild(img);
+        }
+      }
+    })(file);
+
+    function initImage() {
+      tgt.innerHTML = '';
+    }
+  }
+
+  convertBase64(img) {
+    let canvas = document.createElement('canvas');
+    let ctx = canvas.getContext('2d'); 
+    canvas.width = img.width;
+    canvas.height = img.height;
+    ctx.drawImage(img, 0, 0);
+    let base64 = canvas.toDataURL('image/jpeg');
+    
+    return base64.replace(/^.*,/, '');
+  }
+
+  validateImage(file, img, eld) {
+    var message;
+
+    if (file.type != 'image/jpeg') {
+      message = 'jpegファイルを選択してください';
+    }
+
+    if (img.width < 720) {
+      message = '画像の横幅が足りません。720px以上を使用下さい';
+    } else if (img.width > 1440) {
+      message = '画像の横幅が大きすぎます。720px程度を使用下さい';
+    }
+
+    if (message) {
+      eld.innerHTML = message;
+    }
+    return (message) ? false : true ;
   }
 }
