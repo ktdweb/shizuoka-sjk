@@ -21,6 +21,15 @@ import AdminHome        from './pages/admin/Home'
 import VehiclesIndex    from './pages/admin/vehicles/Index'
 import VehiclesEdit     from './pages/admin/vehicles/Edit'
 
+import PartsIndex       from './pages/admin/parts/Index'
+import PartsEdit        from './pages/admin/parts/Edit'
+
+import ContainersIndex  from './pages/admin/containers/Index'
+import ContainersEdit   from './pages/admin/containers/Edit'
+
+import MountingsIndex   from './pages/admin/mountings/Index'
+import MountingsEdit    from './pages/admin/mountings/Edit'
+
 import AdminParts       from './pages/admin/Parts'
 import AdminContainers  from './pages/admin/Containers'
 import AdminMountings   from './pages/admin/Mountings'
@@ -57,12 +66,28 @@ const routes = (
           main: VehiclesIndex
         }} />
 
+      <Route path={root.documentRoot + '/parts/edit/:id'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: PartsEdit
+        }} />
+
       <Route path={root.documentRoot + '/parts'}
         global={root}
         components={{
           header: AdminHeader,
           nav: AdminNav,
-          main: AdminParts
+          main: PartsIndex
+        }} />
+
+      <Route path={root.documentRoot + '/containers/edit/:id'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: ContainersEdit
         }} />
 
       <Route path={root.documentRoot + '/containers'}
@@ -70,7 +95,15 @@ const routes = (
         components={{
           header: AdminHeader,
           nav: AdminNav,
-          main: AdminContainers
+          main: ContainersIndex
+        }} />
+
+      <Route path={root.documentRoot + '/mountings/edit/:id'}
+        global={root}
+        components={{
+          header: AdminHeader,
+          nav: AdminNav,
+          main: MountingsEdit
         }} />
 
       <Route path={root.documentRoot + '/mountings'}
@@ -78,7 +111,7 @@ const routes = (
         components={{
           header: AdminHeader,
           nav: AdminNav,
-          main: AdminMountings
+          main: MountingsIndex
         }} />
 
     </Route>

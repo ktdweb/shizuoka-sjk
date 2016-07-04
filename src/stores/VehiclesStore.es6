@@ -77,7 +77,7 @@ VehiclesDispatcher.register( function(action) {
 
     case VehiclesConstants.UPDATE:
       http.put(
-          root + 'api/products/' + action.id,
+          root + 'api/products/' + action.page + '/' + action.id,
           action.data
       ).then(res => {
         vehiclesStore.update();

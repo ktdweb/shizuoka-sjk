@@ -23,43 +23,39 @@ export default class Edit extends React.Component {
     super(props);
 
     this.state = {
-      id:              '',
-      product_id:      '',
-      new_flag:        '',
-      deal_flag:       '',
-      soldout_flag:    '',
-      recommend_flag:  '',
-      icon_date:       '',
-      ref_id:          '',
-      category_id:     '',
-      name:            '',
-      price:           '',
-      maker_id:        '',
-      product_name:    '',
-      size_id:         '',
-      mfg_date:        '',
-      model:           '',
-      mfg_no:          '',
-      mot_date:        '',
-      mileage:         '',
-      form:            '',
-      engine:          '',
-      ps:              '',
-      mission:         '',
-      capacity:        '',
-      break:           '',
-      cc:              '',
-      limitter:        '',
-      ac_flag:         '',
-      ps_flag:         '',
-      body:            '',
-      dimension:       '',
-      recycle:         '',
-      pdf:             '',
-      description:     '',
-      created:         '',
-      modified:        '',
-      images:          ''
+      id              : '',
+      product_id      : '',
+      new_flag        : '',
+      deal_flag       : '',
+      soldout_flag    : '',
+      recommend_flag  : '',
+      icon_date       : '',
+      ref_id          : '',
+      category_id     : '',
+      sub_category_id : '',
+      name            : '',
+      price           : '',
+      maker_id        : '',
+      product_name    : '',
+      size_id         : '',
+      mfg_date        : '',
+      model           : '',
+      mfg_no          : '',
+      engine          : '',
+      engine_no       : '',
+      mission         : '',
+      mission_no      : '',
+      ps              : '',
+      mileage         : '',
+      turbo           : '',
+      diff            : '',
+      gear            : '',
+      cabin           : '',
+      cabin_roof      : '',
+      description     : '',
+      created         : '',
+      modified        : '',
+      images          : ''
     };
   }
 
@@ -77,13 +73,23 @@ export default class Edit extends React.Component {
   render() {
     if (this.state.images == '') return false;
 
-    let vehicles_categories = Object.keys(
-      refs.vehicles_categories
+    let parts_categories = Object.keys(
+      refs.parts_categories
     ).map((i) => {
       return <BelongsTo
         key={i}
         id={i}
-        data={refs.vehicles_categories[i]}
+        data={refs.parts_categories[i]}
+        />
+    });
+
+    let parts_sub_categories = Object.keys(
+      refs.parts_sub_categories
+    ).map((i) => {
+      return <BelongsTo
+        key={i}
+        id={i}
+        data={refs.parts_sub_categories[i]}
         />
     });
 
@@ -116,7 +122,7 @@ export default class Edit extends React.Component {
       <article id="Edit">
         <section>
           <DocumentTitle title="Admin Home" />
-          <h1>中古車輌</h1>
+          <h1>中古部品</h1>
 
           <form
             action=""
@@ -205,7 +211,21 @@ export default class Edit extends React.Component {
                   onChange={this.onChangeSelect.bind(this)}
                   >
                   <option value="">選択してください</option>
-                  {vehicles_categories}
+                  {parts_categories}
+                </select>
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>カテゴリー</dt>
+              <dd>
+                <select
+                  name="sub_category_id"
+                  value={this.state.sub_category_id}
+                  onChange={this.onChangeSelect.bind(this)}
+                  >
+                  <option value="">選択してください</option>
+                  {parts_sub_categories}
                 </select>
               </dd>
             </dl>
@@ -246,6 +266,18 @@ export default class Edit extends React.Component {
                   <option value="">選択してください</option>
                   {makers}
                 </select>
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>部品名</dt>
+              <dd>
+                <input
+                  type="text"
+                  name="price"
+                  value={this.state.product_name}
+                  onChange={this.onChange.bind(this)}
+                  />
               </dd>
             </dl>
             
@@ -300,48 +332,48 @@ export default class Edit extends React.Component {
             </dl>
 
             <dl>
-              <dt>車検</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="mot_date"
-                  value={this.state.mot_date}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>走行距離</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="mileage"
-                  value={this.state.mileage}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>車輌形状</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="form"
-                  value={this.state.form}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>原動機</dt>
+              <dt>エンジン形式</dt>
               <dd>
                 <input
                   type="text"
                   name="engine"
                   value={this.state.engine}
+                  onChange={this.onChange.bind(this)}
+                  />
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>エンジン番号</dt>
+              <dd>
+                <input
+                  type="text"
+                  name="engine_no"
+                  value={this.state.engine_no}
+                  onChange={this.onChange.bind(this)}
+                  />
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>ミッション形式</dt>
+              <dd>
+                <input
+                  type="text"
+                  name="mission"
+                  value={this.state.mission}
+                  onChange={this.onChange.bind(this)}
+                  />
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>ミッション番号</dt>
+              <dd>
+                <input
+                  type="text"
+                  name="mission_no"
+                  value={this.state.mission_no}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
@@ -360,97 +392,72 @@ export default class Edit extends React.Component {
             </dl>
 
             <dl>
-              <dt>ミッション(速)</dt>
+              <dt>走行距離</dt>
               <dd>
                 <input
                   type="text"
-                  name="mission"
-                  value={this.state.mission}
+                  name="mileage"
+                  value={this.state.mileage}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>積載量</dt>
+              <dt>ターボ</dt>
               <dd>
                 <input
                   type="text"
-                  name="capacity"
-                  value={this.state.capacity}
+                  name="turbo"
+                  value={this.state.turbo}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>リミッター</dt>
+              <dt>デフ枚数</dt>
               <dd>
                 <input
                   type="text"
-                  name="limmiter"
-                  value={this.state.limmitter}
+                  name="diff"
+                  value={this.state.diff}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>エアコン</dt>
-              <dd>
-                <input
-                  type="checkbox"
-                  name="ac_flag"
-                  onChange={this.onChangeCheckBox.bind(this)}
-                  checked={this.state.ac_flag}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>パワステ</dt>
-              <dd>
-                <input
-                  type="checkbox"
-                  name="ps_flag"
-                  onChange={this.onChangeCheckBox.bind(this)}
-                  checked={this.state.ps_flag}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>ボディメーカー</dt>
+              <dt>ミッションギヤ比</dt>
               <dd>
                 <input
                   type="text"
-                  name="body"
-                  value={this.state.body}
+                  name="gear"
+                  value={this.state.gear}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>ボデー内寸</dt>
+              <dt>キャビン</dt>
               <dd>
                 <input
-                  className="w-l"
                   type="text"
-                  name="dimension"
-                  value={this.state.dimension}
+                  name="cabin"
+                  value={this.state.cabin}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>リサイクル料金</dt>
+              <dt>キャビンルーフ</dt>
               <dd>
                 <input
                   type="text"
-                  name="recycle"
-                  value={this.state.recycle}
+                  name="cabin_roof"
+                  value={this.state.cabin_roof}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
@@ -479,7 +486,7 @@ export default class Edit extends React.Component {
               >更新</button>
             </footer>
 
-            </form>
+          </form>
 
         </section>
       </article>
@@ -490,7 +497,7 @@ export default class Edit extends React.Component {
     e.preventDefault();
 
     VehiclesActions.update(
-      'vehicles',
+      'parts',
       this.state.id,
       this.state,
       console.log('callback')

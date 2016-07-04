@@ -307,7 +307,7 @@ $app->group('/products', function () {
      * PUT
      */
     $this->put(
-        '/{id:.*}',
+        '/{page:[a-z]+}/{id:.*}',
         function (
             $request,
             $response,
@@ -317,14 +317,26 @@ $app->group('/products', function () {
             unset($body['images']);
             unset($body['id']);
 
-            $tinyInts = array(
-                'new_flag',
-                'deal_flag',
-                'soldout_flag',
-                'recommend_flag',
-                'ac_flag',
-                'ps_flag'
-            );
+            switch ($args['page']) {
+                case 'vehicles':
+                    $tinyInts = array(
+                        'new_flag',
+                        'deal_flag',
+                        'soldout_flag',
+                        'recommend_flag',
+                        'ac_flag',
+                        'ps_flag'
+                    );
+                    break;
+                default:
+                    $tinyInts = array(
+                        'new_flag',
+                        'deal_flag',
+                        'soldout_flag',
+                        'recommend_flag'
+                    );
+                    break;
+            }
 
             foreach ($tinyInts as $field) {
                 if (isset($body[$field])) {
@@ -351,9 +363,10 @@ $app->group('/products', function () {
             $fields = array_keys($body);
             $values = array_values($body);
 
-            $sql = 'UPDATE `vehicles` SET ';
+            $sql = 'UPDATE `' . $args['page'] . '` SET ';
             $sql .= implode(' = ?, ', $fields) . ' = ?';
             $sql .= ' WHERE `id` = ' . (int)$args['id'];
+            print_r($sql);
 
             $res = $db->execute($sql, $values);
 

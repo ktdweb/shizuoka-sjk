@@ -9,9 +9,10 @@ export default {
     })
   },
 
-  update: (id, data, callback) => {
+  update: (page, id, data, callback) => {
     VehiclesDispatcher.dispatch({
       actionType: VehiclesConstants.UPDATE,
+      page: page,
       id: id,
       data: data,
       callback: callback

@@ -23,43 +23,24 @@ export default class Edit extends React.Component {
     super(props);
 
     this.state = {
-      id:              '',
-      product_id:      '',
-      new_flag:        '',
-      deal_flag:       '',
-      soldout_flag:    '',
-      recommend_flag:  '',
-      icon_date:       '',
-      ref_id:          '',
-      category_id:     '',
-      name:            '',
-      price:           '',
-      maker_id:        '',
-      product_name:    '',
-      size_id:         '',
-      mfg_date:        '',
-      model:           '',
-      mfg_no:          '',
-      mot_date:        '',
-      mileage:         '',
-      form:            '',
-      engine:          '',
-      ps:              '',
-      mission:         '',
-      capacity:        '',
-      break:           '',
-      cc:              '',
-      limitter:        '',
-      ac_flag:         '',
-      ps_flag:         '',
-      body:            '',
-      dimension:       '',
-      recycle:         '',
-      pdf:             '',
-      description:     '',
-      created:         '',
-      modified:        '',
-      images:          ''
+      id             : '',
+      product_id     : '',
+      new_flag       : '',
+      deal_flag      : '',
+      soldout_flag   : '',
+      recommend_flag : '',
+      icon_date      : '',
+      ref_id         : '',
+      name           : '',
+      price          : '',
+      size_id        : '',
+      shape          : '',
+      floor          : '',
+      dimension      : '',
+      description    : '',
+      created        : '',
+      modified       : '',
+      images         : ''
     };
   }
 
@@ -71,7 +52,7 @@ export default class Edit extends React.Component {
   }
 
   componentWillUnmount() {
-    VehiclesStore.destroy(this.updateState.bind(this)); 
+    VehiclesActions.destroy(this.updateState.bind(this)); 
   }
 
   render() {
@@ -197,20 +178,6 @@ export default class Edit extends React.Component {
             </dl>
 
             <dl>
-              <dt>カテゴリー</dt>
-              <dd>
-                <select
-                  name="category_id"
-                  value={this.state.category_id}
-                  onChange={this.onChangeSelect.bind(this)}
-                  >
-                  <option value="">選択してください</option>
-                  {vehicles_categories}
-                </select>
-              </dd>
-            </dl>
-
-            <dl>
               <dt>タイトル</dt>
               <dd>
                 <input
@@ -236,20 +203,6 @@ export default class Edit extends React.Component {
             </dl>
 
             <dl>
-              <dt>メーカー</dt>
-              <dd>
-                <select
-                  name="maker_id"
-                  value={this.state.maker_id}
-                  onChange={this.onChangeSelect.bind(this)}
-                  >
-                  <option value="">選択してください</option>
-                  {makers}
-                </select>
-              </dd>
-            </dl>
-            
-            <dl>
               <dt>大きさ</dt>
               <dd>
                 <select
@@ -264,193 +217,36 @@ export default class Edit extends React.Component {
             </dl>
 
             <dl>
-              <dt>初年度登録/年式</dt>
+              <dt>形状</dt>
               <dd>
                 <input
                   type="text"
-                  name="mfg_date"
-                  value={this.state.mfg_date}
+                  name="shape"
+                  value={this.state.shape}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>型式</dt>
+              <dt>床</dt>
               <dd>
                 <input
                   type="text"
-                  name="model"
-                  value={this.state.model}
+                  name="floor"
+                  value={this.state.floor}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
 
             <dl>
-              <dt>車体番号</dt>
+              <dt>ボディ内寸</dt>
               <dd>
                 <input
-                  type="text"
-                  name="mfg_no"
-                  value={this.state.mfg_no}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>車検</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="mot_date"
-                  value={this.state.mot_date}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>走行距離</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="mileage"
-                  value={this.state.mileage}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>車輌形状</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="form"
-                  value={this.state.form}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>原動機</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="engine"
-                  value={this.state.engine}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>馬力(PS)</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="ps"
-                  value={this.state.ps}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>ミッション(速)</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="mission"
-                  value={this.state.mission}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>積載量</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="capacity"
-                  value={this.state.capacity}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>リミッター</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="limmiter"
-                  value={this.state.limmitter}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>エアコン</dt>
-              <dd>
-                <input
-                  type="checkbox"
-                  name="ac_flag"
-                  onChange={this.onChangeCheckBox.bind(this)}
-                  checked={this.state.ac_flag}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>パワステ</dt>
-              <dd>
-                <input
-                  type="checkbox"
-                  name="ps_flag"
-                  onChange={this.onChangeCheckBox.bind(this)}
-                  checked={this.state.ps_flag}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>ボディメーカー</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="body"
-                  value={this.state.body}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>ボデー内寸</dt>
-              <dd>
-                <input
-                  className="w-l"
                   type="text"
                   name="dimension"
                   value={this.state.dimension}
-                  onChange={this.onChange.bind(this)}
-                  />
-              </dd>
-            </dl>
-
-            <dl>
-              <dt>リサイクル料金</dt>
-              <dd>
-                <input
-                  type="text"
-                  name="recycle"
-                  value={this.state.recycle}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>
@@ -490,7 +286,7 @@ export default class Edit extends React.Component {
     e.preventDefault();
 
     VehiclesActions.update(
-      'vehicles',
+      'containers',
       this.state.id,
       this.state,
       console.log('callback')
@@ -561,7 +357,7 @@ class ProductImage extends React.Component {
       <div className="thumb">
         <div id={'thumb' + this.state.num}>
         <img
-          src={"/data/vehicle/" + this.state.data + '.jpg'}
+          src={"/data/container/" + this.state.data + '.jpg'}
           width="120"
           alt="t"
           />
@@ -609,7 +405,7 @@ class ProductImage extends React.Component {
           initImage();
 
           ImagesActions.update(
-            'vehicle',
+            'container',
             _this.state.ref_id,
             _this.state,
             (function () {

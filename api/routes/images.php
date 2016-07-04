@@ -57,13 +57,45 @@ $app->group('/images', function () {
 
             $ff = explode('/', $body['data']);
             $filename = $ff[1] . '.jpg';
-            $url = '/data/' . $args['page'] . '/' . $ff[0] . '/';
+            $filename_s = $ff[1] . 's.jpg';
+
+            $path = '../../data/';
+            $url = $path . $args['page'] . '/' . $ff[0] . '/';
+            $h64 = 'data://application/octet-stream;base64,';
             
             if (isset($body['image'])) {
                 $base64 = base64_decode($body['image']);
+                list($w, $h) = getimagesize(
+                    $h64 . $body['image']
+                );
+
                 $image = imagecreatefromstring($base64);
+
                 imagejpeg($image, $url . $filename, 100);
                 chmod($url . $filename, 0777);
+
+                $thumb = imagecreatetruecolor(
+                    160,
+                    $h * (160 / $w)
+                );
+
+                imagecopyresized(
+                    $thumb,
+                    $image,
+                    0,
+                    0,
+                    0,
+                    0,
+                    160,
+                    $h * (160 / $w),
+                    $w,
+                    $h
+                );
+
+                imagejpeg($thumb, $url . $filename_s, 100);
+                chmod($url . $filename_s, 0777);
+
+                imagedestroy($image);
             }
 
             return $response->withJson(
