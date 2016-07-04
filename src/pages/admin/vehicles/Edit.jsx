@@ -60,16 +60,21 @@ export default class Edit extends React.Component {
   }
 
   componentWillMount() {
-    VehiclesActions.create(
-      this.props.params.id,
-      this.updateState.bind(this)
-    ); 
+    VehiclesStore.subscribe(this.updateState.bind(this)); 
 
     ReferencesActions.create(); 
+    VehiclesActions.create(this.props.params.id); 
+  }
+
+  componentWillUnmount() {
+    VehiclesStore.destroy(this.updateState.bind(this)); 
+    ReferencesStore.destroy(this.updateState.bind(this)); 
   }
 
   render() {
-    let vehicles_categories = Object.keys(refs.vehicles_categories).map((i) => {
+    let vehicles_categories = Object.keys(
+      refs.vehicles_categories
+    ).map((i) => {
       return <BelongsTo
         key={i}
         id={i}
@@ -93,6 +98,16 @@ export default class Edit extends React.Component {
         />
     });
 
+    console.log(this.state);
+    let images = Object.keys(this.state.images).map((i) => {
+      return <Images
+        key={i}
+        id={i}
+        ref={this.state.ref_id}
+        data={refs.sizes[i]}
+        />
+    });
+
     return (
       <article id="Edit">
         <section>
@@ -109,7 +124,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="product_id"
                   value={this.state.product_id}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -156,7 +173,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="icon_date"
                   value={this.state.icon_date}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -166,7 +185,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="ref_id"
                   value={this.state.ref_id}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -191,7 +212,9 @@ export default class Edit extends React.Component {
                 <input
                   className="w-xl"
                   type="text"
+                  name="name"
                   value={this.state.name}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -201,7 +224,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="price"
                   value={this.state.price}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -239,7 +264,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="mfg_date"
                   value={this.state.mfg_date}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -249,7 +276,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="model"
                   value={this.state.model}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -259,7 +288,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="mfg_no"
                   value={this.state.mfg_no}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -269,7 +300,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="mot_date"
                   value={this.state.mot_date}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -279,7 +312,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="mileage"
                   value={this.state.mileage}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -289,7 +324,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="form"
                   value={this.state.form}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -299,7 +336,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="engine"
                   value={this.state.engine}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -309,7 +348,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="ps"
                   value={this.state.ps}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -319,7 +360,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="mission"
                   value={this.state.mission}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -329,7 +372,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="capacity"
                   value={this.state.capacity}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -339,7 +384,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="limmiter"
                   value={this.state.limmitter}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -373,7 +420,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="body"
                   value={this.state.body}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -384,7 +433,9 @@ export default class Edit extends React.Component {
                 <input
                   className="w-l"
                   type="text"
+                  name="dimension"
                   value={this.state.dimension}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -394,7 +445,9 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
+                  name="recycle"
                   value={this.state.recycle}
+                  onChange={this.onChange.bind(this)}
                   />
               </dd>
             </dl>
@@ -404,15 +457,14 @@ export default class Edit extends React.Component {
               <dd>
                 <textarea
                   className="w-xl"
-                  name="comment" ref="comment"
+                  name="description"
                   value={this.state.description}
+                  onChange={this.onChange.bind(this)}
                   ></textarea>
               </dd>
             </dl>
 
-            <div id="dandd">
-              ここに画像をドラッグアンドドロップしてください
-            </div>
+            {images}
 
             <button type="submit" className="w-xs"
               onClick={this.onSubmit.bind(this)}
@@ -429,7 +481,15 @@ export default class Edit extends React.Component {
   onSubmit(e) {
     e.preventDefault();
 
-    console.log(this.state.size_id);
+    VehiclesActions.update(
+      this.state.id,
+      this.state,
+      console.log('callback')
+    );
+  }
+
+  onChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   onChangeCheckBox(e) {
@@ -441,9 +501,8 @@ export default class Edit extends React.Component {
   }
 
   updateState() {
-    let res = VehiclesStore.read();
     refs = ReferencesStore.read(); 
-    this.setState(res);
+    this.setState(VehiclesStore.read());
   }
 }
 
@@ -464,6 +523,39 @@ class BelongsTo extends React.Component {
   render() {
     return(
       <option value={this.state.id}>{this.state.data}</option>
+    );
+  }
+
+  updateState(props) {
+    if (props.data != null) {
+      this.setState(props);
+    }
+  }
+}
+
+class Images extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentWillMount() {
+    this.updateState(this.props);
+  }
+
+  componentWillReceiveProps(props) {
+    this.updateState(props);
+  }
+
+  render() {
+    return(
+      <div>
+        <img
+          src={"/data/vehicle/" + this.state.ref + '/' + this.state.id}
+          width="120"
+          alt="t"
+          />
+      </div>
     );
   }
 

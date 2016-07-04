@@ -2,19 +2,19 @@ import VehiclesDispatcher from '../dispathcer/VehiclesDispatcher'
 import VehiclesConstants from '../constants/VehiclesConstants'
 
 export default {
-  create: (id, callback) => {
+  create: (id) => {
     VehiclesDispatcher.dispatch({
       actionType: VehiclesConstants.CREATE,
-      id: id,
-      callback: callback
+      id: id
     })
   },
 
-  update: (id, count) => {
+  update: (id, data, callback) => {
     VehiclesDispatcher.dispatch({
       actionType: VehiclesConstants.UPDATE,
       id: id,
-      count: count
+      data: data,
+      callback: callback
     })
   },
 

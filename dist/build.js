@@ -240,14 +240,6 @@ exports.default = {
     });
   },
 
-  update: function update(id, count) {
-    _ReferencesDispatcher2.default.dispatch({
-      actionType: _ReferencesConstants2.default.UPDATE,
-      id: id,
-      count: count
-    });
-  },
-
   destroy: function destroy() {
     _ReferencesDispatcher2.default.dispatch({
       actionType: _ReferencesConstants2.default.DESTROY
@@ -275,19 +267,19 @@ function _interopRequireDefault(obj) {
 }
 
 exports.default = {
-  create: function create(id, callback) {
+  create: function create(id) {
     _VehiclesDispatcher2.default.dispatch({
       actionType: _VehiclesConstants2.default.CREATE,
-      id: id,
-      callback: callback
+      id: id
     });
   },
 
-  update: function update(id, count) {
+  update: function update(id, data, callback) {
     _VehiclesDispatcher2.default.dispatch({
       actionType: _VehiclesConstants2.default.UPDATE,
       id: id,
-      count: count
+      data: data,
+      callback: callback
     });
   },
 
@@ -1533,13 +1525,22 @@ var Edit = function (_React$Component) {
   _createClass(Edit, [{
     key: 'componentWillMount',
     value: function componentWillMount() {
-      _VehiclesActions2.default.create(this.props.params.id, this.updateState.bind(this));
+      _VehiclesStore2.default.subscribe(this.updateState.bind(this));
 
       _ReferencesActions2.default.create();
+      _VehiclesActions2.default.create(this.props.params.id);
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _VehiclesStore2.default.destroy(this.updateState.bind(this));
+      _ReferencesStore2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
       var vehicles_categories = Object.keys(refs.vehicles_categories).map(function (i) {
         return _react2.default.createElement(BelongsTo, {
           key: i,
@@ -1564,12 +1565,24 @@ var Edit = function (_React$Component) {
         });
       });
 
+      console.log(this.state);
+      var images = Object.keys(this.state.images).map(function (i) {
+        return _react2.default.createElement(Images, {
+          key: i,
+          id: i,
+          ref: _this2.state.ref_id,
+          data: refs.sizes[i]
+        });
+      });
+
       return _react2.default.createElement('article', { id: 'Edit' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古車輌'), _react2.default.createElement('form', {
         action: '',
         enctype: 'multipart/form-data'
       }, _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '品番'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.product_id
+        name: 'product_id',
+        value: this.state.product_id,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'アイコン'), _react2.default.createElement('dd', null, _react2.default.createElement('label', null, '新着'), _react2.default.createElement('input', {
         type: 'checkbox',
         name: 'new_flag',
@@ -1592,10 +1605,14 @@ var Edit = function (_React$Component) {
         checked: this.state.recommend_flag
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'アイコン注釈'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.icon_date
+        name: 'icon_date',
+        value: this.state.icon_date,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '管理番号'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.ref_id
+        name: 'ref_id',
+        value: this.state.ref_id,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'カテゴリー'), _react2.default.createElement('dd', null, _react2.default.createElement('select', {
         name: 'category_id',
         value: this.state.category_id,
@@ -1603,10 +1620,14 @@ var Edit = function (_React$Component) {
       }, _react2.default.createElement('option', { value: '' }, '選択してください'), vehicles_categories))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'タイトル'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         className: 'w-xl',
         type: 'text',
-        value: this.state.name
+        name: 'name',
+        value: this.state.name,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '本体価格'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.price
+        name: 'price',
+        value: this.state.price,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'メーカー'), _react2.default.createElement('dd', null, _react2.default.createElement('select', {
         name: 'maker_id',
         value: this.state.maker_id,
@@ -1617,37 +1638,59 @@ var Edit = function (_React$Component) {
         onChange: this.onChangeSelect.bind(this)
       }, _react2.default.createElement('option', { value: '' }, '選択してください'), sizes))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '初年度登録/年式'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.mfg_date
+        name: 'mfg_date',
+        value: this.state.mfg_date,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '型式'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.model
+        name: 'model',
+        value: this.state.model,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '車体番号'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.mfg_no
+        name: 'mfg_no',
+        value: this.state.mfg_no,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '車検'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.mot_date
+        name: 'mot_date',
+        value: this.state.mot_date,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '走行距離'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.mileage
+        name: 'mileage',
+        value: this.state.mileage,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '車輌形状'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.form
+        name: 'form',
+        value: this.state.form,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '原動機'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.engine
+        name: 'engine',
+        value: this.state.engine,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '馬力(PS)'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.ps
+        name: 'ps',
+        value: this.state.ps,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'ミッション(速)'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.mission
+        name: 'mission',
+        value: this.state.mission,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '積載量'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.capacity
+        name: 'capacity',
+        value: this.state.capacity,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'リミッター'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.limmitter
+        name: 'limmiter',
+        value: this.state.limmitter,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'エアコン'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'checkbox',
         name: 'ac_flag',
@@ -1660,19 +1703,26 @@ var Edit = function (_React$Component) {
         checked: this.state.ps_flag
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'ボディメーカー'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.body
+        name: 'body',
+        value: this.state.body,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'ボデー内寸'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         className: 'w-l',
         type: 'text',
-        value: this.state.dimension
+        name: 'dimension',
+        value: this.state.dimension,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'リサイクル料金'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        value: this.state.recycle
+        name: 'recycle',
+        value: this.state.recycle,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '備考'), _react2.default.createElement('dd', null, _react2.default.createElement('textarea', {
         className: 'w-xl',
-        name: 'comment', ref: 'comment',
-        value: this.state.description
-      }))), _react2.default.createElement('div', { id: 'dandd' }, 'ここに画像をドラッグアンドドロップしてください'), _react2.default.createElement('button', { type: 'submit', className: 'w-xs',
+        name: 'description',
+        value: this.state.description,
+        onChange: this.onChange.bind(this)
+      }))), images, _react2.default.createElement('button', { type: 'submit', className: 'w-xs',
         onClick: this.onSubmit.bind(this),
         value: 'Post'
       }, '追加'))));
@@ -1682,7 +1732,12 @@ var Edit = function (_React$Component) {
     value: function onSubmit(e) {
       e.preventDefault();
 
-      console.log(this.state.size_id);
+      _VehiclesActions2.default.update(this.state.id, this.state, console.log('callback'));
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
     }
   }, {
     key: 'onChangeCheckBox',
@@ -1697,9 +1752,8 @@ var Edit = function (_React$Component) {
   }, {
     key: 'updateState',
     value: function updateState() {
-      var res = _VehiclesStore2.default.read();
       refs = _ReferencesStore2.default.read();
-      this.setState(res);
+      this.setState(_VehiclesStore2.default.read());
     }
   }]);
 
@@ -1714,10 +1768,10 @@ var BelongsTo = function (_React$Component2) {
   function BelongsTo(props) {
     _classCallCheck(this, BelongsTo);
 
-    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(BelongsTo).call(this, props));
+    var _this3 = _possibleConstructorReturn(this, Object.getPrototypeOf(BelongsTo).call(this, props));
 
-    _this2.state = {};
-    return _this2;
+    _this3.state = {};
+    return _this3;
   }
 
   _createClass(BelongsTo, [{
@@ -1745,6 +1799,49 @@ var BelongsTo = function (_React$Component2) {
   }]);
 
   return BelongsTo;
+}(_react2.default.Component);
+
+var Images = function (_React$Component3) {
+  _inherits(Images, _React$Component3);
+
+  function Images(props) {
+    _classCallCheck(this, Images);
+
+    var _this4 = _possibleConstructorReturn(this, Object.getPrototypeOf(Images).call(this, props));
+
+    _this4.state = {};
+    return _this4;
+  }
+
+  _createClass(Images, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.updateState(this.props);
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(props) {
+      this.updateState(props);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement('div', null, _react2.default.createElement('img', {
+        src: "/data/vehicle/" + this.state.ref + '/' + this.state.id,
+        width: '120',
+        alt: 't'
+      }));
+    }
+  }, {
+    key: 'updateState',
+    value: function updateState(props) {
+      if (props.data != null) {
+        this.setState(props);
+      }
+    }
+  }]);
+
+  return Images;
 }(_react2.default.Component);
 
 },{"../../../actions/ReferencesActions":5,"../../../actions/VehiclesActions":6,"../../../stores/ReferencesStore":29,"../../../stores/VehiclesStore":30,"react":263,"react-document-title":41,"react-router":72}],26:[function(require,module,exports){
@@ -2220,10 +2317,6 @@ function create(res) {
   return _References;
 }
 
-function update(id, updates) {
-  _References = { id: id, References: updates };
-}
-
 function destroy() {
   _References = {};
 }
@@ -2255,7 +2348,7 @@ var ReferencesStore = function (_EventEmitter) {
   }, {
     key: 'destroy',
     value: function destroy(callback) {
-      this.removeAllReferenceseners(CHANGE_EVENT, callback);
+      this.removeAllListeners(CHANGE_EVENT, callback);
     }
   }]);
 
@@ -2271,6 +2364,11 @@ _ReferencesDispatcher2.default.register(function (action) {
       }).catch(function (e) {
         //console.error(e);
       });
+      break;
+
+    case _ReferencesConstants2.default.DESTROY:
+      destroy();
+      vehiclesStore.destroy();
       break;
 
     default:
@@ -2344,7 +2442,7 @@ var _vehicles = {};
 
 var checkbox = ['new_flag', 'deal_flag', 'soldout_flag', 'recommend_flag', 'ac_flag', 'ps_flag'];
 
-function create(res, callback) {
+function create(res) {
   for (var i in res) {
     // checkboxであれば1,0をbooleanに変換
     var _iteratorNormalCompletion = true;
@@ -2383,12 +2481,7 @@ function create(res, callback) {
     _vehicles = res[i];
   }
 
-  callback();
   return _vehicles;
-}
-
-function update(id, updates) {
-  _vehicles = { id: id, vehicles: updates };
 }
 
 function destroy() {
@@ -2433,7 +2526,7 @@ _VehiclesDispatcher2.default.register(function (action) {
   switch (action.actionType) {
     case _VehiclesConstants2.default.CREATE:
       _Http.http.get(URL + action.id).then(function (res) {
-        create(res, action.callback);
+        create(res);
         vehiclesStore.update();
       }).catch(function (e) {
         //console.error(e);
@@ -2441,8 +2534,11 @@ _VehiclesDispatcher2.default.register(function (action) {
       break;
 
     case _VehiclesConstants2.default.UPDATE:
-      update(action.id, action.vehicles + 1);
-      vehiclesStore.update();
+      _Http.http.put(root + 'api/products/' + action.id, action.data).then(function (res) {
+        vehiclesStore.update();
+      }).catch(function (e) {
+        //console.error(e);
+      });
       break;
 
     case _VehiclesConstants2.default.DESTROY:

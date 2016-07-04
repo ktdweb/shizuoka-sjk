@@ -21,7 +21,7 @@ let checkbox = [
   'ps_flag'
 ];
 
-function create(res, callback) {
+function create(res) {
   for (let i in res) {
     // checkboxであれば1,0をbooleanに変換
     for (let k of checkbox) {
@@ -37,13 +37,8 @@ function create(res, callback) {
 
     _vehicles = res[i];
   }
-
-  callback();
+  
   return _vehicles;
-}
-
-function update(id, updates) {
-  _vehicles = { id: id, vehicles: updates };
 }
 
 function destroy() {
@@ -73,7 +68,7 @@ VehiclesDispatcher.register( function(action) {
   switch(action.actionType) {
     case VehiclesConstants.CREATE:
       http.get(URL + action.id).then(res => {
-        create(res, action.callback);
+        create(res);
         vehiclesStore.update();
       }).catch(e => {
         //console.error(e);
@@ -81,8 +76,14 @@ VehiclesDispatcher.register( function(action) {
       break;
 
     case VehiclesConstants.UPDATE:
-      update(action.id, action.vehicles + 1);
-      vehiclesStore.update();
+      http.put(
+          root + 'api/products/' + action.id,
+          action.data
+      ).then(res => {
+        vehiclesStore.update();
+      }).catch(e => {
+        //console.error(e);
+      });
       break;
 
     case VehiclesConstants.DESTROY:

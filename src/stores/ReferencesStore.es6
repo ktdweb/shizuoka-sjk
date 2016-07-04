@@ -17,10 +17,6 @@ function create(res) {
   return _References;
 }
 
-function update(id, updates) {
-  _References = { id: id, References: updates };
-}
-
 function destroy() {
   _References = {};
 }
@@ -40,7 +36,7 @@ class ReferencesStore extends EventEmitter {
   }
 
   destroy(callback) {
-    this.removeAllReferenceseners(CHANGE_EVENT, callback);
+    this.removeAllListeners(CHANGE_EVENT, callback);
   }
 }
 
@@ -53,6 +49,11 @@ ReferencesDispatcher.register( function(action) {
       }).catch(e => {
         //console.error(e);
       });
+      break;
+
+    case ReferencesConstants.DESTROY:
+      destroy();
+      vehiclesStore.destroy();
       break;
 
     default:

@@ -278,6 +278,7 @@ $app->group('/products', function () {
             $args
         ) {
             $body = $request->getParsedBody();
+            /*
 
             $db = $this->get('db.post');
 
@@ -292,6 +293,7 @@ $app->group('/products', function () {
             $sql .= '(' . implode(', ', $holder) . ')';
 
             $db->execute($sql, $values);
+             */
 
             return $response->withJson(
                 $body,
@@ -305,20 +307,51 @@ $app->group('/products', function () {
      * PUT
      */
     $this->put(
-        '/{id:[0-9]+}',
+        '/{id:.*}',
         function (
             $request,
             $response,
             $args
         ) {
             $body = $request->getParsedBody();
+            unset($body['images']);
+            unset($body['id']);
+
+            $tinyInts = array(
+                'new_flag',
+                'deal_flag',
+                'soldout_flag',
+                'recommend_flag',
+                'ac_flag',
+                'ps_flag'
+            );
+
+            foreach ($tinyInts as $field) {
+                if (isset($body[$field])) {
+                    if (empty($body[$field])) {
+                        $body[$field] = 0;
+                    }
+                }
+            }
+
+            $ints = array(
+                'price'
+            );
+
+            foreach ($ints as $field) {
+                if (isset($body[$field])) {
+                    if (empty($body[$field])) {
+                        $body[$field] = null;
+                    }
+                }
+            }
 
             $db = $this->get('db.put');
 
             $fields = array_keys($body);
             $values = array_values($body);
 
-            $sql = 'UPDATE `users` SET ';
+            $sql = 'UPDATE `vehicles` SET ';
             $sql .= implode(' = ?, ', $fields) . ' = ?';
             $sql .= ' WHERE `id` = ' . (int)$args['id'];
 

@@ -8,14 +8,6 @@ export default {
     })
   },
 
-  update: (id, count) => {
-    ReferencesDispatcher.dispatch({
-      actionType: ReferencesConstants.UPDATE,
-      id: id,
-      count: count
-    })
-  },
-
   destroy: () => {
     ReferencesDispatcher.dispatch({
       actionType: ReferencesConstants.DESTROY
