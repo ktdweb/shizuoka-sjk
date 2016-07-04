@@ -568,7 +568,7 @@ class ProductImage extends React.Component {
       <div className="thumb">
         <div id={'thumb' + this.state.num}>
         <img
-          src={"/data/vehicle/" + this.state.data + '.jpg'}
+          src={"/data/parts/" + this.state.data + '.jpg'}
           width="120"
           alt="t"
           />
