@@ -48,11 +48,11 @@ export default class Edit extends React.Component {
     VehiclesStore.subscribe(this.updateState.bind(this)); 
 
     ReferencesActions.create(); 
-    VehiclesActions.create(this.props.params.id); 
+    VehiclesActions.create('mountings', this.props.params.id); 
   }
 
   componentWillUnmount() {
-    VehiclesStore.destroy(this.updateState.bind(this)); 
+    VehiclesActions.destroy(this.updateState.bind(this)); 
   }
 
   render() {

@@ -347,7 +347,9 @@ $app->group('/products', function () {
             }
 
             $ints = array(
-                'price'
+                'price',
+                'ps',
+                'mileage'
             );
 
             foreach ($ints as $field) {
@@ -366,7 +368,6 @@ $app->group('/products', function () {
             $sql = 'UPDATE `' . $args['page'] . '` SET ';
             $sql .= implode(' = ?, ', $fields) . ' = ?';
             $sql .= ' WHERE `id` = ' . (int)$args['id'];
-            print_r($sql);
 
             $res = $db->execute($sql, $values);
 

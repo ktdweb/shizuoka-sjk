@@ -352,9 +352,10 @@ function _interopRequireDefault(obj) {
 }
 
 exports.default = {
-  create: function create(id) {
+  create: function create(page, id) {
     _VehiclesDispatcher2.default.dispatch({
       actionType: _VehiclesConstants2.default.CREATE,
+      page: page,
       id: id
     });
   },
@@ -1644,7 +1645,7 @@ var Edit = function (_React$Component) {
       _VehiclesStore2.default.subscribe(this.updateState.bind(this));
 
       _ReferencesActions2.default.create();
-      _VehiclesActions2.default.create(this.props.params.id);
+      _VehiclesActions2.default.create('containers', this.props.params.id);
     }
   }, {
     key: 'componentWillUnmount',
@@ -2229,12 +2230,12 @@ var Edit = function (_React$Component) {
       _VehiclesStore2.default.subscribe(this.updateState.bind(this));
 
       _ReferencesActions2.default.create();
-      _VehiclesActions2.default.create(this.props.params.id);
+      _VehiclesActions2.default.create('mountings', this.props.params.id);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      _VehiclesStore2.default.destroy(this.updateState.bind(this));
+      _VehiclesActions2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
@@ -2829,7 +2830,7 @@ var Edit = function (_React$Component) {
       _VehiclesStore2.default.subscribe(this.updateState.bind(this));
 
       _ReferencesActions2.default.create();
-      _VehiclesActions2.default.create(this.props.params.id);
+      _VehiclesActions2.default.create('parts', this.props.params.id);
     }
   }, {
     key: 'componentWillUnmount',
@@ -3513,12 +3514,12 @@ var Edit = function (_React$Component) {
       _VehiclesStore2.default.subscribe(this.updateState.bind(this));
 
       _ReferencesActions2.default.create();
-      _VehiclesActions2.default.create(this.props.params.id);
+      _VehiclesActions2.default.create('vehicles', this.props.params.id);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      _VehiclesStore2.default.destroy(this.updateState.bind(this));
+      _VehiclesActions2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
@@ -3717,7 +3718,7 @@ var Edit = function (_React$Component) {
     value: function onSubmit(e) {
       e.preventDefault();
 
-      _VehiclesActions2.default.update('vehicles', this.state.id, this.state, console.log('callback'));
+      _VehiclesActions2.default.update('parts', this.state.id, this.state, console.log('callback'));
     }
   }, {
     key: 'onChange',
@@ -4638,38 +4639,67 @@ var CHANGE_EVENT = 'change';
 
 var _vehicles = {};
 
-var checkbox = ['new_flag', 'deal_flag', 'soldout_flag', 'recommend_flag', 'ac_flag', 'ps_flag'];
+var checkbox = ['new_flag', 'deal_flag', 'soldout_flag', 'recommend_flag'];
 
-function create(res) {
+var checkbox_vehicles = ['new_flag', 'deal_flag', 'soldout_flag', 'recommend_flag', 'ac_flag', 'ps_flag'];
+
+function create(page, res) {
   for (var i in res) {
-    // checkboxであれば1,0をbooleanに変換
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
 
-    try {
-      for (var _iterator = checkbox[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var k = _step.value;
+    if (page == 'vehicles') {
+      // checkboxであれば1,0をbooleanに変換
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
-        res[i][k] = Boolean(Number(res[i][k]));
-      }
-
-      // null値だとwarningがでるため空文字へ変換
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
       try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
+        for (var _iterator = checkbox_vehicles[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var k = _step.value;
+
+          res[i][k] = Boolean(Number(res[i][k]));
         }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
       } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+    } else {
+      var _iteratorNormalCompletion2 = true;
+      var _didIteratorError2 = false;
+      var _iteratorError2 = undefined;
+
+      try {
+        for (var _iterator2 = checkbox[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+          var _k = _step2.value;
+
+          res[i][_k] = Boolean(Number(res[i][_k]));
+        }
+      } catch (err) {
+        _didIteratorError2 = true;
+        _iteratorError2 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+            _iterator2.return();
+          }
+        } finally {
+          if (_didIteratorError2) {
+            throw _iteratorError2;
+          }
         }
       }
     }
 
+    // null値だとwarningがでるため空文字へ変換
     for (var v in res[i]) {
       if (!res[i][v]) {
         res[i][v] = '';
@@ -4724,7 +4754,7 @@ _VehiclesDispatcher2.default.register(function (action) {
   switch (action.actionType) {
     case _VehiclesConstants2.default.CREATE:
       _Http.http.get(URL + action.id).then(function (res) {
-        create(res);
+        create(action.page, res);
         vehiclesStore.update();
       }).catch(function (e) {
         //console.error(e);

@@ -17,15 +17,29 @@ let checkbox = [
   'deal_flag',
   'soldout_flag',
   'recommend_flag',
-  'ac_flag',
-  'ps_flag'
 ];
 
-function create(res) {
+let checkbox_vehicles = [
+  'new_flag',
+  'deal_flag',
+  'soldout_flag',
+  'recommend_flag',
+  'ac_flag',
+  'ps_flag'
+]
+
+function create(page, res) {
   for (let i in res) {
+
+    if (page == 'vehicles') {
     // checkboxであれば1,0をbooleanに変換
-    for (let k of checkbox) {
-      res[i][k] = Boolean(Number(res[i][k]));
+        for (let k of checkbox_vehicles) {
+          res[i][k] = Boolean(Number(res[i][k]));
+        }
+    } else {
+        for (let k of checkbox) {
+          res[i][k] = Boolean(Number(res[i][k]));
+        }
     }
 
     // null値だとwarningがでるため空文字へ変換
@@ -68,7 +82,7 @@ VehiclesDispatcher.register( function(action) {
   switch(action.actionType) {
     case VehiclesConstants.CREATE:
       http.get(URL + action.id).then(res => {
-        create(res);
+        create(action.page, res);
         vehiclesStore.update();
       }).catch(e => {
         //console.error(e);

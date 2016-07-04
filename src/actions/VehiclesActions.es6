@@ -2,9 +2,10 @@ import VehiclesDispatcher from '../dispathcer/VehiclesDispatcher'
 import VehiclesConstants from '../constants/VehiclesConstants'
 
 export default {
-  create: (id) => {
+  create: (page, id) => {
     VehiclesDispatcher.dispatch({
       actionType: VehiclesConstants.CREATE,
+      page: page,
       id: id
     })
   },

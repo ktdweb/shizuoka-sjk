@@ -48,7 +48,7 @@ export default class Edit extends React.Component {
     VehiclesStore.subscribe(this.updateState.bind(this)); 
 
     ReferencesActions.create(); 
-    VehiclesActions.create(this.props.params.id); 
+    VehiclesActions.create('containers', this.props.params.id); 
   }
 
   componentWillUnmount() {
