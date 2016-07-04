@@ -3134,7 +3134,7 @@ var ProductImage = function (_React$Component3) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement('div', { className: 'thumb' }, _react2.default.createElement('div', { id: 'thumb' + this.state.num }, _react2.default.createElement('img', {
-        src: "/data/parts/" + this.state.data + '.jpg',
+        src: "/data/part/" + this.state.data + '.jpg',
         width: '120',
         alt: 't'
       })), _react2.default.createElement('input', {
