@@ -56,7 +56,7 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    if (this.state.images == '') return false;
+    if (this.state.ref_id == '') return false;
 
     let vehicles_categories = Object.keys(
       refs.vehicles_categories

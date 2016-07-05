@@ -1657,7 +1657,7 @@ var Edit = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      if (this.state.images == '') return false;
+      if (this.state.ref_id == '') return false;
 
       var vehicles_categories = Object.keys(refs.vehicles_categories).map(function (i) {
         return _react2.default.createElement(BelongsTo, {
@@ -2242,7 +2242,7 @@ var Edit = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      if (this.state.images == '') return false;
+      if (this.state.ref_id == '') return false;
 
       var vehicles_categories = Object.keys(refs.vehicles_categories).map(function (i) {
         return _react2.default.createElement(BelongsTo, {
@@ -2842,7 +2842,7 @@ var Edit = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      if (this.state.images == '') return false;
+      if (this.state.ref_id == '') return false;
 
       var parts_categories = Object.keys(refs.parts_categories).map(function (i) {
         return _react2.default.createElement(BelongsTo, {
@@ -3030,10 +3030,22 @@ var Edit = function (_React$Component) {
         name: 'description',
         value: this.state.description,
         onChange: this.onChange.bind(this)
-      }))), _react2.default.createElement('div', null, images), _react2.default.createElement('footer', { className: 'submit' }, _react2.default.createElement('button', { type: 'submit', className: 'w-xs',
+      }))), _react2.default.createElement('div', { id: 'imageArea' }, images, _react2.default.createElement(ProductImage, {
+        key: 'new',
+        num: 'new',
+        ref_id: this.state.ref_id,
+        data: 'noimage'
+      })), _react2.default.createElement('footer', { className: 'submit' }, _react2.default.createElement('button', { type: 'submit', className: 'w-xs',
         onClick: this.onSubmit.bind(this),
         value: 'Post'
       }, '更新')))));
+    }
+  }, {
+    key: 'addImage',
+    value: function addImage(e) {
+      e.preventDefault();
+
+      var tgt = document.getElementById('imageArea');
     }
   }, {
     key: 'onSubmit',
@@ -3526,7 +3538,7 @@ var Edit = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      if (this.state.images == '') return false;
+      if (this.state.ref_id == '') return false;
 
       var vehicles_categories = Object.keys(refs.vehicles_categories).map(function (i) {
         return _react2.default.createElement(BelongsTo, {

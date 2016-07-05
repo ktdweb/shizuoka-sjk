@@ -56,11 +56,20 @@ $app->group('/images', function () {
             $body = $request->getParsedBody();
 
             $ff = explode('/', $body['data']);
+
+            if ($body['num'] == 'new') {
+                $ff[0] = $body['ref_id'];
+                $ff[1] = date('Ymd_His', strtotime('now'));
+            }
+
             $filename = $ff[1] . '.jpg';
             $filename_s = $ff[1] . 's.jpg';
 
             $path = '../../data/';
-            $url = $path . $args['page'] . '/' . $ff[0] . '/';
+            $url = $path . $args['page'] . '/' . $ff[0];
+            if (!file_exists($url)) {
+                mkdir($url, 0755);
+            }
             $h64 = 'data://application/octet-stream;base64,';
             
             if (isset($body['image'])) {
@@ -71,8 +80,8 @@ $app->group('/images', function () {
 
                 $image = imagecreatefromstring($base64);
 
-                imagejpeg($image, $url . $filename, 100);
-                chmod($url . $filename, 0777);
+                imagejpeg($image, $url . '/' . $filename, 100);
+                chmod($url . '/' . $filename, 0777);
 
                 $thumb = imagecreatetruecolor(
                     160,
@@ -92,8 +101,8 @@ $app->group('/images', function () {
                     $h
                 );
 
-                imagejpeg($thumb, $url . $filename_s, 100);
-                chmod($url . $filename_s, 0777);
+                imagejpeg($thumb, $url . '/' . $filename_s, 100);
+                chmod($url . '/' . $filename_s, 0777);
 
                 imagedestroy($image);
             }

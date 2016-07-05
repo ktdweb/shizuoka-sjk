@@ -71,7 +71,7 @@ export default class Edit extends React.Component {
   }
 
   render() {
-    if (this.state.images == '') return false;
+    if (this.state.ref_id == '') return false;
 
     let parts_categories = Object.keys(
       refs.parts_categories
@@ -117,7 +117,7 @@ export default class Edit extends React.Component {
         data={this.state.images[i]}
         />
     });
-
+    
     return (
       <article id="Edit">
         <section>
@@ -475,8 +475,15 @@ export default class Edit extends React.Component {
               </dd>
             </dl>
 
-            <div> 
+            <div id="imageArea"> 
               {images}
+
+              <ProductImage
+                key="new"
+                num="new"
+                ref_id={this.state.ref_id}
+                data="noimage"
+                />
             </div>
 
             <footer className="submit">
@@ -491,6 +498,12 @@ export default class Edit extends React.Component {
         </section>
       </article>
     );
+  }
+
+  addImage(e) {
+    e.preventDefault();
+
+    let tgt = document.getElementById('imageArea');
   }
 
   onSubmit(e) {
