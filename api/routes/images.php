@@ -60,10 +60,10 @@ $app->group('/images', function () {
             if ($body['num'] == 'new') {
                 $ff[0] = $body['ref_id'];
                 $ff[1] = date('Ymd_His', strtotime('now'));
+            } else {
+                $filename = $ff[1] . '.jpg';
+                $filename_s = $ff[1] . 's.jpg';
             }
-
-            $filename = $ff[1] . '.jpg';
-            $filename_s = $ff[1] . 's.jpg';
 
             $path = '../../data/';
             $url = $path . $args['page'] . '/' . $ff[0];

@@ -274,7 +274,7 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
-                  name="price"
+                  name="product_name"
                   value={this.state.product_name}
                   onChange={this.onChange.bind(this)}
                   />
@@ -665,10 +665,10 @@ class ProductImage extends React.Component {
       message = 'jpegファイルを選択してください';
     }
 
-    if (img.width < 720) {
-      message = '画像の横幅が足りません。720px以上を使用下さい';
+    if (img.width < 620) {
+      message = '画像の横幅が足りません。640px以上を使用下さい';
     } else if (img.width > 1440) {
-      message = '画像の横幅が大きすぎます。720px程度を使用下さい';
+      message = '画像の横幅が大きすぎます。640px程度を使用下さい';
     }
 
     if (message) {

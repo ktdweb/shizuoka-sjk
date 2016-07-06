@@ -1949,10 +1949,10 @@ var ProductImage = function (_React$Component3) {
         message = 'jpegファイルを選択してください';
       }
 
-      if (img.width < 720) {
-        message = '画像の横幅が足りません。720px以上を使用下さい';
+      if (img.width < 620) {
+        message = '画像の横幅が足りません。640px以上を使用下さい';
       } else if (img.width > 1440) {
-        message = '画像の横幅が大きすぎます。720px程度を使用下さい';
+        message = '画像の横幅が大きすぎます。640px程度を使用下さい';
       }
 
       if (message) {
@@ -2534,10 +2534,10 @@ var ProductImage = function (_React$Component3) {
         message = 'jpegファイルを選択してください';
       }
 
-      if (img.width < 720) {
-        message = '画像の横幅が足りません。720px以上を使用下さい';
+      if (img.width < 620) {
+        message = '画像の横幅が足りません。640px以上を使用下さい';
       } else if (img.width > 1440) {
-        message = '画像の横幅が大きすぎます。720px程度を使用下さい';
+        message = '画像の横幅が大きすぎます。640px程度を使用下さい';
       }
 
       if (message) {
@@ -2948,7 +2948,7 @@ var Edit = function (_React$Component) {
         onChange: this.onChangeSelect.bind(this)
       }, _react2.default.createElement('option', { value: '' }, '選択してください'), makers))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '部品名'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
-        name: 'price',
+        name: 'product_name',
         value: this.state.product_name,
         onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '大きさ'), _react2.default.createElement('dd', null, _react2.default.createElement('select', {
@@ -3226,10 +3226,10 @@ var ProductImage = function (_React$Component3) {
         message = 'jpegファイルを選択してください';
       }
 
-      if (img.width < 720) {
-        message = '画像の横幅が足りません。720px以上を使用下さい';
+      if (img.width < 620) {
+        message = '画像の横幅が足りません。640px以上を使用下さい';
       } else if (img.width > 1440) {
-        message = '画像の横幅が大きすぎます。720px程度を使用下さい';
+        message = '画像の横幅が大きすぎます。640px程度を使用下さい';
       }
 
       if (message) {
@@ -3904,10 +3904,10 @@ var ProductImage = function (_React$Component3) {
         message = 'jpegファイルを選択してください';
       }
 
-      if (img.width < 720) {
-        message = '画像の横幅が足りません。720px以上を使用下さい';
+      if (img.width < 620) {
+        message = '画像の横幅が足りません。640px以上を使用下さい';
       } else if (img.width > 1440) {
-        message = '画像の横幅が大きすぎます。720px程度を使用下さい';
+        message = '画像の横幅が大きすぎます。640px程度を使用下さい';
       }
 
       if (message) {

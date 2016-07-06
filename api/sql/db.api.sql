@@ -2980,7 +2980,7 @@ INSERT INTO `parts_sub_categories` (
 SELECT * FROM `makers`;
 /*}}}*/
 
--- makers レコード挿入 /*{{{*/
+-- makers テーブル作成 /*{{{*/
 DESC `makers`;
 DROP TABLE `makers`;
 CREATE TABLE IF NOT EXISTS `makers` (
@@ -3000,7 +3000,9 @@ INSERT INTO `makers` (
 (2, '日野'),
 (3, '三菱'),
 (4, '日産UD'),
-(5, 'マツダ')
+(5, 'マツダ'),
+(6, 'トヨタ'),
+(7, 'その他')
 ;
 /*}}}*/
 
