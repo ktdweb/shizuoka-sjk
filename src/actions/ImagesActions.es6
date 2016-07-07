@@ -18,6 +18,15 @@ export default {
     })
   },
 
+  del: (id, data, callback) => {
+    ImagesDispatcher.dispatch({
+      actionType: ImagesConstants.DEL,
+      id: id,
+      data: data,
+      callback: callback
+    })
+  },
+
   destroy: () => {
     ImagesDispatcher.dispatch({
       actionType: ImagesConstants.DESTROY

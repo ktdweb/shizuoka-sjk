@@ -60,10 +60,22 @@ $app->group('/images', function () {
             if ($body['num'] == 'new') {
                 $ff[0] = $body['ref_id'];
                 $ff[1] = date('Ymd_His', strtotime('now'));
-            } else {
-                $filename = $ff[1] . '.jpg';
-                $filename_s = $ff[1] . 's.jpg';
+                $path = $ff[0] . '/' . $ff[1];
+
+                $db = $this->get('db.post');
+
+                $sql = 'INSERT INTO `images`(
+                        `category_id`,
+                        `ref_id`,
+                        `path`
+                    ) VALUES ';
+                $sql .= "(3, '{$body['ref_id']}', '{$path}');";
+
+                $db->execute($sql);
             }
+
+            $filename = $ff[1] . '.jpg';
+            $filename_s = $ff[1] . 's.jpg';
 
             $path = '../../data/';
             $url = $path . $args['page'] . '/' . $ff[0];
@@ -109,6 +121,41 @@ $app->group('/images', function () {
 
             return $response->withJson(
                 $body,
+                200,
+                $this->get('settings')['withJsonEnc']
+            );
+        }
+    );
+
+    /**
+     * DELETE
+     */
+    $this->delete(
+        '/{id:.*}',
+        function (
+            $request,
+            $response,
+            $args
+        ) {
+            $body = $request->getParsedBody();
+
+            $db = $this->get('db.delete');
+
+            if ($body['num'] == 'new') {
+                $sql = 'DELETE FROM `images` ';
+                $sql .= "WHERE `path` = '" . $body['data'] . "';";
+
+                $res = $db->execute($sql);
+
+                $page = substr($body['page'], 0, -1);
+
+                $url = '../../data/' . $page . '/';
+                unlink($url . $body['data'] . '.jpg');
+                unlink($url . $body['data'] . 's.jpg');
+            }
+
+            return $response->withJson(
+                $res,
                 200,
                 $this->get('settings')['withJsonEnc']
             );

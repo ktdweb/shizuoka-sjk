@@ -6805,6 +6805,8 @@ div#dandd {
     margin: 30px auto;
     padding: 30px;
     text-align: center; }
+  #Admin button.disable, #Admin label.disable.inputFileButton {
+    display: none; }
 
 /*
   # pages/front/index.sass

@@ -6,7 +6,7 @@ import { http } from '../components/Http'
 
 let pathname = window.location.pathname;
 let root = pathname.match(/^\/[a-z1-9_]+\//)[0];
-const URL = root + 'api/products/detail/';
+const URL = root + 'api/images/';
 
 const CHANGE_EVENT = 'change';
 
@@ -14,6 +14,13 @@ let _images = {};
 
 function create(res) {
   return _images;
+}
+
+function update(res, callback) {
+    _images = res;
+    callback();
+
+    return _images;
 }
 
 function destroy() {
@@ -52,10 +59,23 @@ ImagesDispatcher.register( function(action) {
 
     case ImagesConstants.UPDATE:
       http.put(
-          root + 'api/images/' + action.page + '/' + action.id,
+          URL + action.page + '/' + action.id,
           action.data
       ).then(res => {
+        update(res, action.callback);
         imagesStore.update();
+      }).catch(e => {
+        //console.error(e);
+      });
+      break;
+
+    case ImagesConstants.DEL:
+      http.delete(
+          URL + action.id,
+          action.data
+      ).then(res => {
+        update(res, action.callback);
+        imagesStore.destroy();
       }).catch(e => {
         //console.error(e);
       });
