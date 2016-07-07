@@ -17,6 +17,7 @@ export default class Home extends React.Component {
           <h1>ダッシュボード</h1>
 
           <p>左側メニューより選んで下さい</p>
+
         </section>
       </article>
     );

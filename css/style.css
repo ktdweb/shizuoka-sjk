@@ -6142,6 +6142,7 @@ a {
   prefixはなし
   */
 table {
+  border-collapse: collapse;
   width: 100%; }
 
 th, td {
@@ -6518,6 +6519,13 @@ article[id] > h1 {
   font-size: 2rem;
   line-height: 3rem; }
 
+div#dandd {
+  border: 1px dotted black;
+  height: 60px;
+  margin-bottom: 2rem;
+  padding: 2rem;
+  text-align: center; }
+
 /*
   # layouts/index.sass
   layoutsディレクトリ内で利用するファイルをリストアップ
@@ -6776,6 +6784,29 @@ article[id] > h1 {
   admin/Home.jsxに関するクラスを定義
   prefixには`pa-Home`を付与
   */ }
+  #Admin div.thumb {
+    clear: both;
+    border: 1px solid #ccc;
+    padding: 3px;
+    margin: 5px;
+    overflow: hidden; }
+    #Admin div.thumb img {
+      float: left;
+      margin-right: 40px; }
+    #Admin div.thumb input {
+      margin: 10px;
+      margin-left: 0;
+      border: none;
+      line-height: 1.5rem; }
+    #Admin div.thumb div.desc {
+      font-size: 1.4rem;
+      padding-left: 40px; }
+  #Admin footer.submit {
+    margin: 30px auto;
+    padding: 30px;
+    text-align: center; }
+  #Admin button.disable, #Admin label.disable.inputFileButton {
+    display: none; }
 
 /*
   # pages/front/index.sass

@@ -41,7 +41,7 @@ class MergeImgArr
     public function mergeForAll(
         $body
     ) {
-        $res = null;
+        $res = array();
 
         if (!empty($body)) {
             $ids = null;
@@ -53,17 +53,21 @@ class MergeImgArr
             $sql .= 'where `ref_id` in (' . $ids . ');';
             $images = $this->db->execute($sql);
 
-            // sort
-            foreach ($images as $val) {
-                $paths[$val->ref_id][] = $val->path;
-            }
+            if (!empty($images)) {
+                // sort
+                foreach ($images as $val) {
+                    $paths[$val->ref_id][] = $val->path;
+                }
 
-            // merge
-            foreach ($body as $val) {
-                $id = $val->ref_id;
-                $page = $val->page;
-                $res[$page][$id] = (array)$val;
-                $res[$page][$id]['images'] = $paths[$id];
+                // merge
+                foreach ($body as $val) {
+                    $id = $val->ref_id;
+                    $page = $val->page;
+                    $res[$page][$id] = (array)$val;
+                    if (!empty($paths[$id])) {
+                        $res[$page][$id]['images'] = $paths[$id];
+                    }
+                }
             }
         }
 
@@ -80,7 +84,7 @@ class MergeImgArr
     public function merge(
         $body
     ) {
-        $res = null;
+        $res = array();
 
         if (!empty($body)) {
             $ids = null;
@@ -101,7 +105,9 @@ class MergeImgArr
             foreach ($body as $val) {
                 $id = $val->ref_id;
                 $res[$id] = (array)$val;
-                $res[$id]['images'] = $paths[$id];
+                if (!empty($paths[$id])) {
+                    $res[$id]['images'] = $paths[$id];
+                }
             }
         }
 

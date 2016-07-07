@@ -13,6 +13,8 @@ export default class Nav extends React.Component {
     return (
       <nav>
         <ul>
+          <li><Link to={root + '/'}
+            >ダッシュボード</Link></li>
           <li><Link to={root + '/vehicles'}
             >中古車輌</Link></li>
           <li><Link to={root + '/parts'}
