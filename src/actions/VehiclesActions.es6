@@ -20,6 +20,14 @@ export default {
     })
   },
 
+  add: (page, id) => {
+    VehiclesDispatcher.dispatch({
+      actionType: VehiclesConstants.ADD,
+      page: page,
+      id: id
+    })
+  },
+
   destroy: () => {
     VehiclesDispatcher.dispatch({
       actionType: VehiclesConstants.DESTROY

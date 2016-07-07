@@ -100,7 +100,7 @@ export default class Edit extends React.Component {
       <article id="Edit">
         <section>
           <DocumentTitle title="Admin Home" />
-          <h1>中古車輌</h1>
+          <h1>架装物</h1>
 
           <form
             action=""

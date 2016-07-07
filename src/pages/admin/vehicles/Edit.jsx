@@ -387,6 +387,30 @@ export default class Edit extends React.Component {
             </dl>
 
             <dl>
+              <dt>ブレーキ</dt>
+              <dd>
+                <input
+                  type="text"
+                  name="break"
+                  value={this.state.break}
+                  onChange={this.onChange.bind(this)}
+                  />
+              </dd>
+            </dl>
+
+            <dl>
+              <dt>排気量</dt>
+              <dd>
+                <input
+                  type="text"
+                  name="cc"
+                  value={this.state.cc}
+                  onChange={this.onChange.bind(this)}
+                  />
+              </dd>
+            </dl>
+
+            <dl>
               <dt>リミッター</dt>
               <dd>
                 <input
@@ -507,7 +531,7 @@ export default class Edit extends React.Component {
     e.preventDefault();
 
     VehiclesActions.update(
-      'parts',
+      page,
       this.state.id,
       this.state,
       console.log('callback')

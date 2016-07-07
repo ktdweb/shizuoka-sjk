@@ -69,11 +69,13 @@ class Item extends React.Component {
   render() {
     return(
       <tr>
-        <td>{this.state.ref_id}</td>
         <td>
           <a href={'vehicles/edit/' + this.state.ref_id}>
-            {this.state.name}
+            {this.state.ref_id}
           </a>
+        </td>
+        <td>
+            {this.state.name}
         </td>
         <td>{this.state.modified}</td>
       </tr>

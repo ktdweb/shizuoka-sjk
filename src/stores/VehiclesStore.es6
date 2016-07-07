@@ -100,6 +100,17 @@ VehiclesDispatcher.register( function(action) {
       });
       break;
 
+    case VehiclesConstants.ADD:
+      http.post(
+          root + 'api/products/add/' + action.page + '/' + action.id,
+          action.data
+      ).then(res => {
+        vehiclesStore.update();
+      }).catch(e => {
+        //console.error(e);
+      });
+      break;
+
     case VehiclesConstants.DESTROY:
       destroy();
       vehiclesStore.destroy();
