@@ -271,29 +271,70 @@ $app->group('/products', function () {
      * POST
      */
     $this->post(
-        '/',
+        '/add/{page:[a-z]+}/{id:.*}',
         function (
             $request,
             $response,
             $args
         ) {
             $body = $request->getParsedBody();
-            /*
 
-            $db = $this->get('db.post');
+            $id = $args['id'];
+            $page = $args['page'];
 
-            $sql  = 'INSERT INTO `users` ';
+            if (!empty($page) && $id != 'undefined') {
+                $db = $this->get('db.post');
 
-            $fields = array_keys($body);
-            $values = array_values($body);
-            $holder = array_fill(0, count($values), '?');
+                $sql  = "INSERT INTO `{$page}` (";
 
-            $sql .= '(' . implode(', ', $fields) . ')';
-            $sql .= ' VALUES ';
-            $sql .= '(' . implode(', ', $holder) . ')';
+                switch ($page) {
+                    case 'vehicles':
+                        $sql .= '
+                          `product_id`,
+                          `ref_id`,
+                          `category_id`,
+                          `maker_id`,
+                          `size_id`,
+                          `name`,
+                          `created`,
+                          `modified`
+                        ';
+                        $sql .= ') VALUES ';
+                        $sql .= "('0', '{$id}', 1, 1, 1, '', NOW(), NOW());";
+                        break;
+                    case 'parts':
+                        $sql .= '
+                          `product_id`,
+                          `ref_id`,
+                          `category_id`,
+                          `sub_category_id`,
+                          `maker_id`,
+                          `size_id`,
+                          `name`,
+                          `product_name`,
+                          `created`,
+                          `modified`
+                        ';
+                        $sql .= ') VALUES ';
+                        $sql .= "('0', '{$id}', 0, 1, 1, 1, '', '', NOW(), NOW());";
+                        break;
+                    default:
+                        $sql .= '
+                          `product_id`,
+                          `ref_id`,
+                          `size_id`,
+                          `name`,
+                          `created`,
+                          `modified`
+                        ';
+                        $sql .= ') VALUES ';
+                        $sql .= "('0', '{$id}', 1, '', NOW(), NOW());";
 
-            $db->execute($sql, $values);
-             */
+                }
+                print_r($sql);
+
+                $db->execute($sql);
+            }
 
             return $response->withJson(
                 $body,
@@ -314,6 +355,7 @@ $app->group('/products', function () {
             $args
         ) {
             $body = $request->getParsedBody();
+
             unset($body['images']);
             unset($body['id']);
 
@@ -325,7 +367,7 @@ $app->group('/products', function () {
                         'soldout_flag',
                         'recommend_flag',
                         'ac_flag',
-                        'ps_flag'
+                        'ps_flag',
                     );
                     break;
                 default:
@@ -349,7 +391,10 @@ $app->group('/products', function () {
             $ints = array(
                 'price',
                 'ps',
-                'mileage'
+                'mileage',
+                `capacity`,
+                `cc`,
+                `recycle`
             );
 
             foreach ($ints as $field) {

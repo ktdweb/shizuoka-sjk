@@ -6648,10 +6648,14 @@ div#dandd {
   */ }
   #Admin > header {
     padding: 1rem 2rem 0;
-    height: 4rem;
+    height: 5rem;
     border-bottom: 1px solid #ccc;
     background-color: #f3f3f3;
     color: #1e66ab; }
+  #Admin header div#addnew {
+    float: right; }
+    #Admin header div#addnew select {
+      float: left; }
   #Admin > nav {
     float: left;
     display: block;

@@ -379,6 +379,14 @@ exports.default = {
     });
   },
 
+  add: function add(page, id) {
+    _VehiclesDispatcher2.default.dispatch({
+      actionType: _VehiclesConstants2.default.ADD,
+      page: page,
+      id: id
+    });
+  },
+
   destroy: function destroy() {
     _VehiclesDispatcher2.default.dispatch({
       actionType: _VehiclesConstants2.default.DESTROY
@@ -725,6 +733,7 @@ function _interopRequireDefault(obj) {
 var VehiclesConstants = (0, _keymirror2.default)({
   CREATE: null,
   UPDATE: null,
+  ADD: null,
   DESTROY: null
 });
 
@@ -985,8 +994,24 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _VehiclesStore = require('../../stores/VehiclesStore');
+
+var _VehiclesStore2 = _interopRequireDefault(_VehiclesStore);
+
+var _VehiclesActions = require('../../actions/VehiclesActions');
+
+var _VehiclesActions2 = _interopRequireDefault(_VehiclesActions);
+
 function _interopRequireDefault(obj) {
   return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+  } else {
+    obj[key] = value;
+  }return obj;
 }
 
 function _classCallCheck(instance, Constructor) {
@@ -1013,7 +1038,13 @@ var Header = function (_React$Component) {
   function Header(props) {
     _classCallCheck(this, Header);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props));
+
+    _this.state = {
+      page: '',
+      ref_id: ''
+    };
+    return _this;
   }
 
   _createClass(Header, [{
@@ -1021,7 +1052,38 @@ var Header = function (_React$Component) {
     value: function render() {
       var root = this.props.route.global.documentRoot;
 
-      return _react2.default.createElement('header', { id: 'Header' }, _react2.default.createElement('p', null, 'shizuoka-sjk.com'));
+      return _react2.default.createElement('header', { id: 'Header' }, _react2.default.createElement('div', { id: 'addnew' }, _react2.default.createElement('select', {
+        name: 'page',
+        value: this.state.page,
+        onChange: this.onChange.bind(this)
+      }, _react2.default.createElement('option', { value: '' }, '選択してください'), _react2.default.createElement('option', { value: 'vehicles' }, '中古車輛'), _react2.default.createElement('option', { value: 'parts' }, '中古部品'), _react2.default.createElement('option', { value: 'containers' }, '中古コンテナ'), _react2.default.createElement('option', { value: 'mountings' }, '架装物')), _react2.default.createElement('input', {
+        type: 'text',
+        name: 'ref_id',
+        value: this.state.ref_id,
+        onChange: this.onChange.bind(this)
+      }), _react2.default.createElement('button', {
+        onClick: this.onSubmit.bind(this)
+      }, '新規追加')), _react2.default.createElement('p', null, 'shizuoka-sjk.com'));
+    }
+  }, {
+    key: 'onSubmit',
+    value: function onSubmit(e) {
+      e.preventDefault();
+
+      _VehiclesActions2.default.add(this.state.page, this.state.ref_id);
+
+      //window.location.reload();
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(e) {
+      this.setState(_defineProperty({}, e.target.name, e.target.value));
+    }
+  }, {
+    key: 'updateState',
+    value: function updateState() {
+      refs = ReferencesStore.read();
+      this.setState(_VehiclesStore2.default.read());
     }
   }]);
 
@@ -1030,7 +1092,7 @@ var Header = function (_React$Component) {
 
 exports.default = Header;
 
-},{"react":275,"react-router":84}],23:[function(require,module,exports){
+},{"../../actions/VehiclesActions":7,"../../stores/VehiclesStore":42,"react":275,"react-router":84}],23:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -1980,7 +2042,7 @@ var Edit = function (_React$Component) {
         });
       });
 
-      return _react2.default.createElement('article', { id: 'Edit' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古車輌'), _react2.default.createElement('form', {
+      return _react2.default.createElement('article', { id: 'Edit' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古コンテナ'), _react2.default.createElement('form', {
         action: '',
         enctype: 'multipart/form-data'
       }, _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '品番'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
@@ -2234,7 +2296,7 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, this.state.ref_id), _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'containers/edit/' + this.state.ref_id }, this.state.name)), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'containers/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
     }
   }, {
     key: 'updateState',
@@ -2424,7 +2486,7 @@ var Edit = function (_React$Component) {
         });
       });
 
-      return _react2.default.createElement('article', { id: 'Edit' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古車輌'), _react2.default.createElement('form', {
+      return _react2.default.createElement('article', { id: 'Edit' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '架装物'), _react2.default.createElement('form', {
         action: '',
         enctype: 'multipart/form-data'
       }, _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '品番'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
@@ -2678,7 +2740,7 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, this.state.ref_id), _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'mountings/edit/' + this.state.ref_id }, this.state.name)), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'mountings/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
     }
   }, {
     key: 'updateState',
@@ -3217,7 +3279,7 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, this.state.ref_id), _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'parts/edit/' + this.state.ref_id }, this.state.name)), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'parts/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
     }
   }, {
     key: 'updateState',
@@ -3537,6 +3599,16 @@ var Edit = function (_React$Component) {
         name: 'capacity',
         value: this.state.capacity,
         onChange: this.onChange.bind(this)
+      }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'ブレーキ'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
+        type: 'text',
+        name: 'break',
+        value: this.state.break,
+        onChange: this.onChange.bind(this)
+      }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, '排気量'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
+        type: 'text',
+        name: 'cc',
+        value: this.state.cc,
+        onChange: this.onChange.bind(this)
       }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'リミッター'), _react2.default.createElement('dd', null, _react2.default.createElement('input', {
         type: 'text',
         name: 'limmiter',
@@ -3593,7 +3665,7 @@ var Edit = function (_React$Component) {
     value: function onSubmit(e) {
       e.preventDefault();
 
-      _VehiclesActions2.default.update('parts', this.state.id, this.state, console.log('callback'));
+      _VehiclesActions2.default.update(page, this.state.id, this.state, console.log('callback'));
     }
   }, {
     key: 'onChange',
@@ -3754,7 +3826,7 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, this.state.ref_id), _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'vehicles/edit/' + this.state.ref_id }, this.state.name)), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'vehicles/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
     }
   }, {
     key: 'updateState',
@@ -4501,6 +4573,14 @@ _VehiclesDispatcher2.default.register(function (action) {
 
     case _VehiclesConstants2.default.UPDATE:
       _Http.http.put(root + 'api/products/' + action.page + '/' + action.id, action.data).then(function (res) {
+        vehiclesStore.update();
+      }).catch(function (e) {
+        //console.error(e);
+      });
+      break;
+
+    case _VehiclesConstants2.default.ADD:
+      _Http.http.post(root + 'api/products/add/' + action.page + '/' + action.id, action.data).then(function (res) {
         vehiclesStore.update();
       }).catch(function (e) {
         //console.error(e);
