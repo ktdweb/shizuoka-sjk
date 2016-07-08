@@ -7,44 +7,14 @@
 
 namespace Routes;
 
-
 /**
- * references
+ * images
  */
 $app->group('/images', function () {
 
     /**
-     * GET /references/
-     */
-    $this->get(
-        '/',
-        function (
-            $request,
-            $response,
-            $args
-        ) {
-            $db = $this->get('db.get');
-            $body = array();
-
-            // page
-            $sql = 'SELECT * FROM `references`';
-            $body = $db->execute($sql);
-
-            $res = null;
-            foreach ($body as $item) {
-                $res[$item->table][$item->id] = $item->name;
-            }
-
-            return $response->withJson(
-                $res,
-                200,
-                $this->get('settings')['withJsonEnc']
-            );
-        }
-    );
-
-    /**
-     * PUT /references/parts/subs/
+     * PUT /images/vehicles/280105H001
+     * 管理画面 画像編集用
      */
     $this->put(
         '/{page:[a-z]+}/{id:.*}',
@@ -53,6 +23,9 @@ $app->group('/images', function () {
             $response,
             $args
         ) {
+            $settings = $this->get('settings');
+            $savepath = $settings['image']['save'];
+
             $body = $request->getParsedBody();
 
             $ff = explode('/', $body['data']);
@@ -77,7 +50,7 @@ $app->group('/images', function () {
             $filename = $ff[1] . '.jpg';
             $filename_s = $ff[1] . 's.jpg';
 
-            $path = '../../data/';
+            $path = $savepath;
             $url = $path . $args['page'] . '/' . $ff[0];
             if (!file_exists($url)) {
                 mkdir($url, 0755);
@@ -129,6 +102,7 @@ $app->group('/images', function () {
 
     /**
      * DELETE
+     * 管理画面 画像削除用
      */
     $this->delete(
         '/{id:.*}',
@@ -137,11 +111,15 @@ $app->group('/images', function () {
             $response,
             $args
         ) {
+            $settings = $this->get('settings');
+            $savepath = $settings['image']['save'];
+
             $body = $request->getParsedBody();
 
             $db = $this->get('db.delete');
 
-            if ($body['num'] == 'new') {
+            // 新規登録の場合はスルー
+            if ($body['num'] != 'new') {
                 $sql = 'DELETE FROM `images` ';
                 $sql .= "WHERE `path` = '" . $body['data'] . "';";
 
@@ -149,7 +127,7 @@ $app->group('/images', function () {
 
                 $page = substr($body['page'], 0, -1);
 
-                $url = '../../data/' . $page . '/';
+                $url = $savepath . $page . '/';
                 unlink($url . $body['data'] . '.jpg');
                 unlink($url . $body['data'] . 's.jpg');
             }

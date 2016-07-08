@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import DocumentTitle from 'react-document-title'
+import m from 'moment'
 
 import VehiclesStore from '../../../stores/VehiclesStore'
 import VehiclesActions from '../../../actions/VehiclesActions'
@@ -19,6 +20,8 @@ let refs = {
   sizes: {}
 };
 
+let now = m().format('YYYY-MM-DD hh:mm:ss');
+
 export default class Edit extends React.Component {
 
   constructor(props) {
@@ -26,20 +29,20 @@ export default class Edit extends React.Component {
 
     this.state = {
       id              : '',
-      product_id      : '',
-      new_flag        : '',
-      deal_flag       : '',
-      soldout_flag    : '',
-      recommend_flag  : '',
+      product_id      : 0,
+      new_flag        : 0,
+      deal_flag       : 0,
+      soldout_flag    : 0,
+      recommend_flag  : 0,
       icon_date       : '',
       ref_id          : '',
-      category_id     : '',
-      sub_category_id : '',
+      category_id     : 1,
+      sub_category_id : 1,
       name            : '',
-      price           : '',
-      maker_id        : '',
+      price           : 0,
+      maker_id        : 1,
       product_name    : '',
-      size_id         : '',
+      size_id         : 1,
       mfg_date        : '',
       model           : '',
       mfg_no          : '',
@@ -47,16 +50,16 @@ export default class Edit extends React.Component {
       engine_no       : '',
       mission         : '',
       mission_no      : '',
-      ps              : '',
-      mileage         : '',
+      ps              : 0,
+      mileage         : 0,
       turbo           : '',
       diff            : '',
       gear            : '',
       cabin           : '',
       cabin_roof      : '',
       description     : '',
-      created         : '',
-      modified        : '',
+      created         : now,
+      modified        : now,
       images          : ''
     };
   }

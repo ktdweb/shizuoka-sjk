@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router'
 import DocumentTitle from 'react-document-title'
+import m from 'moment'
 
 import VehiclesStore from '../../../stores/VehiclesStore'
 import VehiclesActions from '../../../actions/VehiclesActions'
@@ -19,6 +20,8 @@ let refs = {
   sizes: {}
 };
 
+let now = m().format('YYYY-MM-DD hh:mm:ss');
+
 export default class Edit extends React.Component {
 
   constructor(props) {
@@ -26,42 +29,42 @@ export default class Edit extends React.Component {
 
     this.state = {
       id:              '',
-      product_id:      '',
-      new_flag:        '',
-      deal_flag:       '',
-      soldout_flag:    '',
-      recommend_flag:  '',
+      product_id:      0,
+      new_flag:        0,
+      deal_flag:       0,
+      soldout_flag:    0,
+      recommend_flag:  0,
       icon_date:       '',
       ref_id:          '',
-      category_id:     '',
+      category_id:     1,
       name:            '',
-      price:           '',
-      maker_id:        '',
+      price:           0,
+      maker_id:        1,
       product_name:    '',
-      size_id:         '',
+      size_id:         1,
       mfg_date:        '',
       model:           '',
       mfg_no:          '',
       mot_date:        '',
-      mileage:         '',
+      mileage:         0,
       form:            '',
       engine:          '',
-      ps:              '',
+      ps:              0,
       mission:         '',
-      capacity:        '',
+      capacity:        0,
       break:           '',
-      cc:              '',
+      cc:              0,
       limitter:        '',
-      ac_flag:         '',
-      ps_flag:         '',
+      ac_flag:         1,
+      ps_flag:         1,
       body:            '',
       dimension:       '',
-      recycle:         '',
+      recycle:         0,
       pdf:             '',
       description:     '',
-      created:         '',
-      modified:        '',
-      images:          ''
+      created:         now,
+      modified:        now,
+      images:          []
     };
   }
 
@@ -415,8 +418,8 @@ export default class Edit extends React.Component {
               <dd>
                 <input
                   type="text"
-                  name="limmiter"
-                  value={this.state.limmitter}
+                  name="limitter"
+                  value={this.state.limitter}
                   onChange={this.onChange.bind(this)}
                   />
               </dd>

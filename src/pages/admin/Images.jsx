@@ -5,6 +5,7 @@ import ImagesStore from '../../stores/ImagesStore'
 import ImagesActions from '../../actions/ImagesActions'
 
 var page;
+var savepath = '/test/data/';
 
 export default class ProductImage extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class ProductImage extends React.Component {
       <div className="thumb">
         <div id={'thumb' + this.state.num}>
         <img
-          src={"/data/" + page + "/" + this.state.data + '.jpg'}
+          src={savepath + page + "/" + this.state.data + '.jpg'}
           width="120"
           alt="t"
           />

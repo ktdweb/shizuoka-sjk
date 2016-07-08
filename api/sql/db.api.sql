@@ -26,9 +26,21 @@ SHOW tables;
 SELECT * FROM `vehicles`;
 /*}}}*/
 
+INSERT INTO `parts` (
+                          `product_id`,
+                          `ref_id`,
+                          `category_id`,
+                          `sub_category_id`,
+                          `maker_id`,
+                          `size_id`,
+                          `name`,
+                          `product_name`,
+                          `created`,
+                          `modified`
+                        ) VALUES ('0', '2233', 0, 1, 1, 1, '', '', NOW(), NOW());
 -- vehicles テーブル作成 /*{{{*/
 DESC `vehicles`;
-ttOP TABLE `vehicles`;
+DROP TABLE `vehicles`;
 CREATE TABLE IF NOT EXISTS `vehicles` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `product_id` VARCHAR(7) NOT NULL,
@@ -751,7 +763,14 @@ INSERT INTO `mountings` (
 (130005,0,0,0,0,'',1005,'1005番　2t標準　平ボデー',NULL,1,'平ボデー','木','長さ3120　幅1610　高さ390','新車外し　縦ネタなし　パブコ製　BA15 1274 0104',NOW(),NOW())
 ;
 /*}}}*/
-
+INSERT INTO `containers` (
+                          `product_id`,
+                          `ref_id`,
+                          `size_id`,
+                          `name`,
+                          `created`,
+                          `modified`
+                        ) VALUES ('0', '2233', 1, '', NOW(), NOW());
 
 /*
  * images
