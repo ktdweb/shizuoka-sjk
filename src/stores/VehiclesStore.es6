@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events'
 import VehiclesDispatcher from '../dispathcer/VehiclesDispatcher'
 import VehiclesConstants from '../constants/VehiclesConstants'
+import m from 'moment'
 
 import { http } from '../components/Http'
 
@@ -17,34 +18,51 @@ let checkbox = [
   'deal_flag',
   'soldout_flag',
   'recommend_flag',
-];
-
-let checkbox_vehicles = [
-  'new_flag',
-  'deal_flag',
-  'soldout_flag',
-  'recommend_flag',
   'ac_flag',
   'ps_flag'
-]
+];
+
+let integar = [
+  'product_id',
+  'category_id',
+  'price',
+  'maker_id',
+  'size_id',
+  'mileage',
+  'capacity',
+  'cc',
+  'ps',
+  'recycle'
+];
+
+let now = m().format('YYYY-MM-DD hh:mm:ss');
 
 function create(page, res) {
   for (let i in res) {
 
-    if (page == 'vehicles') {
-    // checkboxであれば1,0をbooleanに変換
-        for (let k of checkbox_vehicles) {
-          res[i][k] = Boolean(Number(res[i][k]));
+    // checkboxをbooleanに変換
+    for (let k of checkbox) {
+      if (k in res[i]) {
+        if (res[i][k] == null || res[i][k] == '') {
+          res[i][k] = 0;
         }
-    } else {
-        for (let k of checkbox) {
-          res[i][k] = Boolean(Number(res[i][k]));
+        res[i][k] = Boolean(Number(res[i][k]));
+      }
+    }
+
+    // integarに初期値を与える
+    for (let k of integar) {
+      if (k in res[i]) {
+        if (res[i][k] == null || res[i][k] == '') {
+          res[i][k] = 0;
         }
+        res[i][k] = Number(res[i][k]);
+      }
     }
 
     // null値だとwarningがでるため空文字へ変換
     for (let v in res[i]) {
-      if (!res[i][v]) {
+      if (res[i][v] == null) {
         res[i][v] = '';
       }
     }
@@ -53,6 +71,28 @@ function create(page, res) {
   }
   
   return _vehicles;
+}
+
+function toPhp(res) {
+  for (let i in res) {
+    // checkboxをbooleanに変換
+    for (let k of checkbox) {
+      if (k in res) {
+        if (res[k] == false) {
+          res[k] = 0;
+        } else {
+          res[k] = 1;
+        }
+      }
+    }
+  }
+
+  res['modified'] = now;
+  return res;
+}
+
+function update(res) {
+  _vehicles = res;
 }
 
 function destroy() {
@@ -92,8 +132,9 @@ VehiclesDispatcher.register( function(action) {
     case VehiclesConstants.UPDATE:
       http.put(
           root + 'api/products/' + action.page + '/' + action.id,
-          action.data
+          toPhp(action.data)
       ).then(res => {
+        update(action.data)
         vehiclesStore.update();
       }).catch(e => {
         //console.error(e);

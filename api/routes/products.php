@@ -112,7 +112,7 @@ $app->group('/products', function () {
 
     /**
      * GET /products/search/parts/free/
-     * 部品検索用
+     * フリーワード検索用
      */
     $this->get(
         '/search/parts/free/{key:.*}',
@@ -269,6 +269,7 @@ $app->group('/products', function () {
 
     /**
      * POST
+     * 管理画面 新規登録用
      */
     $this->post(
         '/add/{page:[a-z]+}/{id:.*}',
@@ -331,7 +332,6 @@ $app->group('/products', function () {
                         $sql .= "('0', '{$id}', 1, '', NOW(), NOW());";
 
                 }
-                print_r($sql);
 
                 $db->execute($sql);
             }
@@ -346,6 +346,7 @@ $app->group('/products', function () {
 
     /**
      * PUT
+     * 管理画面 編集用
      */
     $this->put(
         '/{page:[a-z]+}/{id:.*}',
@@ -358,52 +359,6 @@ $app->group('/products', function () {
 
             unset($body['images']);
             unset($body['id']);
-
-            switch ($args['page']) {
-                case 'vehicles':
-                    $tinyInts = array(
-                        'new_flag',
-                        'deal_flag',
-                        'soldout_flag',
-                        'recommend_flag',
-                        'ac_flag',
-                        'ps_flag',
-                    );
-                    break;
-                default:
-                    $tinyInts = array(
-                        'new_flag',
-                        'deal_flag',
-                        'soldout_flag',
-                        'recommend_flag'
-                    );
-                    break;
-            }
-
-            foreach ($tinyInts as $field) {
-                if (isset($body[$field])) {
-                    if (empty($body[$field])) {
-                        $body[$field] = 0;
-                    }
-                }
-            }
-
-            $ints = array(
-                'price',
-                'ps',
-                'mileage',
-                `capacity`,
-                `cc`,
-                `recycle`
-            );
-
-            foreach ($ints as $field) {
-                if (isset($body[$field])) {
-                    if (empty($body[$field])) {
-                        $body[$field] = null;
-                    }
-                }
-            }
 
             $db = $this->get('db.put');
 
@@ -426,6 +381,7 @@ $app->group('/products', function () {
 
     /**
      * DELETE
+     * 管理画面 削除用
      */
     $this->delete(
         '/{id:[0-9]+}',
@@ -448,5 +404,4 @@ $app->group('/products', function () {
             );
         }
     );
-
 });

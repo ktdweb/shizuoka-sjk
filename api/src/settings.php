@@ -48,6 +48,10 @@ return array(
         'logger' => array(
             'name' => 'slim-app',
             'path' => __DIR__ . '/../logs/slim/app.log'
+        ),
+
+        'image' => array(
+            'save' => IMAGE_SAVE
         )
     )
 );
