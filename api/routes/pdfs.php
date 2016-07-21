@@ -46,6 +46,7 @@ $app->group('/pdfs', function () {
                 $base64 = base64_decode($body['data']);
                 $pdf = fopen($filename, 'w');
                 fwrite($pdf, $base64);
+                chmod($filename, 0755);
                 fclose($pdf);
             }
 
