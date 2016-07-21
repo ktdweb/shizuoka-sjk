@@ -31,7 +31,8 @@ $app->group('/pdfs', function () {
             $path = $args['id'] . '/' . 'shaken';
 
             $sql = 'UPDATE `vehicles` SET `pdf` = ';
-            $sql .= "'" . $path . "';";
+            $sql .= "'" . $path . "' ";
+            $sql .= "WHERE `ref_id` = {$args['id']};";
 
             $res = $db->execute($sql);
 
