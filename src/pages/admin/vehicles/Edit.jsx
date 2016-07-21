@@ -554,10 +554,11 @@ export default class Edit extends React.Component {
   delPdf(e) {
     e.preventDefault();
 
+    let _this = this;
     ImagesActions.delPdf(
       this.state.ref_id,
       function() {
-        this.setState({ pdf: '' });
+        _this.setState({ pdf: '' });
       }
     );
   }
