@@ -32,7 +32,7 @@ $app->group('/pdfs', function () {
 
             $sql = 'UPDATE `vehicles` SET `pdf` = ';
             $sql .= "'" . $path . "' ";
-            $sql .= "WHERE `ref_id` = {$args['id']};";
+            $sql .= "WHERE `ref_id` = '{$args['id']}';";
 
             $res = $db->execute($sql);
 
@@ -76,7 +76,7 @@ $app->group('/pdfs', function () {
             $db = $this->get('db.put');
 
             $sql = 'UPDATE `vehicles` SET `pdf` = ';
-            $sql .= "'' WHERE `ref_id` = {$args['id']};";
+            $sql .= "'' WHERE `ref_id` = '{$args['id']}';";
 
             $res = $db->execute($sql);
 
