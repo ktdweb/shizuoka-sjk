@@ -9,6 +9,9 @@ import VehiclesActions from '../../../actions/VehiclesActions'
 import ReferencesStore from '../../../stores/ReferencesStore'
 import ReferencesActions from '../../../actions/ReferencesActions'
 
+import ImagesStore from '../../../stores/ImagesStore'
+import ImagesActions from '../../../actions/ImagesActions'
+
 import ProductImage from '../Images'
 import BelongsTo from '../BelongsTo'
 
@@ -117,6 +120,8 @@ export default class Edit extends React.Component {
         data={this.state.images[i]}
         />
     });
+
+    let pdf = (this.state.pdf != '') ? '車検証あり' : '車検証なし';
 
     return (
       <article id="Edit">
@@ -498,6 +503,22 @@ export default class Edit extends React.Component {
               </dd>
             </dl>
 
+            <dl>
+              <dt>PDF</dt>
+              <dd>
+                <p>{pdf}</p>
+                <input
+                  type="file"
+                  name={this.state.description}
+                  onChange={this.handlePdf.bind(this)}
+                  />
+
+                <button
+                  onClick={this.delPdf.bind(this)}
+                  >削除</button>
+              </dd>
+            </dl>
+
             <div id="imageArea"> 
               {images}
 
@@ -528,6 +549,36 @@ export default class Edit extends React.Component {
         </section>
       </article>
     );
+  }
+
+  delPdf(e) {
+    e.preventDefault();
+
+    ImagesActions.delPdf(
+      this.state.ref_id,
+      function() {
+        this.setState({ pdf: '' });
+      }
+    );
+  }
+
+  handlePdf(e) {
+    let file = e.target.files[0];
+    let _this = this;
+    let fr = new FileReader();
+
+
+    fr.onload = function() {
+      ImagesActions.updatePdf(
+        _this.state.ref_id,
+        { data: fr.result.replace(/^[^,]*,/, '') },
+        function() {
+          _this.setState({ pdf: 'update' });
+        }
+      );
+    };
+
+    fr.readAsDataURL(file);
   }
 
   onSubmit(e) {

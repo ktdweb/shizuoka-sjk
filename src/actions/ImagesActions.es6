@@ -18,11 +18,28 @@ export default {
     })
   },
 
+  updatePdf: (id, data, callback) => {
+    ImagesDispatcher.dispatch({
+      actionType: ImagesConstants.UPDATEPDF,
+      id: id,
+      data: data,
+      callback: callback
+    })
+  },
+
   del: (id, data, callback) => {
     ImagesDispatcher.dispatch({
       actionType: ImagesConstants.DEL,
       id: id,
       data: data,
+      callback: callback
+    })
+  },
+
+  delPdf: (id, callback) => {
+    ImagesDispatcher.dispatch({
+      actionType: ImagesConstants.DELPDF,
+      id: id,
       callback: callback
     })
   },
