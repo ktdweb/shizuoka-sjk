@@ -46,8 +46,8 @@ $app->group('/pdfs', function () {
                 $base64 = base64_decode($body['data']);
                 $pdf = fopen($filename, 'w');
                 fwrite($pdf, $base64);
-                chmod($filename, 0755);
                 fclose($pdf);
+                chmod($filename, 0755);
             }
 
             return $response->withJson(
@@ -75,7 +75,7 @@ $app->group('/pdfs', function () {
             $db = $this->get('db.put');
 
             $sql = 'UPDATE `vehicles` SET `pdf` = ';
-            $sql .= "'';";
+            $sql .= "'' WHERE `ref_id` = {$args['id']};";
 
             $res = $db->execute($sql);
 
