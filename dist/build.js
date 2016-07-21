@@ -249,11 +249,28 @@ exports.default = {
     });
   },
 
+  updatePdf: function updatePdf(id, data, callback) {
+    _ImagesDispatcher2.default.dispatch({
+      actionType: _ImagesConstants2.default.UPDATEPDF,
+      id: id,
+      data: data,
+      callback: callback
+    });
+  },
+
   del: function del(id, data, callback) {
     _ImagesDispatcher2.default.dispatch({
       actionType: _ImagesConstants2.default.DEL,
       id: id,
       data: data,
+      callback: callback
+    });
+  },
+
+  delPdf: function delPdf(id, callback) {
+    _ImagesDispatcher2.default.dispatch({
+      actionType: _ImagesConstants2.default.DELPDF,
+      id: id,
       callback: callback
     });
   },
@@ -665,7 +682,9 @@ function _interopRequireDefault(obj) {
 var ImagesConstants = (0, _keymirror2.default)({
   CREATE: null,
   UPDATE: null,
+  UPDATEPDF: null,
   DEL: null,
+  DELPDF: null,
   DESTROY: null
 });
 
@@ -3361,6 +3380,14 @@ var _ReferencesActions = require('../../../actions/ReferencesActions');
 
 var _ReferencesActions2 = _interopRequireDefault(_ReferencesActions);
 
+var _ImagesStore = require('../../../stores/ImagesStore');
+
+var _ImagesStore2 = _interopRequireDefault(_ImagesStore);
+
+var _ImagesActions = require('../../../actions/ImagesActions');
+
+var _ImagesActions2 = _interopRequireDefault(_ImagesActions);
+
 var _Images = require('../Images');
 
 var _Images2 = _interopRequireDefault(_Images);
@@ -3415,9 +3442,9 @@ var Edit = function (_React$Component) {
   function Edit(props) {
     _classCallCheck(this, Edit);
 
-    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Edit).call(this, props));
+    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Edit).call(this, props));
 
-    _this.state = {
+    _this2.state = {
       id: '',
       product_id: 0,
       new_flag: 0,
@@ -3456,7 +3483,7 @@ var Edit = function (_React$Component) {
       modified: now,
       images: []
     };
-    return _this;
+    return _this2;
   }
 
   _createClass(Edit, [{
@@ -3475,7 +3502,7 @@ var Edit = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.state.ref_id == '') return false;
 
@@ -3508,10 +3535,12 @@ var Edit = function (_React$Component) {
           key: i,
           num: i,
           page: page,
-          ref_id: _this2.state.ref_id,
-          data: _this2.state.images[i]
+          ref_id: _this3.state.ref_id,
+          data: _this3.state.images[i]
         });
       });
+
+      var pdf = this.state.pdf != '' ? '車検証あり' : '車検証なし';
 
       return _react2.default.createElement('article', { id: 'Edit' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古車輌'), _react2.default.createElement('form', {
         action: '',
@@ -3670,7 +3699,13 @@ var Edit = function (_React$Component) {
         name: 'description',
         value: this.state.description,
         onChange: this.onChange.bind(this)
-      }))), _react2.default.createElement('div', { id: 'imageArea' }, images, _react2.default.createElement(_Images2.default, {
+      }))), _react2.default.createElement('dl', null, _react2.default.createElement('dt', null, 'PDF'), _react2.default.createElement('dd', null, _react2.default.createElement('p', null, pdf), _react2.default.createElement('input', {
+        type: 'file',
+        name: this.state.description,
+        onChange: this.handlePdf.bind(this)
+      }), _react2.default.createElement('button', {
+        onClick: this.delPdf.bind(this)
+      }, '削除'))), _react2.default.createElement('div', { id: 'imageArea' }, images, _react2.default.createElement(_Images2.default, {
         key: 'new',
         num: 'new',
         page: page,
@@ -3684,6 +3719,30 @@ var Edit = function (_React$Component) {
         onClick: this.onSubmit.bind(this),
         value: 'Post'
       }, '更新')))));
+    }
+  }, {
+    key: 'delPdf',
+    value: function delPdf(e) {
+      e.preventDefault();
+
+      _ImagesActions2.default.delPdf(this.state.ref_id, function () {
+        this.setState({ pdf: '' });
+      });
+    }
+  }, {
+    key: 'handlePdf',
+    value: function handlePdf(e) {
+      var file = e.target.files[0];
+      var _this = this;
+      var fr = new FileReader();
+
+      fr.onload = function () {
+        _ImagesActions2.default.updatePdf(_this.state.ref_id, { data: fr.result.replace(/^[^,]*,/, '') }, function () {
+          _this.setState({ pdf: 'update' });
+        });
+      };
+
+      fr.readAsDataURL(file);
     }
   }, {
     key: 'onSubmit',
@@ -3726,7 +3785,7 @@ var Edit = function (_React$Component) {
 
 exports.default = Edit;
 
-},{"../../../actions/ReferencesActions":6,"../../../actions/VehiclesActions":7,"../../../stores/ReferencesStore":41,"../../../stores/VehiclesStore":42,"../BelongsTo":24,"../Images":27,"moment":52,"react":276,"react-document-title":54,"react-router":85}],37:[function(require,module,exports){
+},{"../../../actions/ImagesActions":4,"../../../actions/ReferencesActions":6,"../../../actions/VehiclesActions":7,"../../../stores/ImagesStore":39,"../../../stores/ReferencesStore":41,"../../../stores/VehiclesStore":42,"../BelongsTo":24,"../Images":27,"moment":52,"react":276,"react-document-title":54,"react-router":85}],37:[function(require,module,exports){
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
@@ -4124,10 +4183,25 @@ _ImagesDispatcher2.default.register(function (action) {
       });
       break;
 
+    case _ImagesConstants2.default.UPDATEPDF:
+      _Http.http.put(root + 'api/pdfs/' + action.id, action.data).then(function (res) {
+        update(res, action.callback);
+      }).catch(function (e) {
+        //console.error(e);
+      });
+      break;
+
     case _ImagesConstants2.default.DEL:
       _Http.http.delete(URL + action.id, action.data).then(function (res) {
         update(res, action.callback);
-        imagesStore.destroy();
+      }).catch(function (e) {
+        //console.error(e);
+      });
+      break;
+
+    case _ImagesConstants2.default.DELPDF:
+      _Http.http.delete(root + 'api/pdfs/' + action.id).then(function (res) {
+        action.callback();
       }).catch(function (e) {
         //console.error(e);
       });

@@ -69,13 +69,33 @@ ImagesDispatcher.register( function(action) {
       });
       break;
 
+    case ImagesConstants.UPDATEPDF:
+      http.put(
+          root + 'api/pdfs/' + action.id,
+          action.data
+      ).then(res => {
+        update(res, action.callback);
+      }).catch(e => {
+        //console.error(e);
+      });
+      break;
+
     case ImagesConstants.DEL:
       http.delete(
           URL + action.id,
           action.data
       ).then(res => {
         update(res, action.callback);
-        imagesStore.destroy();
+      }).catch(e => {
+        //console.error(e);
+      });
+      break;
+
+    case ImagesConstants.DELPDF:
+      http.delete(
+          root + 'api/pdfs/' + action.id
+      ).then(res => {
+        action.callback();
       }).catch(e => {
         //console.error(e);
       });

@@ -41,6 +41,7 @@ export default class ProductImage extends React.Component {
           name={this.state.num}
           onChange={this.handleImage.bind(this)}
           />
+
         <button
           onClick={this.del.bind(this)}
           >削除</button>
