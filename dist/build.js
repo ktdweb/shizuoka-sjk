@@ -3725,8 +3725,9 @@ var Edit = function (_React$Component) {
     value: function delPdf(e) {
       e.preventDefault();
 
+      var _this = this;
       _ImagesActions2.default.delPdf(this.state.ref_id, function () {
-        this.setState({ pdf: '' });
+        _this.setState({ pdf: '' });
       });
     }
   }, {
