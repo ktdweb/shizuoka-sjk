@@ -2,8 +2,7 @@ import keyMirror from 'keymirror'
 
 const ListConstants = keyMirror({
   CREATE:  null,
-  UPDATE:  null,
-  DESTROY: null
+  DELETE:  null
 });
 
 export default ListConstants 

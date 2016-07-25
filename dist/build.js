@@ -310,17 +310,11 @@ exports.default = {
     });
   },
 
-  update: function update(id, count) {
+  del: function del(page, id) {
     _ListDispatcher2.default.dispatch({
-      actionType: _ListConstants2.default.UPDATE,
-      id: id,
-      count: count
-    });
-  },
-
-  destroy: function destroy() {
-    _ListDispatcher2.default.dispatch({
-      actionType: _ListConstants2.default.DESTROY
+      actionType: _ListConstants2.default.DELETE,
+      page: page,
+      id: id
     });
   }
 };
@@ -707,8 +701,7 @@ function _interopRequireDefault(obj) {
 
 var ListConstants = (0, _keymirror2.default)({
   CREATE: null,
-  UPDATE: null,
-  DESTROY: null
+  DELETE: null
 });
 
 exports.default = ListConstants;
@@ -1091,7 +1084,7 @@ var Header = function (_React$Component) {
 
       _VehiclesActions2.default.add(this.state.page, this.state.ref_id);
 
-      //window.location.reload();
+      window.location.reload();
     }
   }, {
     key: 'onChange',
@@ -2272,6 +2265,13 @@ var Index = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       _ListActions2.default.create('containers', this.updateState.bind(this));
+
+      _ListStore2.default.subscribe(this.updateState.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _ListStore2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
@@ -2282,12 +2282,13 @@ var Index = function (_React$Component) {
         return _react2.default.createElement(Item, { key: i, data: _this2.state[i] });
       });
 
-      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古コンテナ'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時')), events))));
+      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古コンテナ'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時'), _react2.default.createElement('th', { className: 'w-xs' }, '-')), events))));
     }
   }, {
     key: 'updateState',
     value: function updateState() {
       var res = _ListStore2.default.read();
+      this.state = {};
       this.setState(res);
     }
   }]);
@@ -2322,7 +2323,17 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'containers/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'containers/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified), _react2.default.createElement('td', null, _react2.default.createElement('button', {
+        name: this.state.ref_id,
+        onClick: this.del.bind(this)
+      }, '削除')));
+    }
+  }, {
+    key: 'del',
+    value: function del(e) {
+      e.preventDefault();
+
+      _ListActions2.default.del('containers', e.target.name);
     }
   }, {
     key: 'updateState',
@@ -2722,6 +2733,13 @@ var Index = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       _ListActions2.default.create('mountings', this.updateState.bind(this));
+
+      _ListStore2.default.subscribe(this.updateState.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _ListStore2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
@@ -2732,12 +2750,13 @@ var Index = function (_React$Component) {
         return _react2.default.createElement(Item, { key: i, data: _this2.state[i] });
       });
 
-      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '架装物'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時')), events))));
+      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '架装物'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時'), _react2.default.createElement('th', { className: 'w-xs' }, '-')), events))));
     }
   }, {
     key: 'updateState',
     value: function updateState() {
       var res = _ListStore2.default.read();
+      this.state = {};
       this.setState(res);
     }
   }]);
@@ -2772,7 +2791,17 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'mountings/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'mountings/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified), _react2.default.createElement('td', null, _react2.default.createElement('button', {
+        name: this.state.ref_id,
+        onClick: this.del.bind(this)
+      }, '削除')));
+    }
+  }, {
+    key: 'del',
+    value: function del(e) {
+      e.preventDefault();
+
+      _ListActions2.default.del('mountings', e.target.name);
     }
   }, {
     key: 'updateState',
@@ -3267,6 +3296,13 @@ var Index = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       _ListActions2.default.create('parts', this.updateState.bind(this));
+
+      _ListStore2.default.subscribe(this.updateState.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _ListStore2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
@@ -3277,12 +3313,13 @@ var Index = function (_React$Component) {
         return _react2.default.createElement(Item, { key: i, data: _this2.state[i] });
       });
 
-      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古部品'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時')), events))));
+      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古部品'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時'), _react2.default.createElement('th', { className: 'w-xs' }, '-')), events))));
     }
   }, {
     key: 'updateState',
     value: function updateState() {
       var res = _ListStore2.default.read();
+      this.state = {};
       this.setState(res);
     }
   }]);
@@ -3317,7 +3354,17 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'parts/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'parts/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified), _react2.default.createElement('td', null, _react2.default.createElement('button', {
+        name: this.state.ref_id,
+        onClick: this.del.bind(this)
+      }, '削除')));
+    }
+  }, {
+    key: 'del',
+    value: function del(e) {
+      e.preventDefault();
+
+      _ListActions2.default.del('parts', e.target.name);
     }
   }, {
     key: 'updateState',
@@ -3861,6 +3908,13 @@ var Index = function (_React$Component) {
     key: 'componentWillMount',
     value: function componentWillMount() {
       _ListActions2.default.create('vehicles', this.updateState.bind(this));
+
+      _ListStore2.default.subscribe(this.updateState.bind(this));
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _ListStore2.default.destroy(this.updateState.bind(this));
     }
   }, {
     key: 'render',
@@ -3871,12 +3925,13 @@ var Index = function (_React$Component) {
         return _react2.default.createElement(Item, { key: i, data: _this2.state[i] });
       });
 
-      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古車輌'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時')), events))));
+      return _react2.default.createElement('article', { id: 'Index' }, _react2.default.createElement('section', null, _react2.default.createElement(_reactDocumentTitle2.default, { title: 'Admin Home' }), _react2.default.createElement('h1', null, '中古車輌'), _react2.default.createElement('table', { className: 'sheet' }, _react2.default.createElement('tbody', null, _react2.default.createElement('tr', null, _react2.default.createElement('th', { className: 'w-xs' }, '管理番号'), _react2.default.createElement('th', null, '名前'), _react2.default.createElement('th', { className: 'w-s' }, '更新日時'), _react2.default.createElement('th', { className: 'w-xs' }, '-')), events))));
     }
   }, {
     key: 'updateState',
     value: function updateState() {
       var res = _ListStore2.default.read();
+      this.state = {};
       this.setState(res);
     }
   }]);
@@ -3911,7 +3966,17 @@ var Item = function (_React$Component2) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'vehicles/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified));
+      return _react2.default.createElement('tr', null, _react2.default.createElement('td', null, _react2.default.createElement('a', { href: 'vehicles/edit/' + this.state.ref_id }, this.state.ref_id)), _react2.default.createElement('td', null, this.state.name), _react2.default.createElement('td', null, this.state.modified), _react2.default.createElement('td', null, _react2.default.createElement('button', {
+        name: this.state.ref_id,
+        onClick: this.del.bind(this)
+      }, '削除')));
+    }
+  }, {
+    key: 'del',
+    value: function del(e) {
+      e.preventDefault();
+
+      _ListActions2.default.del('vehicles', e.target.name);
     }
   }, {
     key: 'updateState',
@@ -4289,12 +4354,10 @@ function create(res, callback) {
   return _list;
 }
 
-function update(id, updates) {
-  _list = { id: id, list: updates };
-}
+function del(id) {
+  delete _list[id];
 
-function destroy() {
-  _list = {};
+  return _list;
 }
 
 var ListStore = function (_EventEmitter) {
@@ -4336,20 +4399,18 @@ _ListDispatcher2.default.register(function (action) {
     case _ListConstants2.default.CREATE:
       _Http.http.get(URL + action.page + '/').then(function (res) {
         create(res, action.callback);
-        listStore.update();
       }).catch(function (e) {
         //console.error(e);
       });
       break;
 
-    case _ListConstants2.default.UPDATE:
-      update(action.id, action.list + 1);
-      listStore.update();
-      break;
-
-    case _ListConstants2.default.DESTROY:
-      destroy();
-      listStore.destroy();
+    case _ListConstants2.default.DELETE:
+      _Http.http.delete(URL + action.page + '/' + action.id).then(function (res) {
+        del(action.id);
+        listStore.update();
+      }).catch(function (e) {
+        //console.error(e);
+      });
       break;
 
     default:

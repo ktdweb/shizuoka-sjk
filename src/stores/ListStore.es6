@@ -19,12 +19,10 @@ function create(res, callback) {
   return _list;
 }
 
-function update(id, updates) {
-  _list = { id: id, list: updates };
-}
+function del(id) {
+  delete _list[id];
 
-function destroy() {
-  _list = {};
+  return _list;
 }
 
 class ListStore extends EventEmitter {
@@ -51,20 +49,20 @@ ListDispatcher.register( function(action) {
     case ListConstants.CREATE:
       http.get(URL + action.page + '/').then(res => {
         create(res, action.callback);
-        listStore.update();
       }).catch(e => {
         //console.error(e);
       });
       break;
 
-    case ListConstants.UPDATE:
-      update(action.id, action.list + 1);
-      listStore.update();
-      break;
-
-    case ListConstants.DESTROY:
-      destroy();
-      listStore.destroy();
+    case ListConstants.DELETE:
+      http.delete(
+          URL + action.page + '/' + action.id
+      ).then(res => {
+        del(action.id);
+        listStore.update();
+      }).catch(e => {
+        //console.error(e);
+      });
       break;
 
     default:

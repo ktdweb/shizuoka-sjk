@@ -384,7 +384,7 @@ $app->group('/products', function () {
      * 管理画面 削除用
      */
     $this->delete(
-        '/{id:[0-9]+}',
+        '/{page:[a-z]+}/{id:.*}',
         function (
             $request,
             $response,
@@ -392,8 +392,8 @@ $app->group('/products', function () {
         ) {
             $db = $this->get('db.delete');
 
-            $sql = 'DELETE FROM `users` ';
-            $sql .= 'WHERE `id` = ' . (int)$args['id'];
+            $sql = "DELETE FROM {$args['page']} ";
+            $sql .= 'WHERE `ref_id` = ' . $args['id'];
 
             $res = $db->execute($sql);
 
