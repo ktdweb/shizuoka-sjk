@@ -10,17 +10,11 @@ export default {
     })
   },
 
-  update: (id, count) => {
+  del: (page, id) => {
     ListDispatcher.dispatch({
-      actionType: ListConstants.UPDATE,
-      id: id,
-      count: count
-    })
-  },
-
-  destroy: () => {
-    ListDispatcher.dispatch({
-      actionType: ListConstants.DESTROY
+      actionType: ListConstants.DELETE,
+      page: page,
+      id: id
     })
   }
 }

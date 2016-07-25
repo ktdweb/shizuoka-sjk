@@ -59,7 +59,7 @@ export default class Header extends React.Component {
       this.state.ref_id
     );
 
-//window.location.reload();
+    window.location.reload();
   }
 
   onChange(e) {

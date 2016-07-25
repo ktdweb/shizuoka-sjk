@@ -17,6 +17,16 @@ export default class Index extends React.Component {
       'containers',
       this.updateState.bind(this)
     ); 
+
+    ListStore.subscribe(
+      this.updateState.bind(this)
+    ); 
+  }
+
+  componentWillUnmount() {
+    ListStore.destroy(
+      this.updateState.bind(this)
+    ); 
   }
 
   render() {
@@ -36,6 +46,7 @@ export default class Index extends React.Component {
                 <th className="w-xs">管理番号</th>
                 <th>名前</th>
                 <th className="w-s">更新日時</th>
+                <th className="w-xs">-</th>
               </tr>
 
               {events}
@@ -48,6 +59,7 @@ export default class Index extends React.Component {
 
   updateState() {
     let res = ListStore.read();
+    this.state = {};
     this.setState(res);
   }
 }
@@ -78,8 +90,22 @@ class Item extends React.Component {
             {this.state.name}
         </td>
         <td>{this.state.modified}</td>
+        <td>
+          <button
+            name={this.state.ref_id}
+            onClick={this.del.bind(this)}
+            >
+            削除
+          </button>
+        </td>
       </tr>
     );
+  }
+
+  del(e) {
+    e.preventDefault();
+
+    ListActions.del('containers', e.target.name);
   }
 
   updateState(props) {
