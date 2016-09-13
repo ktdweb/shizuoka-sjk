@@ -26,18 +26,6 @@ SHOW tables;
 SELECT * FROM `vehicles`;
 /*}}}*/
 
-INSERT INTO `parts` (
-                          `product_id`,
-                          `ref_id`,
-                          `category_id`,
-                          `sub_category_id`,
-                          `maker_id`,
-                          `size_id`,
-                          `name`,
-                          `product_name`,
-                          `created`,
-                          `modified`
-                        ) VALUES ('0', '2233', 0, 1, 1, 1, '', '', NOW(), NOW());
 -- vehicles テーブル作成 /*{{{*/
 DESC `vehicles`;
 DROP TABLE `vehicles`;
@@ -52,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `ref_id` VARCHAR(16) NULL,
   `category_id` INT(2) NOT NULL,
   `name` VARCHAR(255) NOT NULL,
-  `price` INT(11) NULL,
+  `price` VARCHAR(45) NULL,
   `maker_id` INT(2) NOT NULL,
   `product_name` VARCHAR(20) NULL,
   `size_id` INT(1) NOT NULL,
