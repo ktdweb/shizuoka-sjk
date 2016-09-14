@@ -179,8 +179,12 @@ $app->group('/products', function () {
 
             // maker
             if ($args['maker'] != 6) {
-                $where[] = '`maker_id` = ?';
-                $param[] = $args['maker'];
+                if ($args['maker'] == 5) {
+                    $where[] = '`maker_id` in (5,6,7)';
+                } else {
+                    $where[] = '`maker_id` = ?';
+                    $param[] = $args['maker'];
+                }
             }
 
             // size
