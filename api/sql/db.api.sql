@@ -3141,7 +3141,12 @@ UNION ALL
     ON
         `parts`.`maker_id` = `makers`.`id`
     WHERE
-        `new_flag` = 1
+        /*
+        -- 2016年 9月14日 水曜日 09時30分35秒 JST
+        -- 新着からおすすめに変更
+        --`new_flag` = 1
+        */
+        `recommend_flag` = 1
         AND
         `soldout_flag` != 1
 

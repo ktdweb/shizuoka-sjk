@@ -4616,7 +4616,7 @@ var _vehicles = {};
 
 var checkbox = ['new_flag', 'deal_flag', 'soldout_flag', 'recommend_flag', 'ac_flag', 'ps_flag'];
 
-var integar = ['product_id', 'category_id', 'price', 'maker_id', 'size_id', 'mileage', 'capacity', 'cc', 'ps', 'recycle'];
+var integar = ['product_id', 'category_id', 'maker_id', 'size_id', 'mileage', 'capacity', 'cc', 'ps', 'recycle'];
 
 var now = (0, _moment2.default)().format('YYYY-MM-DD hh:mm:ss');
 

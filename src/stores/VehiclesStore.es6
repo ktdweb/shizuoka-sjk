@@ -25,7 +25,6 @@ let checkbox = [
 let integar = [
   'product_id',
   'category_id',
-  'price',
   'maker_id',
   'size_id',
   'mileage',
