@@ -397,7 +397,7 @@ $app->group('/products', function () {
             $db = $this->get('db.delete');
 
             $sql = "DELETE FROM {$args['page']} ";
-            $sql .= 'WHERE `ref_id` = ' . $args['id'];
+            $sql .= 'WHERE `ref_id` = ' . "'" . $args['id'] . "'";
 
             $res = $db->execute($sql);
 
